@@ -163,10 +163,10 @@ npm-watch: ## Watch assets.
 .PHONY: npm-watch
 #---------------------------------------------#
 
-init-db: sf-dd sf-dc sf-dm sf-mm sf-dmm sf-fixtures
+init-db: sf-dd sf-dc sf-dm sf-mm sf-dmm 
 .PHONY: init-db
 
-first-install: composer-install sf-perm init-db sf-start sf-open ## First install.
+first-install: composer-install init-db sf-start sf-open ## First install.
 .PHONY: first-install
 
 install-all: composer-install npm-install npm-build ## install all npm and composer dependency.

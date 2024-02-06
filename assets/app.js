@@ -1,5 +1,6 @@
 import { registerReactControllerComponents } from '@symfony/ux-react';
 import './bootstrap.js';
+import './geojson/app.geojson';
 /*
  * Welcome to your app's main JavaScript file!
  *
