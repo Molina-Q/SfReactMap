@@ -1,13 +1,32 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap, Polygon, SVGOverlay, useMapEvent, ImageOverlay, GeoJSON } from 'react-leaflet';
 import L from 'leaflet'
-
-
-// const map = L.map('map').setView([46.2, 2.21], 6);
-// var geojsonFeature = L.geoJSON(myGeoJSON);
+import myGeoJson from '../../../public/geojson/countries.json';
 
 const LeafletMap = () => {
   const position = [46.2276, 2.2137];
+  // const [geoJSONData, setGeoJSONData] = useState(null);
+console.log(`options${myGeoJson.features[0].properties.ISO_A3}`)
+  const geoJsonFeatures = myGeoJson.features;
+
+  /**
+   * Function that loops on all of the countries in the json sent in params and return them as an array
+   */
+  function GeoJsonGeometry({jsonFeatures}) {
+    const geoJSON = [];
+
+    for (let feature of jsonFeatures) {
+      // push each country's geometry in the array, and use their names as key
+      geoJSON.push(<GeoJSON data={feature.geometry} key={feature.properties.ADMIN} pathOptions={feature.properties.ISO_A3}/>);
+    }
+
+    return geoJSON;
+  }
+
+  const options = { color: 'red', opacity: 0}
+  const BEL = { color: 'yellow', opacity: 0}
+  const FRA = { color: 'blue', opacity: 0}
+  const GER = { color: 'green', opacity: 0}
 
   // const mapRef = useRef();
   // const geoJSONRef = useRef();
@@ -19,36 +38,28 @@ const LeafletMap = () => {
   //   return null
   // }
 
-  const polygon = [
-    [46.2276, 3],
-    [47.2276, 4],
-    [45.2276, 3],
-  ];
+  // useEffect(() => {
+  //   const fetchGeoJSON = async () => {
+  //       try {
+  //         const response = await fetch('/geojson');
+      
+  //         const data = await response.json();
+  //         setGeoJSONData(data);
+  //       } catch (error) {
+  //         console.log(`Error fetching GeoJSON: ${error}`);
+  //       }
+  //   };
 
+  //   fetchGeoJSON();
+  // }, []);
+
+  // const polygon = 
+  //   myGeoJson.features[6].geometry.coordinates
+  // ;
 
   // const [geoJSONPath, setGeoJSONPath] = useState(null);
 
   // const [geoJSONData, setGeoJSONData] = useState(null);
-
-  const purpleOptions = { color: 'purple' }
-
-  // await for the data to be received
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        let response = await fetch('/get-geojson'); // call the geojsonpath in controller
-        const data = await response.json(); // once it receives it the data are stocked in the data var
-        setGeoJSONPath(data.path); // set the data from useState hook
-
-      } catch (error) { // if something goes wrong
-        console.error(`Error fetching GeoJson: ${error}`)
-      }
-    };
-
-    fetchData()
-
-  }, []);
-
 
   // useEffect(() => {
   //   fetch(geoJSONPath)  // put the path to the geojson file
@@ -67,14 +78,17 @@ const LeafletMap = () => {
   // }, [geoJSONData]);
 
   return (
-    <MapContainer className='map' center={position} zoom={6} scrollWheelZoom={true} >
+    <MapContainer className='map' center={position} zoom={7} scrollWheelZoom={true} >
 
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
+      
 
-      {/* <ChangeMapView /> */}
+      <GeoJsonGeometry jsonFeatures={geoJsonFeatures} />
+      {/* <GeoJSON data={myGeoJson.features[0].geometry} /> */}
+
       {/* {geoJSONData && <GeoJSON data={geoJSONData} ref={geoJSONRef} />} */}
 
       <Marker position={position}>
@@ -82,18 +96,11 @@ const LeafletMap = () => {
           A pretty CSS3 popup. <br /> Easily customizable.
         </Popup>
       </Marker>
-
     
       {/* <MyComponent /> */}
 
-      <Polygon positions={polygon} />
+      {/* <Polygon positions={polygon} /> */}
 
-      {/* <ImageOverlay
-        url="https://www.lib.utexas.edu/maps/historical/newark_nj_1922.jpg"
-        bounds={bounds}
-        opacity={0.5}
-        zIndex={10}
-      /> */}
     </MapContainer>
   );
 };

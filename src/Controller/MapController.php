@@ -17,11 +17,17 @@ class MapController extends AbstractController
         ]);
     }
 
-    #[Route('/get-geojson', name: 'get_geojson')]
+    #[Route('/geojson', name: 'geojson')]
     public function getGeoJSONPath()
     {
-        $geoJSONPath = $this->getParameter('kernel.project_dir') . '/public/Geojson/countries.geojson';
+        // // the path to my file
+        // $geoJSONPath = $this->getParameter('kernel.project_dir') . '/public/geojson/countries.geojson.js';
 
-        return new JsonResponse(['path' => $geoJSONPath]);
+        // // convert/read the entire file as a string
+        // $geoJSONContent = file_get_contents($geoJSONPath);
+
+        // // return new JsonResponse(['path' => $geoJSONPath]);
+        // return new JsonResponse(json_decode($geoJSONContent), Response::HTTP_OK, [], true);
+
     }
 }
