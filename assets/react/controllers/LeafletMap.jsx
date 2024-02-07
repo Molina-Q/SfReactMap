@@ -7,66 +7,63 @@ const LeafletMap = () => {
   const position = [46.2276, 2.2137];
   const geoJsonFeatures = myGeoJson.features;
 
-
-  const options = [
-    {color: 'yellow',fillOpacity: 1}, 
-    {color: 'red',fillOpacity: 1}, 
-    {color: 'orange',fillOpacity: 1}, 
-    {color: 'green',fillOpacity: 1}, 
-    {color: 'purple',fillOpacity: 1},
-    {color: 'blue',fillOpacity: 1},
-    {color: 'lime',fillOpacity: 1},
-  ]
-  const optionss =  { color: 'red', fillOpacity: 1}
-  const optionsBEL = { color: 'yellow', fillOpacity: 0}
-  // const FRA = { color: 'blue', opacity: 0}
+  const options = {
+    BEL: { color: "yellow", fillOpacity: 1},
+    FRA: {color: "blue", fillOpacity: 1},
+    DEU: {color: "green", fillOpacity: 1}, // Germany
+    RUS: {color: "grey", fillOpacity: 1},
+    GBR: {color: "purple", fillOpacity: 1}, // UK
+    ITA: {color: "red", fillOpacity: 1},
+    ESP: {color: "orange", fillOpacity: 1},
+  };
 
   /**
    * Function that loops on all of the countries in the json sent in params and return them as an array
    */
   function GeoJsonGeometry({jsonFeatures}) {
     const geoJSON = [];
-    let count = 0;
 
     const map = useMap()
+    const padd = { padding: [1 , 1] }
 
     for (let feature of jsonFeatures) {
-
       // console.log(options)
-      console.log(feature.geometry.coordinates)
-      const polygon = feature.geometry.coordinates;
+      console.log("feature.geometry.coordinates = ", feature.geometry.coordinates);
+      let polygon;
 
-      // coord.push(feature.geometry.coordinates);
-      polygon.map((item) => { item.reverse(); }); 
+      // if simple polygon
+      if (feature.geometry.type == "Polygon") {
+        polygon = [feature.geometry.coordinates[0].map((internalArrayItem) => internalArrayItem.toReversed())];
+        
+      // if multi-polygon
+      // } else if(feature.geometry.type == "MultiPolygon") {
+      } else {
+        polygon = feature.geometry.coordinates.map((externalArrayItem) => [externalArrayItem[0].map((internalArrayItem) => internalArrayItem.toReversed())]);
+      }
       
-      const [bounds, setBounds] = useState(polygon)
+      const [bounds, setBounds] = useState(polygon);
       
       const handlers = useMemo(
         () => ({
           click() {
             setBounds(polygon)
-            map.fitBounds(polygon)
+            map.flyToBounds(polygon) //panInsideBounds
           },
         }),
         [map],
-      )
+      );
 
       // push each country's geometry in the array, and use their names as key
       geoJSON.push(
         <GeoJSON 
           data={feature.geometry} 
-          key={feature.properties.ADMIN} 
-          pathOptions={options[count]} 
+          key={feature.properties.ADMIN}  // their names are used as key
+          pathOptions={options[feature.properties.ISO_A3]} // change the style variable depending on the country
           eventHandlers={handlers}
+
+          className={"qqch"}
         />
       );
-      
-      // fonctionnement voulu serait :
-      // geoJSON.push(<GeoJSON data={feature.geometry} key={feature.properties.ADMIN} pathOptions={options[feature.properties.ISO_A3]}/>);
-      // main ne fonctionne pas, pareil pour `options${feature.properties.ISO_A3}`
-
-
-      count++;
     }
 
     return geoJSON;
@@ -119,7 +116,7 @@ const LeafletMap = () => {
   // }
 
   return (
-    <MapContainer className='map' center={position} zoom={7} scrollWheelZoom={true} >
+    <MapContainer className='map' center={position} zoom={6} scrollWheelZoom={true} >
 
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
