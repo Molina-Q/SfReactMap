@@ -169,10 +169,10 @@ init-db: sf-dd sf-dc sf-dm sf-mm sf-dmm
 first-install: composer-install init-db sf-start sf-open ## First install.
 .PHONY: first-install
 
-install-all: composer-install npm-install npm-build ## install all npm and composer dependency.
+install-all: composer-install npm-install ## install all npm and composer dependency.
 .PHONY: install-all
 
-start: sf-start sf-open ## Start project.
+start: sf-start sf-open npm-watch ## Start project.
 .PHONY: start
 
 stop: sf-stop ## Stop project.
