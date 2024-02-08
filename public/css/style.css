@@ -93,3 +93,11 @@ button {
 #timeline div {
     font-size: 25px;
 }
+
+#timeline div input {
+  
+}
+
+#timeline div input:checked {
+    
+}

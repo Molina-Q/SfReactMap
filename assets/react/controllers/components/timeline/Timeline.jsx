@@ -3,6 +3,7 @@ import React, { useRef, useEffect, useState } from "react";
 /**
  * the timeline at the bottom of the map
  * @param {string} defaultYear 
+ * @param {callback} returnChecked 
  * @returns 
  */
 const Radio = ({ defaultYear = '1900', returnChecked }) => {
@@ -21,12 +22,12 @@ const Radio = ({ defaultYear = '1900', returnChecked }) => {
         returnChecked(e.target.value);
     }
     
-    console.log('Current checked radio', CheckedRadio);
+    // console.log('Current checked radio', CheckedRadio);
 
     /**
     * Function that loops on all of the periods sent in params and return a collection of radio inputs
     */
-    function Radiobox() {
+    const Radiobox = () => {
         const elements = []; // array that will have every input radio of the timeline
 
         for (let period of periods) {

@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 
 const Modal = ({ isOpen, hasCloseBtn, onClose, children }) => {
-    console.log('echo Modal');
+    // console.log('echo Modal');
 
     const [isModalOpen, setModalOpen] = useState(isOpen); // make the variable dynamic and change without reload
     const modalRef = useRef(null); // use to keep dialog element (object) stocked to check it's state
