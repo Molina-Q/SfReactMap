@@ -1,12 +1,14 @@
 import React, { useRef, useEffect, useState, useMemo } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap, Polygon, SVGOverlay, useMapEvent, useMapEvents, ImageOverlay, GeoJSON } from 'react-leaflet';
-import myGeoJson from '../../../../public/geojson/countries.json';
+import myGeoJson from '../../../../public/geojson/1900countries.json';
 import Modal from './modal/ModalShowArticle';
+import Radio from './timeline/Timeline';
 
 const LeafletMap = () => {
   const position = [46.2276, 2.2137];
   const geoJsonFeatures = myGeoJson.features;
 
+  // Style variable for the country polygon
   const options = {
     BEL: { color: "yellow", fillOpacity: 1},
     FRA: {color: "blue", fillOpacity: 1},
@@ -18,23 +20,14 @@ const LeafletMap = () => {
   };
 
   // variable with state of dialog and open or setOpen
-  const [openModal, setOpenModal] = useState(true)
+  const [openModal, setOpenModal] = useState(false)
 
   const ModalIsClosed = () => {
     if (openModal) {
       setOpenModal(false)
     }
   }
-//   useEffect(() => {
-//     const modalState = modalRef.current;
-//     if (modalElement) {
-//         if (isModalOpen) {
-//             modalElement.showModal();
-//         } else {
-//             modalElement.close();
-//         }
-//     }
-// }, [isModalOpen]);
+
   /**
    * Function that loops on all of the countries in the json sent in params and return them as an array
    */
@@ -59,7 +52,7 @@ const LeafletMap = () => {
         polygon = feature.geometry.coordinates.map((externalArrayItem) => [externalArrayItem[0].map((internalArrayItem) => internalArrayItem.toReversed())]);
       }
       
-      const [bounds, setBounds] = useState(polygon);
+      // const [bounds, setBounds] = useState(polygon);
       
       const handlers = useMemo(
         () => ({
@@ -94,7 +87,7 @@ const LeafletMap = () => {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
       
-      {/* My map img */}
+      {/* Country polygon */}
       <GeoJsonGeometry jsonFeatures={geoJsonFeatures} />
  
     </MapContainer>   
@@ -106,9 +99,11 @@ const LeafletMap = () => {
       children={'Bonjour à tous'}
     />
 
+    <div id="timeline">
+      <Radio defaultYear={'1400'} />
+    </div>
+
   </>);
 };
 
-
-// render(<LeafletMap />)
 export default LeafletMap;
