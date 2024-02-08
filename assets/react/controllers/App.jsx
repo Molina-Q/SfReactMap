@@ -4,7 +4,6 @@ import Modal from "./components/modal/ModalShowArticle";
 
 const App = () => {
 
-
     return ( <>
         <LeafletMap />
     </>
