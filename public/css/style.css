@@ -10,6 +10,10 @@
    box-sizing: border-box;
 }
 
+body {
+  
+}
+
 /***************************************************************************************************/
 /*********************************************** Map ***********************************************/
 /***************************************************************************************************/
@@ -17,4 +21,41 @@
     min-height: 100svh;
     max-height: 100lvh;
     width: 100%; 
+}
+
+#myDialog {
+    position: relative;
+    width: 80vw;
+    height: 50vh;
+    padding: 2rem;
+    /* transform: translate(-50% -50%); */
+
+    margin: 10%;
+    border: 0;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 0.5rem 0.25rem hsl(0 0% 0% / 10%);
+}
+
+.modal-close-btn {
+    font-size: .75em;
+    position: absolute;
+    top: .25em;
+    right: .25em;
+}
+  
+input[type="text"],
+input[type="email"],
+input[type="password"],
+button {
+padding: 0.5em;
+font: inherit;
+line-height: 1;
+}
+
+button {
+    cursor: pointer;
+}
+
+.modal::backdrop {
+    background: hsl(0 0% 0% / 50%);
 }
