@@ -13,21 +13,16 @@ class MapController extends AbstractController
     public function index(): Response
     {
         return $this->render('map/index.html.twig', [
-            'controller_name' => 'MapController',
         ]);
     }
 
-    #[Route('/geojson', name: 'geojson')]
-    public function getGeoJSONPath()
+    #[Route('/dataCountry', name: 'show_data')]
+    public function dataTest(): Response
     {
-        // // the path to my file
-        // $geoJSONPath = $this->getParameter('kernel.project_dir') . '/public/geojson/countries.geojson.js';
+        $dataCountry = 'Bonjour, ceci vient du backend';
 
-        // // convert/read the entire file as a string
-        // $geoJSONContent = file_get_contents($geoJSONPath);
+        $jsonData = json_encode($dataCountry);
 
-        // // return new JsonResponse(['path' => $geoJSONPath]);
-        // return new JsonResponse(json_decode($geoJSONContent), Response::HTTP_OK, [], true);
-
+        return new JsonResponse($dataCountry);
     }
 }
