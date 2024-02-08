@@ -1,12 +1,55 @@
 import React, { useRef, useEffect, useState, useMemo } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap, Polygon, SVGOverlay, useMapEvent, useMapEvents, ImageOverlay, GeoJSON } from 'react-leaflet';
-import myGeoJson from '../../../../public/geojson/1900countries.json';
+import myGeoJson1400 from '../../../../public/geojson/1400countries.json';
+import myGeoJson1500 from '../../../../public/geojson/1500countries.json';
+import myGeoJson1600 from '../../../../public/geojson/1600countries.json';
+import myGeoJson1700 from '../../../../public/geojson/1700countries.json';
+import myGeoJson1800 from '../../../../public/geojson/1800countries.json';
+import myGeoJson1900 from '../../../../public/geojson/1900countries.json';
 import Modal from './modal/ModalShowArticle';
 import Radio from './timeline/Timeline';
 
 const LeafletMap = () => {
-  const position = [46.2276, 2.2137];
-  const geoJsonFeatures = myGeoJson.features;
+  const position = [46.2276, 2.2137]; 
+  
+  const [checkedValue, setCheckedValue] = useState('1400') ;
+
+  const [geoJsonFeatures, setGeoJsonFeatures] = useState(myGeoJson1400.features)
+
+  useEffect(() => {
+    switch (checkedValue) {
+      case '1400':
+        setGeoJsonFeatures(myGeoJson1400.features);
+        break;
+
+      case '1500':
+        setGeoJsonFeatures(myGeoJson1500.features);
+        break;
+
+      case '1600':
+        setGeoJsonFeatures(myGeoJson1600.features);
+        break;
+
+      case '1700':
+        setGeoJsonFeatures(myGeoJson1700.features);
+        break;
+
+      case '1800':
+        setGeoJsonFeatures(myGeoJson1800.features);
+        break;
+
+      case '1900':
+        setGeoJsonFeatures(myGeoJson1900.features);
+        break;
+    
+      default:
+        setGeoJsonFeatures(myGeoJson1900.features);
+        break;
+    }
+  }, [checkedValue])
+
+  // let geoJsonFeatures = myGeoJson1400.features;
+  // console.log(geoJsonFeatures);
 
   // Style variable for the country polygon
   const options = {
@@ -27,11 +70,17 @@ const LeafletMap = () => {
       setOpenModal(false)
     }
   }
+  
+  const ReturnValue = string => {
+    setCheckedValue(string);
+    // console.log('value from child read in parent = ',string);
+  }
 
   /**
    * Function that loops on all of the countries in the json sent in params and return them as an array
    */
   function GeoJsonGeometry({jsonFeatures}) {
+    console.log('echo Map');
     const geoJSON = [];
 
     const map = useMap()
@@ -100,7 +149,10 @@ const LeafletMap = () => {
     />
 
     <div id="timeline">
-      <Radio defaultYear={'1400'} />
+      <Radio 
+        defaultYear={checkedValue}
+        returnChecked={ReturnValue}
+      />
     </div>
 
   </>);
