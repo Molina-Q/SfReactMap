@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 
-const Modal = ({ isOpen, hasCloseBtn, onClose, children }) => {
+const ModalShowArticle = ({ isOpen, hasCloseBtn, data, onClose, children }) => {
     // console.log('echo Modal');
 
     const [isModalOpen, setModalOpen] = useState(isOpen); // make the variable dynamic and change without reload
@@ -55,4 +55,4 @@ const Modal = ({ isOpen, hasCloseBtn, onClose, children }) => {
     );
   };
 
-export default Modal;
+export default ModalShowArticle;

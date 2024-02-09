@@ -1,13 +1,9 @@
 import React from "react";
-import LeafletMap from "./components/LeafletMap";
-import Modal from "./components/modal/ModalShowArticle";
+import SfReactMap from "./components/SfReactMap";
 
 const App = () => {
 
-    return ( <>
-        <LeafletMap />
-    </>
-    )
+    return <SfReactMap />
 }
 
 export default App
