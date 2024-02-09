@@ -59,14 +59,16 @@ const LeafletMap = () => {
 
   // Style variable for the country polygon
   const options = {
-    BEL: { color: "yellow", fillOpacity: 1},
-    FRA: {color: "blue", fillOpacity: 1},
-    DEU: {color: "green", fillOpacity: 1}, // Germany
-    RUS: {color: "grey", fillOpacity: 1},
-    GBR: {color: "purple", fillOpacity: 1}, // UK
-    ITA: {color: "red", fillOpacity: 1},
-    ESP: {color: "orange", fillOpacity: 1},
+    BEL: {color: "yellow", fillOpacity: 0.1},
+    FRA: {color: "blue", fillOpacity: 0.1},
+    DEU: {color: "green", fillOpacity: 0.1}, // Germany
+    RUS: {color: "grey", fillOpacity: 0.1},
+    GBR: {color: "purple", fillOpacity: 0.1}, // UK
+    ITA: {color: "red", fillOpacity: 0.1},
+    ESP: {color: "orange", fillOpacity: 0.1},
   };
+  
+  console.log(options.BEL.fillOpacity)
 
   // variable with state of dialog and open or setOpen
   const [openModal, setOpenModal] = useState(false)
@@ -112,9 +114,14 @@ const LeafletMap = () => {
       const handlers = useMemo(
         () => ({
           click() {
+            DataFetchingExample()
             map.panInsideBounds(polygon)
             setOpenModal(true)
           },
+          mouseover() {
+            options.BEL.fillOpacity = { fillOpacity: 1};
+            console.log("hover the layer")
+          }
         }),
         [map],
       );
@@ -159,14 +166,16 @@ const LeafletMap = () => {
     console.log('echo data sent = ',data)
   }
 
-  DataFetchingExample()
+  // DataFetchingExample()
 
   return (<>
     <MapContainer className='map' center={position} zoom={6} scrollWheelZoom={true} >
       {/* My map img */}
       <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url='https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png'
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        minZoom={3}
+        maxZoom={8}        
       />
       
       {/* Country polygon */}
