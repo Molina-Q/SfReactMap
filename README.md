@@ -26,3 +26,13 @@ This is a Symfony-based web application using Symfony UX React to integrate Reac
     make install-full
     ```
    This one execute composer install, npm install then npm run build.
+
+    If you are not using make.
+    ```bash
+    composer install
+    ```
+   
+   ```bash
+    npm install --force
+   ```
+   
