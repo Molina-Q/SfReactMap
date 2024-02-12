@@ -13,13 +13,17 @@ const SfReactMap = () => {
   // un enfant peut faire remonter un changement
   // le parent (ce composant) sera notifié et changera le state (qu'il gère lui), puis si besoin fera redescendre l'info à l'enfant à notifier
 
-  const [checkedValue, setCheckedValue] = useState('1900') ;
+  // current checked year in the timeline
+  const [checkedYear, setCheckedYear] = useState('1900') ;
 
-  const [data, setData] = useState(null);
-
+  // data fetched with the fetchData() function
+  const [fetchedData, setFetchedData] = useState(null);
 
   // variable with state of dialog and open or setOpen
   const [openModal, setOpenModal] = useState(false)
+
+  // the country that was clicked on
+  const [clickedCountry, setClickedCountry] = useState('')
 
   /***** Callback Modal *****/
   /**************************/
@@ -32,78 +36,57 @@ const SfReactMap = () => {
   /***** Callback Timeline *****/
   /*****************************/ 
   const ReturnValue = string => {
-    setCheckedValue(string);
+    setCheckedYear(string);
   }
-
-  // fetch data from a controller then set it
-  // // function not needed but i do not know how to do async without function rn
-  // async function DataFetchingExample() {
-  //   const [loading, setLoading] = useState(true);
-  //   const [error, setError] = useState(null);
-
-  //   useEffect(() => {
-  //     fetch('/dataCountry')
-  //       .then(response => response.json())
-  //       .catch(error => console.log(error)
-  //       )
-  //       .then(data => {
-  //         setData(data);
-  //         setLoading(false);
-  //       })
-  //       .catch(error => {
-  //         // setLoading(false);
-  //         console.log(error)
-  //       });
-  //   }, []);
-
-  //   if (loading) return <p>Loading...</p>;
-
-  //   console.log('echo data sent = ',data)
-  // }
-
-  // DataFetchingExample()
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // async function that fetch data from the MapController
   useEffect(() => {
     async function fetchData() {
-      const data = await fetchAnything('/dataCountry');
+      // await for data at the given URI (Uniform Resource Identifier)
+      const data = await fetchAnything(`/dataCountry/${clickedCountry}`);
 
+
+      // if the given data were valid
       if (data) {
-        setData(data);
+        setFetchedData(data);
         setLoading(false);
       } else {
-        // quelque chose s'est mal passé
+        console.error('No country selected')
+        setLoading(false);
       }
     }
-
+    // immediatly calls himself
     fetchData();
-  }, [checkedValue]);
+  }, [clickedCountry]); // make it so the useEffect re-run only when one of those variable change (using Object.js comparison)
 
-  const handleClickOnCountry = () => {
+  // is called when a polygon is clicked in leaflet.jsx
+  const handleClickOnCountry = (countryName) => {
+    setClickedCountry(countryName);
     setOpenModal(true);
   };
 
   return (<>
     <LeafletMap
-      checkedValue={checkedValue}
+      checkedValue={checkedYear}
       handleClickOnCountry={handleClickOnCountry}
     />
 
     <ModalShowArticle
-        isOpen={openModal}
-        hasCloseBtn={true}
-        data={data}
-        onClose={ModalIsClosed}
-        children={data != null ? data : ''}
+      isOpen={openModal}
+      hasCloseBtn={true}
+      data={fetchedData}
+      onClose={ModalIsClosed}
+      children={fetchedData ? fetchedData : ''}
     />
 
     <div id="timeline">
-        <Radio 
-            defaultYear={checkedValue}
-            returnChecked={ReturnValue}
-        />
+      <Radio 
+        defaultYear={checkedYear}
+        returnChecked={ReturnValue}
+      />
     </div>
 
   </>);

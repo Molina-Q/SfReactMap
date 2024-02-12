@@ -10,6 +10,7 @@ import myGeoJson1900 from '../../../../public/geojson/1900countries.json';
 import Radio from './timeline/Timeline';
 import Modal from './modal/ModalShowArticle';
 
+// all possible value for geoJSonFeatures
 const myGeoJsons = {
   "1400": myGeoJson1400,
   "1500": myGeoJson1500,
@@ -31,40 +32,7 @@ const LeafletMap = ({ checkedValue, handleClickOnCountry }) => {
   // sera géré dans le parent
   // const [data, setData] = useState(null);
 
-  /**
-   * all possible value for geoJSonFeatures
-   * * will need to be upgraded in the future to be more readable and maintainable *
-   */
   useEffect(() => {
-    // switch (checkedValue) {
-    //   case '1400':
-    //     setGeoJsonFeatures(myGeoJson1400.features);
-    //     break;
-
-    //   case '1500':
-    //     setGeoJsonFeatures(myGeoJson1500.features);
-    //     break;
-
-    //   case '1600':
-    //     setGeoJsonFeatures(myGeoJson1600.features);
-    //     break;
-
-    //   case '1700':
-    //     setGeoJsonFeatures(myGeoJson1700.features);
-    //     break;
-
-    //   case '1800':
-    //     setGeoJsonFeatures(myGeoJson1800.features);
-    //     break;
-
-    //   case '1900':
-    //     setGeoJsonFeatures(myGeoJson1900.features);
-    //     break;
-    
-    //   default:
-    //     setGeoJsonFeatures(myGeoJson1900.features);
-    //     break;
-    // }
 
     if (myGeoJsons[checkedValue]) {
       setGeoJsonFeatures(myGeoJsons[checkedValue].features);
@@ -84,24 +52,6 @@ const LeafletMap = ({ checkedValue, handleClickOnCountry }) => {
     ITA: {color: "red", fillOpacity: 0.1},
     ESP: {color: "orange", fillOpacity: 0.1},
   };
-
-
-  // variable with state of dialog and open or setOpen
-  // const [openModal, setOpenModal] = useState(false)
-
-  /***** Callback Modal *****/
-  /**************************/
-  // const ModalIsClosed = () => {
-  //   if (openModal) {
-  //     setOpenModal(false)
-  //   }
-  // }
-  
-  /***** Callback Timeline *****/
-  /*****************************/ 
-  // const ReturnValue = string => {
-  //   setCheckedValue(string);
-  // }
 
   /**
    * Function that loops on all of the countries in the json sent in params and return them as an array
@@ -136,7 +86,7 @@ const LeafletMap = ({ checkedValue, handleClickOnCountry }) => {
             click() {
               map.panInsideBounds(polygon)
               // setOpenModal(true)
-              handleClickOnCountry();
+              handleClickOnCountry(feature.properties.ADMIN);
             },
           }),
           [map],
@@ -156,34 +106,6 @@ const LeafletMap = ({ checkedValue, handleClickOnCountry }) => {
     
     return geoJSON;
   }
-
-  // // fetch data from a controller then set it
-  // // function not needed but i do not know how to do async without function rn
-  // async function DataFetchingExample() {
-  //   const [loading, setLoading] = useState(true);
-  //   const [error, setError] = useState(null);
-
-  //   useEffect(() => {
-  //     fetch('/dataCountry')
-  //       .then(response => response.json())
-  //       .catch(error => console.log(error)
-  //       )
-  //       .then(data => {
-  //         setData(data);
-  //         setLoading(false);
-  //       })
-  //       .catch(error => {
-  //         // setLoading(false);
-  //         console.log(error)
-  //       });
-  //   }, []);
-
-  //   if (loading) return <p>Loading...</p>;
-
-  //   console.log('echo data sent = ',data)
-  // }
-
-  // DataFetchingExample()
 
   return (<>
     <MapContainer className='map' center={position} zoom={6} scrollWheelZoom={true} >
