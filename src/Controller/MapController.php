@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Repository\ArticleRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\StreamedJsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class MapController extends AbstractController
@@ -16,45 +18,30 @@ class MapController extends AbstractController
         ]);
     }
 
-    // #[Route('/dataCountry/Germany/{century}', name: 'show_germ')]
-    // public function dataGerm(
-    //     string $century
-    // ): Response
-    // {
-
-    //     $country = "Germany";
-    //     $dataCountry = 'Bonjour, ceci est la '+$country+' du backend de '+$century;
-
-    //     return new JsonResponse($dataCountry);
-    // }
-
-    #[Route('/dataCountry/{country}', name: 'show_count')]
+    #[Route('/dataCountry/{country}/{century}', name: 'show_count')]
     public function dataCount(
         string $country,
+        string $century,
+        ArticleRepository $articleRepository
     ): Response
     {
-        $dataCountry = "Bonjour, ceci est la $country du backend";
+        // $article = $articleRepository->findOneByCountry($country);
+        $article = $articleRepository->findOneById(1);
+        // $articleJSON = json_encode($article);
+        if(!$article) {
+            $dataCountry = "Sorry but this country doesn't have an Article for this period";
+            return new JsonResponse($dataCountry);
+        }
 
-        return new JsonResponse($dataCountry);
+        // return $article;
+        // return new StreamedJsonResponse(json_encode([ 
+        //     'title' => $article->getTitle(),
+        //     'full_article' => $article,
+        //     'summary' => $article->getSummary(),
+        // ]));
+
+        return new StreamedJsonResponse($article);
     }
 
-//    #[Route('/dataCountry/{country}/{century}', name: 'show_map')]
-//     public function data(
-//         string $country,
-//         string $century
-//     ): Response
-//     {
-//         $dataCountry = 'Bonjour, ceci est la '+$country+' du backend de '+$century;
-
-//         return new JsonResponse($dataCountry);
-//     }
-
-    // #[Route('/dataCountry/France/1900', name: 'show_france')]
-    // public function dataShow(): Response
-    // {
-    //     $dataCountry = 'Bonjour, ceci est la france du backend de 1900';
-
-    //     return new JsonResponse($dataCountry);
-    // }
  
 }

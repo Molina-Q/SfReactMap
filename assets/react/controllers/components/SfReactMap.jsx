@@ -39,28 +39,28 @@ const SfReactMap = () => {
     setCheckedYear(string);
   }
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   // async function that fetch data from the MapController
   useEffect(() => {
     async function fetchData() {
       // await for data at the given URI (Uniform Resource Identifier)
-      const data = await fetchAnything(`/dataCountry/${clickedCountry}`);
+      const data = await fetchAnything(`/dataCountry/${clickedCountry}/${checkedYear}`);
 
-
+      setLoading(true);
       // if the given data were valid
       if (data) {
         setFetchedData(data);
         setLoading(false);
       } else {
-        console.error('No country selected')
+        console.error('No country selected (Can mean that the fetchData returned an error)')
         setLoading(false);
       }
     }
     // immediatly calls himself
     fetchData();
-  }, [clickedCountry]); // make it so the useEffect re-run only when one of those variable change (using Object.js comparison)
+  }, [clickedCountry, checkedYear]); // make it so the useEffect re-run only when one of those variable change (using Object.js comparison)
 
   // is called when a polygon is clicked in leaflet.jsx
   const handleClickOnCountry = (countryName) => {
@@ -76,10 +76,8 @@ const SfReactMap = () => {
 
     <ModalShowArticle
       isOpen={openModal}
-      hasCloseBtn={true}
-      data={fetchedData}
       onClose={ModalIsClosed}
-      children={fetchedData ? fetchedData : ''}
+      children={fetchedData}
     />
 
     <div id="timeline">

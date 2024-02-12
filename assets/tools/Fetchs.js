@@ -8,7 +8,7 @@ exports.fetchAnything = async function fetchAnything(uri) {
         if (response.ok) { // .success || .ok
             const data = await response.json();
 
-            console.log("fetchAnything() - data = ", data);
+            console.log("fetchAnything() -> data = ", data);
 
             return data;
         }

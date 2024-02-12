@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 
-const ModalShowArticle = ({ isOpen, hasCloseBtn, data, onClose, children }) => {
+const ModalShowArticle = ({ isOpen, onClose, children }) => {
     // console.log('echo Modal');
 
     const [isModalOpen, setModalOpen] = useState(isOpen); // make the variable dynamic and change without reload
@@ -23,12 +23,12 @@ const ModalShowArticle = ({ isOpen, hasCloseBtn, data, onClose, children }) => {
         }
     }, [isModalOpen]);
 
-    // method to directly open the modal
-    const handleOpenModal = () => {
-        if (!isOpen) {
-            setModalOpen(true);
-        }
-    }
+    // // method to directly open the modal
+    // const handleOpenModal = () => {
+    //     if (!isOpen) {
+    //         setModalOpen(true);
+    //     }
+    // }
     
     // method to directly close the modal
     const handleCloseModal = () => {
