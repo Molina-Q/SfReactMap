@@ -19,6 +19,7 @@ const ModalShowArticle = ({ isOpen, onClose, children }) => {
                 modalElement.showModal();
             } else {
                 modalElement.close();
+                // children = "";
             }
         }
     }, [isModalOpen]);
@@ -44,11 +45,13 @@ const ModalShowArticle = ({ isOpen, onClose, children }) => {
           handleCloseModal();
         }
     }; 
-
+    
     return (
         <dialog ref={modalRef} className="modal" onKeyDown={handleKeyDown} id="myDialog">
             <button className="modal-close-btn" onClick={handleCloseModal} >Close</button>
-            {children}
+            <h1>{children ? children["title"] : ""}</h1>
+            <h2>{children ? children["country"] : ""} - {children ? children["century"] : ""}</h2>
+            <p>{children ? children["summary"] : ""}</p>
 
         </dialog>
 
