@@ -57,7 +57,7 @@ class ArticleRepository extends ServiceEntityRepository
             ->setParameter('country', $country);
 
         $query = $qb->getQuery();
-        return $query->toIterable();
+        return $query->getOneOrNullResult();
     }   
     // public function findUnregisteredUser($session_id) {
     //     $em = $this->getEntityManager();
