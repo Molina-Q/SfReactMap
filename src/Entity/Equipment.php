@@ -23,7 +23,7 @@ class Equipment
     private ?string $text = null;
 
     #[ORM\ManyToOne(inversedBy: 'equipment')]
-    private ?subCategory $sub_category = null;
+    private ?SubCategory $sub_category = null;
 
     #[ORM\OneToMany(mappedBy: 'Equipment', targetEntity: ImgObject::class)]
     private Collection $imgObjects;
@@ -70,12 +70,12 @@ class Equipment
         return $this;
     }
 
-    public function getSubCategory(): ?subCategory
+    public function getSubCategory(): ?SubCategory
     {
         return $this->sub_category;
     }
 
-    public function setSubCategory(?subCategory $sub_category): static
+    public function setSubCategory(?SubCategory $sub_category): static
     {
         $this->sub_category = $sub_category;
 
