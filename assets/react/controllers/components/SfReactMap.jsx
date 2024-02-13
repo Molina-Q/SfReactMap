@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState, useMemo } from 'react';
 
 import LeafletMap from './LeafletMap';
-import Radio from './timeline/Timeline';
+import Timeline from './timeline/Timeline';
 import ModalShowArticle from './modal/ModalShowArticle';
 
 import { fetchAnything } from "../../../tools/Fetchs";
@@ -13,29 +13,29 @@ const SfReactMap = () => {
   // un enfant peut faire remonter un changement
   // le parent (ce composant) sera notifié et changera le state (qu'il gère lui), puis si besoin fera redescendre l'info à l'enfant à notifier
 
-  // current checked year in the timeline
-  const [checkedYear, setCheckedYear] = useState('1900') ;
-
   // data fetched with the fetchData() function
   const [fetchedData, setFetchedData] = useState(null);
 
   // variable with state of dialog and open or setOpen
-  const [openModal, setOpenModal] = useState(false)
+  const [openModal, setOpenModal] = useState(false);
+
+  // current checked year in the timeline
+  const [checkedYear, setCheckedYear] = useState('1900');
 
   // the country that was clicked on
-  const [clickedCountry, setClickedCountry] = useState('')
+  const [clickedCountry, setClickedCountry] = useState('France');
 
-  /***** Callback Modal *****/
-  /**************************/
-  const ModalIsClosed = () => {
+  /***** Callback to ModalShowArticle *****/
+  /****************************************/
+  const modalIsClosed = () => {
     if (openModal) {
-      setOpenModal(false)
+      setOpenModal(false);
     }
   }
   
-  /***** Callback Timeline *****/
-  /*****************************/ 
-  const ReturnValue = string => {
+  /***** Callback to Timeline *****/
+  /********************************/ 
+  const returnValue = string => {
     setCheckedYear(string);
   }
 
@@ -62,7 +62,7 @@ const SfReactMap = () => {
     fetchData();
   }, [clickedCountry, checkedYear]); // make it so the useEffect re-run only when one of those variable change (using Object.js comparison)
 
-  // is called when a polygon is clicked in leaflet.jsx
+  // is called when a polygon is clicked in leafletMap
   const handleClickOnCountry = (countryName) => {
     setClickedCountry(countryName);
     setOpenModal(true);
@@ -76,14 +76,14 @@ const SfReactMap = () => {
 
     <ModalShowArticle
       isOpen={openModal}
-      onClose={ModalIsClosed}
+      onClose={modalIsClosed}
       children={fetchedData}
     />
 
     <div id="timeline">
-      <Radio 
+      <Timeline 
         defaultYear={checkedYear}
-        returnChecked={ReturnValue}
+        returnChecked={returnValue}
       />
     </div>
 

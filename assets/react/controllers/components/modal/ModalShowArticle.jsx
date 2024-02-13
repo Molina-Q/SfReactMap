@@ -50,11 +50,9 @@ const ModalShowArticle = ({ isOpen, onClose, children }) => {
         <dialog ref={modalRef} className="modal" onKeyDown={handleKeyDown} id="myDialog">
             <button className="modal-close-btn" onClick={handleCloseModal} >Close</button>
             <h1>{children ? children["title"] : ""}</h1>
-            <h2>{children ? children["country"] : ""} - {children ? children["century"] : ""}</h2>
+            <h2>{children ? children["country"] : ""}  {children ? children["century"] : ""}</h2>
             <p>{children ? children["summary"] : ""}</p>
-
         </dialog>
-
     );
   };
 

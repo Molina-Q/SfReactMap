@@ -6,7 +6,7 @@ import React, { useRef, useEffect, useState } from "react";
  * @param {callback} returnChecked 
  * @returns 
  */
-const Radio = ({ defaultYear = '1900', returnChecked }) => {
+const Timeline = ({ defaultYear = '1900', returnChecked }) => {
     const checkedDefault = defaultYear ;
     // console.log(defaultYear.defaultYear)
 
@@ -18,7 +18,6 @@ const Radio = ({ defaultYear = '1900', returnChecked }) => {
     // called when a new radio is clicked 
     const handleChange = e => {
         setCheckedRadio(e.target.value);
-
         returnChecked(e.target.value);
     }
     
@@ -56,4 +55,4 @@ const Radio = ({ defaultYear = '1900', returnChecked }) => {
     );
 }   
 
-export default Radio;
+export default Timeline;
