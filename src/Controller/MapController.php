@@ -25,12 +25,12 @@ class MapController extends AbstractController
     ): Response
     {
         // $article = $articleRepository->findOneByCountry($country);
-        $article = $articleRepository->findOneById(1);
+        $article = $articleRepository->findOneByCountry($country);
         // $articleJSON = json_encode($article);
 
         if(!$article) {
             $dataCountry = "Sorry but this country doesn't have an Article for this period";
-            return new JsonResponse($dataCountry);
+            return new JsonResponse(['title' => $dataCountry]);
         }
 
 
