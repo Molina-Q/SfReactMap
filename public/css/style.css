@@ -1,17 +1,82 @@
 :root {
+    --primary-color: #1D87C3;
+    --background-gray-dark: #282A2E;
+    --background-gray-light: #A8A8A8;
+    --background-gray: #575D69;
 
+    --font-color-light:#fff;
 }
 /*******************************************************************************************************/
 /*********************************************** General ***********************************************/
 /*******************************************************************************************************/
 * {
-     margin: 0;
+    margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
 body {
     
+}
+
+#bodyWrapper {
+    position: relative;
+}
+
+/******************************************************************************************************/
+/*********************************************** Navbar ***********************************************/
+/******************************************************************************************************/
+header {
+    width: 100%;
+    height: 60px;
+    z-index: 650;
+
+    position: initial;
+}
+
+.wrap-map header {
+    position: absolute;
+}
+
+header nav {
+    height: 100%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+    background-color: var(--background-gray-dark);
+}
+
+.nav-items {
+    height: 2.5rem;
+
+    border: 3px solid var(--primary-color);
+    background-color: var(--background-gray);
+
+    border-radius: 20px;
+}
+
+.nav-items a {
+    height: 100%;
+    padding: 0 10px;
+
+    font-size: 18px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--font-color-light);
+    text-decoration: none;
+}
+
+.nav-items a svg {
+    width: 1.2em;
+    margin-right: 5px;
+    fill: var(--primary-color);
 }
 
 /***************************************************************************************************/
@@ -56,7 +121,7 @@ body {
     background: hsl(0 0% 0% / 50%);
 }
 
-button {
+button { /* close btn */
     padding: 0.5em;
     font: inherit;
     line-height: 1;
