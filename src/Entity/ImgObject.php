@@ -47,4 +47,9 @@ class ImgObject
 
         return $this;
     }
+
+    public function __toString() 
+    {
+        return $this->Img->getPath();
+    }
 }

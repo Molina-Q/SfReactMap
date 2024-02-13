@@ -50,9 +50,7 @@ const Timeline = ({ defaultYear = '1900', returnChecked }) => {
         return elements;
     };
 
-    return (
-        <Radiobox />
-    );
+    return <Radiobox />;
 }   
 
 export default Timeline;
