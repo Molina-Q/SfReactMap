@@ -73,9 +73,10 @@ const LeafletMap = ({ checkedValue, handleClickOnCountry }) => {
 
         // if simple polygon
         if (feature.geometry.type == "Polygon") {
+          // get the coordinates of the country in the correct order (latitude, longitude)
           polygon = [feature.geometry.coordinates[0].map((internalArrayItem) => internalArrayItem.toReversed())];
           
-        // if multi-polygon
+        // if multi-polygon, so has one more layer in the json file
         } else {
           polygon = feature.geometry.coordinates.map((externalArrayItem) => [externalArrayItem[0].map((internalArrayItem) => internalArrayItem.toReversed())]);
         }
@@ -84,9 +85,8 @@ const LeafletMap = ({ checkedValue, handleClickOnCountry }) => {
         const handlers = useMemo(
           () => ({
             click() {
-              map.panInsideBounds(polygon)
-              // setOpenModal(true)
               handleClickOnCountry(feature.properties.ADMIN);
+              map.panInsideBounds(polygon)
             },
           }),
           [map],

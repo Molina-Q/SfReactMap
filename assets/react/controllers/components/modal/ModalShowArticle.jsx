@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 
-const ModalShowArticle = ({ isOpen, onClose, children }) => {
+const ModalShowArticle = ({ isOpen, onClose, data }) => {
     // console.log('echo Modal');
 
     const [isModalOpen, setModalOpen] = useState(isOpen); // make the variable dynamic and change without reload
@@ -10,13 +10,15 @@ const ModalShowArticle = ({ isOpen, onClose, children }) => {
     useEffect(() => {
         setModalOpen(isOpen);
     }, [isOpen]);
-  
+    
     // update the state of the modal with our variable if isOpen is true it will do modal.showModal
     useEffect(() => {
         const modalElement = modalRef.current;
         if (modalElement) {
             if (isModalOpen) {
-                modalElement.showModal();
+                setTimeout(() => {
+                    modalElement.showModal();
+                }, 250);
             } else {
                 modalElement.close();
                 // children = "";
@@ -38,6 +40,7 @@ const ModalShowArticle = ({ isOpen, onClose, children }) => {
         }    
         setModalOpen(false);
     };
+ 
 
     // method to close the modal while using escape as it is a native function of the dialog element
     const handleKeyDown = (event) => {
@@ -49,9 +52,9 @@ const ModalShowArticle = ({ isOpen, onClose, children }) => {
     return (
         <dialog ref={modalRef} className="modal" onKeyDown={handleKeyDown} id="myDialog">
             <button className="modal-close-btn" onClick={handleCloseModal} >Close</button>
-            <h1>{children ? children["title"] : ""}</h1>
-            <h2>{children ? children["country"] : ""}  {children ? children["century"] : ""}</h2>
-            <p>{children ? children["summary"] : ""}</p>
+            <h1>{data ? data["title"] : ""}</h1>
+            <h2>{data ? data["country"] : ""}  {data ? data["century"] : ""}</h2>
+            <p>{data ? data["summary"] : ""}</p>
         </dialog>
     );
   };

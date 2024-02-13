@@ -46,7 +46,9 @@ const SfReactMap = () => {
   useEffect(() => {
     async function fetchData() {
       // await for data at the given URI (Uniform Resource Identifier)
+      console.log("fetch called");
       const data = await fetchAnything(`/dataCountry/${clickedCountry}/${checkedYear}`);
+      console.log("fetch received");
 
       setLoading(true);
       // if the given data were valid
@@ -64,8 +66,8 @@ const SfReactMap = () => {
 
   // is called when a polygon is clicked in leafletMap
   const handleClickOnCountry = (countryName) => {
-    setClickedCountry(countryName);
     setOpenModal(true);
+    setClickedCountry(countryName);
   };
 
   return (<>
@@ -77,7 +79,7 @@ const SfReactMap = () => {
     <ModalShowArticle
       isOpen={openModal}
       onClose={modalIsClosed}
-      children={fetchedData}
+      data={fetchedData}
     />
 
     <div id="timeline">
