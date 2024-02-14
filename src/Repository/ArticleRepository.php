@@ -46,19 +46,22 @@ class ArticleRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-    public function findOneByCountry($country) {
+    public function findOneByCountry($country, $century) {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
 
         $qb->select('a')
             ->from('App\Entity\Article', 'a')
             ->leftJoin('a.Country', 'co')
-            ->where('co.name = :country')
-            ->setParameter('country', $country);
+            ->leftJoin('a.Century', 'ce')
+            ->where('co.name = :country', 'ce.year = :century')
+            ->setParameter('country', $country)
+            ->setParameter('century', $century);
 
         $query = $qb->getQuery();
         return $query->getOneOrNullResult();
     }   
+
     // public function findUnregisteredUser($session_id) {
     //     $em = $this->getEntityManager();
     //     $sub = $em->createQueryBuilder();
