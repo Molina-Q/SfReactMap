@@ -52,9 +52,14 @@ const ModalShowArticle = ({ isOpen, onClose, data }) => {
     return (
         <dialog ref={modalRef} className="modal" onKeyDown={handleKeyDown} id="myDialog">
             <button className="modal-close-btn" onClick={handleCloseModal} >Close</button>
-            <h1>{data ? data["title"] : ""}</h1>
-            <h2>{data ? data["country"] : ""}  {data ? data["century"] : ""}</h2>
-            <p>{data ? data["summary"] : ""}</p>
+            { data ? 
+                <>
+                    <h1>{data["title"]}</h1> 
+                    <h2>{data["country"]} - {data["century"]}</h2>
+                    <p>{data["summary"]}</p>
+                </>
+            : "" }
+
         </dialog>
     );
   };
