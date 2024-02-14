@@ -54,11 +54,14 @@ const ModalShowArticle = ({ isOpen, onClose, data }) => {
             <button className="modal-close-btn" onClick={handleCloseModal} >Close</button>
             { data ? 
                 <>
-                    <h1>{data["title"]}</h1> 
-                    <h2>{data["country"]} - {data["century"]}</h2>
-                    <p>{data["summary"]}</p>
+                    <h2>{data["article"]["Country"]["name"]} - {data["article"]["Century"]["year"]}</h2>
+                    <h1>{data["article"]["title"]}</h1> 
+                    <p>{data["article"]["summary"]}</p> 
+
+                    <h3>{data["article"]["sections"].length !== 0 ? data["article"]["sections"][0]["title"] : "This article doesn't have any section"}</h3>
+                    {data["article"]["sections"].length !== 0  ? <p>{data["article"]["sections"][0]["text"]}</p> : "" }
                 </>
-            : "" }
+            : <h1>Sorry this country doesn't have an Article for this period.</h1> }
 
         </dialog>
     );
