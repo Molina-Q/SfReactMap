@@ -11,6 +11,7 @@
     --font-color-dark: #2C2C2C;
     
     --linear-gradient-dark: linear-gradient(#2D2F33 ,#202124 );
+    --linear-gradient-colour: linear-gradient(0.25turn, #1D87C3 ,#04948B );
     
 }
 /*******************************************************************************************************/
@@ -27,12 +28,31 @@ body {
     
 }
 
-#bodyWrapper {
+#wrapperBody {
     position: relative;
 }
 
-#mainWrapper {
+#wrapperMain {
     padding: 0 8%;
+}
+
+.icon {
+    width: 15px;
+    margin: 0 5px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a button {
+    display: flex;
+    justify-content: center;
+
+    background: var(--linear-gradient-colour);
+
+    border: none;
+    border-radius: 5px;
 }
 
 /******************************************************************************************************/
@@ -97,7 +117,7 @@ header nav {
 /***************************************************************************************************/
 /*********************************************** Map ***********************************************/
 /***************************************************************************************************/
-.wrap-map #mainWrapper {
+.wrap-map #wrapperMain {
     padding: 0;
 }
 
@@ -221,6 +241,7 @@ button { /* close btn */
 /*********************************************************************************************************/
 /*********************************************** Equipment ***********************************************/
 /*********************************************************************************************************/
+/* body of the equipment page */
 .wrap-equip {
     min-height: 100svh;
     max-height: 100lvh;
@@ -228,34 +249,132 @@ button { /* close btn */
     background: var(--linear-gradient-dark);
 }
 
-#equip-inventory-container figure {
-    width: 150px;
-}
-
-.equip-inventory {
+.wrap-equip #wrapperMain {
     display: flex;
+    flex-direction: column;
+
+    gap: 25px ;
 }
 
-.equip-inventory figure img{
+.equip-categories button {
+    background: var(--linear-gradient-colour);
+    border: none;
+    border-radius: 5px;
+}
+
+/****************** Page Container ******************/
+/* Encompasses all the content specific to the page */
+/****************************************************/
+#equip-menu-container {
+ 
+}
+
+/* title */
+#equip-menu-container h1 { 
+    width: fit-content;
+    padding: 0 1rem;
+    margin: 0 1rem;
+
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    background-color: var(--background-gray);
+}
+
+/******** Section - Encompasses Article and Aside ********/
+/*********************************************************/  
+.equip-menu {
+    width: auto;
+    background-color: var(--background-gray);
+    border-radius: 8px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+/***** Article - Equipment's Gallery  *****/
+/******************************************/
+.equip-gallery {
+    width: 55% ;
+    padding: 1em 0; 
+    display: grid;
+
+    grid-template-columns:  repeat(auto-fit, minmax(min(100px, 100%), 1fr));;
+    justify-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/**** Figure ****/
+.equip-items {
+    width: 100px;
+}
+
+.equip-items img{
     width: 100%;
     border-radius: 15px;
 }
 
-  
-input[type="radio"]::before {
-content: "";
-width: 0.65em;
-height: 0.65em;
-border-radius: 50%;
-transform: scale(0);
-transition: 120ms transform ease-in-out;
-box-shadow: inset 1em 1em var(--primary-color);
+.equip-items figcaption {
+    text-align: center;
 }
 
-input[type="radio"]:checked::before {
-transform: scale(1);
+/***** Aside - Equipment's details *****/
+/***************************************/
+.equip-description {
+    height: 400px;
+    width: 35%;
+
+    padding: 15px;
+    margin: 10px 0 ;
+
+    background-color: var(--background-gray-dark);
+
+    border-radius: 8px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    
+    gap: 15px;
 }
-  
+
+.equip-description h2 {
+
+}
+
+.equip-description figure {
+    min-height: 100px;
+    max-height: 200px;
+    height: 40%;
+
+    gap: 15px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.equip-description figure img {
+    max-height: inherit;
+    min-height: inherit;
+    height: 100%;
+
+    border-radius: 8px;
+}
+
+.equip-description figure figcaption ul {
+    list-style: none;
+}
+
+.equip-description div {
+    height: fit-content;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
 
   
   

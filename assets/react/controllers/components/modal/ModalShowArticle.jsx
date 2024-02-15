@@ -16,9 +16,9 @@ const ModalShowArticle = ({ isOpen, onClose, data }) => {
         const modalElement = modalRef.current;
         if (modalElement) {
             if (isModalOpen) {
-                // setTimeout(() => {
+                setTimeout(() => {
                     modalElement.showModal();
-                // }, 250);
+                }, 250);
             } else {
                 modalElement.close();
                 // children = "";

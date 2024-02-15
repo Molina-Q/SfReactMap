@@ -6,40 +6,71 @@
 {% block pageWrapper %}equip{% endblock %}
 
 {% block body %}
-<button>New item</button>
-    <label class="form-control">
-    <input type="radio" name="radio" />
-    Radio
-    </label>
+<a href="#">
+    <button>
+        New item
+        <svg class="icon icon-plus" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/></svg>
+    </button>
+</a>
 
-    <label class="form-control">
-    <input type="radio" name="radio" />
-    Radio - checked
-    </label>
-    </aside>
+
 <div class="equip-categories">
     <button>weap</button>
     <button>armor</button>
     <button>tool</button>
 </div>
 
-<section id="equip-inventory-container">
+<section id="equip-menu-container">
     <h1>Weapons</h1>
 
-    <article class="equip-inventory">
+    <article class="equip-menu">
+
+        <article class="equip-gallery">
 
         {% for equipment in equipments %}
-            <figure>
+
+            <figure class="equip-items">
+
                 <img src="{{ asset('img/upload/' ~ equipment.ImgObjects[0]) }}" alt="{{ equipment.ImgObjects[0] }}">
+
                 <figcaption>
                     <strong>{{ equipment.name }}</strong>
                 </figcaption>
+
             </figure>
+
         {% endfor %}
 
-    </article>
+        </article>
+           
 
-    <aside>
+        <aside class="equip-description">
+            <h2>The name of my sword</h2>
+
+            <figure>
+                <img src="{{ asset('img/upload/MoonlightGreatsword.jpg') }}" alt="MoonlightGreatsword.jpg">
+
+                <figcaption class="weapon-details">
+                    <ul>
+                        <li>Sharp</li>
+                        <li>Blue?</li>
+                        <li>Glow in the dark</li>
+                    </ul>
+                </figcaption>
+
+            </figure>
+
+            <div>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem sequi odio, laboriosam nihil quia incidunt enim amet fugit deleniti quo. Voluptate 
+                    reiciendis dignissimos atque dolores animi dolore qui porro iure!Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem sequi odio, laboriosam nihil quia incidunt enim amet fugit deleniti quo. Voluptate 
+                    reiciendis dignissimos atque dolores animi dolore qui porro iure!
+                </p>
+            </div>
+
+        </aside>
+
+    </article>
 
 </section>
 
