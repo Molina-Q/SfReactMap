@@ -46,11 +46,11 @@ const SfReactMap = () => {
   useEffect(() => {
     async function fetchData() {
       // await for data at the given URI (Uniform Resource Identifier)
+      setLoading(true);
       console.log("fetch called");
       const data = await fetchAnything(`/dataCountry/${clickedCountry}/${checkedYear}`);
       console.log("fetch received");
 
-      setLoading(true);
       // if the given data were valid
       if (data) {
         setFetchedData(data);
@@ -58,6 +58,7 @@ const SfReactMap = () => {
       } else {
         console.error('No country selected (Can mean that the fetchData returned an error)')
         setLoading(false);
+        setFetchedData(null)
       }
     }
     // immediatly calls himself
@@ -66,8 +67,8 @@ const SfReactMap = () => {
 
   // is called when a polygon is clicked in leafletMap
   const handleClickOnCountry = (countryName) => {
-    setOpenModal(true);
     setClickedCountry(countryName);
+    setOpenModal(true);
   };
 
   return (<>

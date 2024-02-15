@@ -16,9 +16,9 @@ const ModalShowArticle = ({ isOpen, onClose, data }) => {
         const modalElement = modalRef.current;
         if (modalElement) {
             if (isModalOpen) {
-                setTimeout(() => {
+                // setTimeout(() => {
                     modalElement.showModal();
-                }, 250);
+                // }, 250);
             } else {
                 modalElement.close();
                 // children = "";
@@ -52,16 +52,17 @@ const ModalShowArticle = ({ isOpen, onClose, data }) => {
     return (
         <dialog ref={modalRef} className="modal" onKeyDown={handleKeyDown} id="myDialog">
             <button className="modal-close-btn" onClick={handleCloseModal} >Close</button>
-            { data ? 
+            { console.log(" data from moda = ", data) }
+            { data ? (
                 <>
-                    <h2>{data["article"]["Country"]["name"]} - {data["article"]["Century"]["year"]}</h2>
-                    <h1>{data["article"]["title"]}</h1> 
-                    <p>{data["article"]["summary"]}</p> 
+                    <h2>{data.article.Country.name} - {data.article.Century.year}</h2>
+                    <h1>{data.article.title}</h1> 
+                    <p>{data.article.summary}</p> 
 
-                    <h3>{data["article"]["sections"].length !== 0 ? data["article"]["sections"][0]["title"] : "This article doesn't have any section"}</h3>
-                    {data["article"]["sections"].length !== 0  ? <p>{data["article"]["sections"][0]["text"]}</p> : "" }
-                </>
-            : <h1>Sorry this country doesn't have an Article for this period.</h1> }
+                    <h3>{data.article.sections.length !== 0 ? data.article.sections[0].title : "This article doesn't have any section"}</h3>
+                  <p>{data.article.sections.length !== 0  ? data.article.sections[0].text : "" }</p>
+                </>)
+            : (<h1>Sorry this country doesn't have an Article for this period.</h1>)}
 
         </dialog>
     );
