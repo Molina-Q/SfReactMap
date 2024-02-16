@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import LeafletMap from './LeafletMap';
 import Timeline from './timeline/Timeline';
