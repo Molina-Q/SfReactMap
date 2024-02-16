@@ -150,11 +150,47 @@ header nav {
 }
 
 .modal-close-btn {
-    font-size: .75em;
+    width: 3em;
+    height: 3em;
+
     position: absolute;
-    top: .25em;
-    right: .25em;
+    top: .75em;
+    right: .75em;
+
+    border: 2px solid red;
+    border-radius: 3px;
+    background: none;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transition: 0.1s;
+    /* box-shadow: rgba(255, 0, 0, 0.3) 0px 0px 11px 0px; */
+
+
+    &:hover {
+        border: 0px solid red;
+        transform: translateY(1px);
+        background: none;
+        /* box-shadow: rgba(255, 0, 0, 0.56) 0px 0px 33px 2px; */
+        transition: 0.1s;
+    }
+
+    &:focus-visible {
+        outline: none;
+    }
+
+    svg {
+        height: inherit;
+        width: inherit;
+        fill: red;
+
+    }
 }
+
+
+
 
 /* the background when the modal open */
 .modal::backdrop { 
