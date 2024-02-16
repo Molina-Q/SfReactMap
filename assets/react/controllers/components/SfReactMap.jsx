@@ -42,28 +42,42 @@ const SfReactMap = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // async function that fetch data from the MapController
   useEffect(() => {
+    
+    // async function that fetch articles data for the country during the selected century from the MapController
     async function fetchData() {
+
       // await for data at the given URI (Uniform Resource Identifier)
       setLoading(true);
-      console.log("fetch called");
+
+      console.log("-- Fetch - called --");
+
       const data = await fetchAnything(`/dataCountry/${clickedCountry}/${checkedYear}`);
-      console.log("fetch received");
+
+      console.log("-- Fetch - received --");
 
       // if the given data were valid
       if (data) {
+
+        // set the content of data
         setFetchedData(data);
         setLoading(false);
+
       } else {
-        console.error('No country selected (Can mean that the fetchData returned an error)')
-        setLoading(false);
+
+        // there was a mistake and the data is null
         setFetchedData(null)
+        setLoading(false);
+        console.error('No country selected (Can mean that the fetchData returned an error)')
+
       }
     }
+
     // immediatly calls himself
     fetchData();
-  }, [clickedCountry, checkedYear]); // make it so the useEffect re-run only when one of those variable change (using Object.js comparison)
+
+  // will re-run only when one of those variables changes (using Object.js comparison)
+  }, [clickedCountry, checkedYear]); 
 
   // is called when a polygon is clicked in leafletMap
   const handleClickOnCountry = (countryName) => {
@@ -80,8 +94,20 @@ const SfReactMap = () => {
     <ModalShowArticle
       isOpen={openModal}
       onClose={modalIsClosed}
-      data={fetchedData}
-    />
+    >
+      {fetchedData ? (
+        <>
+            <h2>{fetchedData.article.Country.name} - {fetchedData.article.Century.year}</h2>
+            <h1>{fetchedData.article.title}</h1> 
+            <p>{fetchedData.article.summary}</p> 
+
+            <h3>{fetchedData.article.sections.length !== 0 ? fetchedData.article.sections[0].title : "This article doesn't have any section"}</h3>
+          <p>{fetchedData.article.sections.length !== 0  ? fetchedData.article.sections[0].text : "" }</p>
+        </>
+        )
+      : (<h1>Sorry this country doesn't have an Article for this period.</h1>)} 
+
+    </ModalShowArticle>
 
     <div id="timeline">
       <Timeline 
