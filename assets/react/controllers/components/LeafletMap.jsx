@@ -7,9 +7,6 @@ import myGeoJson1700 from '../../../../public/geojson/1700countries.json';
 import myGeoJson1800 from '../../../../public/geojson/1800countries.json';
 import myGeoJson1900 from '../../../../public/geojson/1900countries.json';
 
-import Radio from './timeline/Timeline';
-import Modal from './modal/ModalShowArticle';
-
 // all possible value for geoJSonFeatures
 const myGeoJsons = {
   "1400": myGeoJson1400,
