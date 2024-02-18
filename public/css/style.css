@@ -81,40 +81,46 @@ header nav {
 
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
 
     background-color: var(--background-gray-dark);
-}
+    padding: 0 25px;
 
-.nav-items {
-    height: 2.5rem;
+    div {
+        display: flex;
+        gap: 25px;
+     
+        .nav-items {
+            height: 2.5rem;
 
-    border: 3px solid var(--primary-color);
-    background-color: var(--background-gray);
+            border: 3px solid var(--primary-color);
+            background-color: var(--background-gray);
 
-    border-radius: 20px;
-}
+            border-radius: 20px;
 
-.nav-items a {
-    height: 100%;
-    padding: 0 10px;
+            a {
+                height: 100%;
+                padding: 0 10px;
+            
+                font-size: 18px;
+            
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+            
+                color: var(--font-color-light);
+                text-decoration: none;
 
-    font-size: 18px;
-
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-
-    color: var(--font-color-light);
-    text-decoration: none;
-}
-
-.nav-items a svg {
-    width: 1.2em;
-    margin-right: 5px;
-    fill: var(--primary-color);
+                svg {
+                    width: 1.2em;
+                    margin-right: 5px;
+                    fill: var(--primary-color);
+                }
+            }
+        }
+    }
 }
 
 /***************************************************************************************************/
@@ -169,14 +175,11 @@ header nav {
     align-items: center;
 
     transition: 0.1s;
-    /* box-shadow: rgba(255, 0, 0, 0.3) 0px 0px 11px 0px; */
-
 
     &:hover {
         border: 0px solid red;
         transform: translateY(1px);
         background: none;
-        /* box-shadow: rgba(255, 0, 0, 0.56) 0px 0px 33px 2px; */
         transition: 0.1s;
     }
 
@@ -215,7 +218,8 @@ header nav {
 
     z-index: 999;
 
-    background-color: var(--background-gray);
+    border-top: 2px solid var(--primary-color);
+    background-color: var(--background-gray-dark);
     padding: 10px 0 ;
 }
 
@@ -244,6 +248,7 @@ header nav {
     border-radius: 50%;
     transform: translateY(-0.075em);
 
+    cursor: pointer;
     display: grid;
     place-content: center;
 }
@@ -256,9 +261,9 @@ header nav {
 
     transform: scale(0);
     transition: 0.3s ease-in-out;  
-    box-shadow: inset 1em 1em var(--font-color-dark); 
+    box-shadow: inset 1em 1em var(--primary-color); 
 
-    background-color: var(--font-color-dark);
+    background-color: var(--primary-color);
 }
     
 #timeline input[type="radio"]:checked::before {
