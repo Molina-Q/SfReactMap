@@ -101,8 +101,13 @@ const SfReactMap = () => {
             <h1>{fetchedData.article.title}</h1> 
             <p>{fetchedData.article.summary}</p> 
 
-            <h3>{fetchedData.article.sections.length !== 0 ? fetchedData.article.sections[0].title : "This article doesn't have any section"}</h3>
-          <p>{fetchedData.article.sections.length !== 0  ? fetchedData.article.sections[0].text : "" }</p>
+            {fetchedData.article.sections.length !== 0 ?  
+            <>
+              <h3>{fetchedData.article.sections[0].title}</h3>
+              <p>{fetchedData.article.sections[0].text}</p>
+            </>
+            
+            : "This article doesn't have any section"}
         </>
         )
       : (<h1>Sorry this country doesn't have an Article for this period.</h1>)} 

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap, GeoJSON } from 'react-leaflet';
 import myGeoJson1400 from '../../../../public/geojson/1400countries.json';
 import myGeoJson1500 from '../../../../public/geojson/1500countries.json';
