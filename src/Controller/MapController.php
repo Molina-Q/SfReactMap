@@ -33,7 +33,6 @@ class MapController extends AbstractController
     ): Response
     {
 
-
         $encoder = new JsonEncoder();
 
         $defaultContext = [
@@ -56,7 +55,7 @@ class MapController extends AbstractController
 
     }
 
-    #[Route('/dataCountry/{country}/{century}', name: 'show_count', methods: ['GET'])]
+    #[Route('/dataCountry/{country}/{century}', name: 'show_article', methods: ['GET'])]
     public function dataCount(
         string $country,
         string $century,
@@ -64,7 +63,7 @@ class MapController extends AbstractController
         SerializerInterface $serializer,
     ): Response
     {
-
+        
         $encoder = new JsonEncoder();
 
         $defaultContext = [
@@ -77,7 +76,7 @@ class MapController extends AbstractController
         
         $serializer = new Serializer([$normalizer], [$encoder]);
 
-        $article = $articleRepository->findOneByCountry($country, $century);
+        $article = $articleRepository->findOneByCountryAndCentury($country, $century);
 
         $jsonContent = $serializer->serialize($article, 'json');
 
