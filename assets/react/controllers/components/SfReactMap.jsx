@@ -52,7 +52,7 @@ const SfReactMap = () => {
   useEffect(() => {
     
     // async function that fetch articles data for the country during the selected century from the MapController
-    async function fetchData(URI) {
+    async function fetchData(URI = `/dataCountry/${clickedCountry}/${checkedYear}`) {
 
       // await for data at the given URI (Uniform Resource Identifier)
       setLoading(true);
@@ -82,9 +82,9 @@ const SfReactMap = () => {
     }
 
     // immediatly calls himself
-    fetchData(`/dataCountry/${clickedCountry}/${checkedYear}`);
+    fetchData();
   
-  }, [clickedCountry, checkedYear, openModal, reloadFetch]); // will re-run only when one of those variables changes (using Object.js comparison)
+  }, [clickedCountry, checkedYear]); // will re-run only when one of those variables changes (using Object.js comparison)
 
   // is called when a polygon is clicked in leafletMap
   const handleClickOnCountry = (countryName) => {
@@ -159,20 +159,20 @@ const SfReactMap = () => {
   }
   
 
-  const modalContent = (data) => {
+  // const modalContent = (data) => {
 
     useEffect(() => {
 
-      if (!data) {
+      if (!fetchedData) {
         return setContentModal(<h2 className='article-none'>Sorry this country doesn't have an Article for this period.</h2>);
       }
 
-      if (typeof data.section == 'undefined') {
+      if (typeof fetchedData.section == 'undefined') {
 
-        const article = data.article;
+        const article = fetchedData.article;
         
         return setContentModal(<article>
-            <h2>{article.tags} - {article.Century.year}</h2>
+            <h2>{article.Country.name} - {article.Century.year}</h2>
             <h1>{article.title}</h1> 
             <p>{article.summary}</p> 
 
@@ -185,7 +185,7 @@ const SfReactMap = () => {
 
       } else {
 
-        const section = data.section;
+        const section = fetchedData.section;
 
         return setContentModal( <article>
             <h1>{section.title}</h1>
@@ -205,7 +205,7 @@ const SfReactMap = () => {
      
     }, [fetchedData])
   
-  }
+  // }
 
   // const handleModalClick = (id) => {
   //   showDetails(id);
@@ -214,6 +214,7 @@ const SfReactMap = () => {
 
   async function showDetails(id) {
     setLoading(true);
+    setDataURI(`/dataCountry/section/${id}`);
 
     console.log("-- Section Fetch - sent --");
 
@@ -225,15 +226,15 @@ const SfReactMap = () => {
     if (data) {
 
       // set the content of data
-      setFetchedData(data);
       setLoading(false);
+      return setFetchedData(data);
 
     } else {
 
       // there was a mistake and the data is null
-      setFetchedData(null)
       setLoading(false);
       console.error('No country selected (Can mean that the fetchData returned an error)');
+      return setFetchedData(null);
     }
   }
 
@@ -252,8 +253,8 @@ const SfReactMap = () => {
       onClose={modalIsClosed}
       handleReturn={backArrowHandler}
     >
-       {loading ? <Loading /> : ''}
-      {modalContent(fetchedData)}
+      {loading ? <Loading /> : ''}
+      {/* {modalContent(fetchedData)} */}
       {contentModal}
 
     </ModalShowArticle>
