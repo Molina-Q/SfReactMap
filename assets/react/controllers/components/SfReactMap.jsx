@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import LeafletMap from './LeafletMap';
 import Timeline from './timeline/Timeline';
 import ModalShowArticle from './modal/ModalShowArticle';
+import Loading from './animation/Loading';
 
 import { fetchAnything } from "../../../tools/Fetchs";
 
@@ -44,20 +45,22 @@ const SfReactMap = () => {
     setCheckedYear(string);
   }
 
+  const [dataURI, setDataURI] = useState(`/dataCountry/${clickedCountry}/${checkedYear}`);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     
     // async function that fetch articles data for the country during the selected century from the MapController
-    async function fetchData() {
+    async function fetchData(URI) {
 
       // await for data at the given URI (Uniform Resource Identifier)
       setLoading(true);
 
       console.log("-- Fetch - called --");
 
-      const data = await fetchAnything(`/dataCountry/${clickedCountry}/${checkedYear}`);
+      // const data = await fetchAnything(`/dataCountry/${clickedCountry}/${checkedYear}`);
+      const data = await fetchAnything(URI);
 
       console.log("-- Fetch - received --");
 
@@ -65,21 +68,21 @@ const SfReactMap = () => {
       if (data) {
 
         // set the content of data
-        setFetchedData(data);
         setLoading(false);
+        setFetchedData(data);
 
       } else {
 
         // there was a mistake and the data is null
-        setFetchedData(null)
         setLoading(false);
+        setFetchedData(null)
         console.error('No country selected (Can mean that the fetchData returned an error)');
 
       }
     }
 
     // immediatly calls himself
-    fetchData();
+    fetchData(`/dataCountry/${clickedCountry}/${checkedYear}`);
   
   }, [clickedCountry, checkedYear, openModal, reloadFetch]); // will re-run only when one of those variables changes (using Object.js comparison)
 
@@ -166,10 +169,10 @@ const SfReactMap = () => {
 
       if (typeof data.section == 'undefined') {
 
-        let article = data.article;
+        const article = data.article;
         
         return setContentModal(<article>
-            <h2>{article.Country.name} - {article.Century.year}</h2>
+            <h2>{article.tags} - {article.Century.year}</h2>
             <h1>{article.title}</h1> 
             <p>{article.summary}</p> 
 
@@ -182,8 +185,9 @@ const SfReactMap = () => {
 
       } else {
 
-        let section = data.section;
-        return setContentModal(<article>
+        const section = data.section;
+
+        return setContentModal( <article>
             <h1>{section.title}</h1>
 
             <h2>{section.summary}</h2> 
@@ -209,6 +213,7 @@ const SfReactMap = () => {
   // }
 
   async function showDetails(id) {
+    setLoading(true);
 
     console.log("-- Section Fetch - sent --");
 
@@ -233,7 +238,7 @@ const SfReactMap = () => {
   }
 
   const backArrowHandler = () => {
-    setReloadFetch();
+    setDataURI(`/dataCountry/${clickedCountry}/${checkedYear}`);
   }
 
   return (<>
@@ -247,9 +252,8 @@ const SfReactMap = () => {
       onClose={modalIsClosed}
       handleReturn={backArrowHandler}
     >
-
+       {loading ? <Loading /> : ''}
       {modalContent(fetchedData)}
-
       {contentModal}
 
     </ModalShowArticle>
