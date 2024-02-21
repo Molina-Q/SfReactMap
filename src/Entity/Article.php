@@ -51,12 +51,15 @@ class Article
     #[ORM\OneToMany(mappedBy: 'Article', targetEntity: ArticleLike::class)]
     private Collection $articleLikes;
 
+    private ?string $tags = null;
+
     public function __construct()
     {
         $this->sections = new ArrayCollection();
         $this->topics = new ArrayCollection();
         $this->articleEditeds = new ArrayCollection();
         $this->articleLikes = new ArrayCollection();
+        $this->tags = $this->Country->getName()." - ".$this->Century->getYear();
     }
 
     public function getId(): ?int
@@ -268,8 +271,20 @@ class Article
         return $this;
     }
 
-    public function __toString()
+    public function getTags(): ?string
     {
-        return "BONJOUR";
+        return $this->tags;
     }
+
+    public function setTags(string $tags): static
+    {
+        $this->tags = $tags;
+
+        return $this;
+    }
+
+    // public function __toString()
+    // {
+    //     return;
+    // }
 }

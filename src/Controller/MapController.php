@@ -81,15 +81,15 @@ class MapController extends AbstractController
         $jsonContent = $serializer->serialize($article, 'json');
 
         if(!$article) {
-            $dataCountry = "Sorry this country doesn't have an Article for this period.";
             return new JsonResponse(false);
         }
 
-        // return $this->json($jsonContent, 200, [], [''])
+    
         return new JsonResponse([ 
             'article' => \json_decode($jsonContent)
         ]);
 
+        // return $this->json($article, 200, [], []);
     }
 
 
