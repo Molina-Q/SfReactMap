@@ -46,7 +46,7 @@ class ArticleRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-    public function findOneByCountry($country, $century) {
+    public function findOneByCountryAndCentury($country, $century) {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
 
