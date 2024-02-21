@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+{% block metadesc %}The home page of the site, contains information and tutariols explaining how to use the site{% endblock %}
+
+{% block pageWrapper %}home{% endblock %}
+
+{% block body %}
+
+<h2 class="primary-title">Welcome to our map</h2>
+<p>Learn how to use it</p>
+
+<a href="{{ path('app_map')}}">Get to the map</a>
+
+<article>
+    <h3>Click on the colored coutries</h3>
+    <p>and learn more about their Weapons, Armours or tools</p>
+
+    <figure>
+        <img src="" alt="">
+    </figure>
+</article>
+
+<article>
+    <h3>Click on the timeline</h3>
+    <p>change the borders and the content of each country's article</p>
+    <figure>
+        <img src="" alt="">
+    </figure>
+</article>
+
+<section>
+    <h4>The Equipment section</h4>
+    <p>
+        Just want to check the weapons, armours or tools present in the map ?
+    </p>
+
+    <figure>
+        <img src="" alt="">
+    </figure>
+
+    <a href="{{ path('app_equipment')}}">Equipment</a>
+</section>
+
+<section>
+    <h4>The forum</h4>
+    <p>
+        you can discuss about anything present on the site, country, weapon or history !
+    </p>
+
+    <figure>
+        <img src="" alt="">
+    </figure>
+
+    <a href="{{ path('app_forum')}}">Forum</a>
+</section>
+
+
+{% endblock %}
