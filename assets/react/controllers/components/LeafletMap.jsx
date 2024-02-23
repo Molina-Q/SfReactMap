@@ -24,7 +24,7 @@ const LeafletMap = ({ checkedValue, handleClickOnCountry }) => {
   // const [checkedValue, setCheckedValue] = useState('1900') ;
 
   // géré ici car utilisé dans son Enfant GeoJsonGeometry
-  const [geoJsonFeatures, setGeoJsonFeatures] = useState(null)
+  const [geoJsonFeatures, setGeoJsonFeatures] = useState(null);
 
   // sera géré dans le parent
   // const [data, setData] = useState(null);
