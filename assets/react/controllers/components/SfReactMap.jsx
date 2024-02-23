@@ -103,13 +103,11 @@ const SfReactMap = () => {
       if (data) {
 
         // set the content of data
-        setLoading(false);
         setFetchedData(data);
 
       } else {
 
         // there was a mistake and the data is null
-        setLoading(false);
         setFetchedData(null)
         console.error('No country selected (Can mean that the fetchData returned an error)');
 
@@ -121,6 +119,7 @@ const SfReactMap = () => {
   
   }, [dataURI]); // will re-run only when one of those variables changes (using Object.js comparison)
 
+  // set the component shown by the modal
   useEffect(() => {
 
     if (!fetchedData) {
@@ -137,7 +136,9 @@ const SfReactMap = () => {
 
     }
     
-  }, [fetchedData])
+  }, [fetchedData]) // re-run everytime data is fetched
+
+  useEffect(() => setLoading(false), [contentModal]);
 
   return (<>
     <LeafletMap
@@ -150,10 +151,8 @@ const SfReactMap = () => {
       onClose={modalIsClosed}
       handleReturn={backArrowHandler}
     >
-      {loading ? <Loading /> : ''}
-      {/* {modalContent(fetchedData)} */}
-      {contentModal}
-
+      {loading ? <Loading /> : contentModal}
+      {/* {contentModal} */}
     </Modal>
 
     <div id="timeline">
