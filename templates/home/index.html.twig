@@ -7,21 +7,27 @@
 
 {% block body %}
 
-<h2 class="primary-title">Welcome to our map</h2>
-<p>Learn how to use it</p>
+<section id="home-welcome">
+    <h2 class="primary-title">Welcome to our map</h2>
+    <p>Learn how to use it</p>
+    
+    <a href="{{ path('app_map')}}">
+        <span>Get to the map</span>
+    </a>
+</section>
 
-<a href="{{ path('app_map')}}">Get to the map</a>
 
-<article>
+<article id="home-colour">
     <h3>Click on the colored coutries</h3>
     <p>and learn more about their Weapons, Armours or tools</p>
-
+    
     <figure>
         <img src="" alt="">
     </figure>
 </article>
 
-<article>
+
+<article id="home-timeline">
     <h3>Click on the timeline</h3>
     <p>change the borders and the content of each country's article</p>
     <figure>
@@ -29,7 +35,7 @@
     </figure>
 </article>
 
-<section>
+<section id="home-equip">
     <h4>The Equipment section</h4>
     <p>
         Just want to check the weapons, armours or tools present in the map ?
@@ -39,10 +45,10 @@
         <img src="" alt="">
     </figure>
 
-    <a href="{{ path('app_equipment')}}">Equipment</a>
+    <a href="{{ path('app_equipment')}}"><span>Equipment</span></a>
 </section>
 
-<section>
+<section id="home-forum">
     <h4>The forum</h4>
     <p>
         you can discuss about anything present on the site, country, weapon or history !
@@ -52,7 +58,7 @@
         <img src="" alt="">
     </figure>
 
-    <a href="{{ path('app_forum')}}">Forum</a>
+    <a href="{{ path('app_forum')}}"><span>Forum</span></a>
 </section>
 
 

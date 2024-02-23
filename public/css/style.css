@@ -65,20 +65,14 @@ a {
     }
 }
 
-.loading-svg svg {
-    fill: white;
-    width: 100px;
-}
-
 /****************************************************************************************************/
 /*********************************************** Font ***********************************************/
 /****************************************************************************************************/
-
 h1, h2 {
     font-weight: 600;
 }
 
-h3 {
+h3, h4 {
     font-weight: 500;
 }
 
@@ -180,7 +174,7 @@ header nav {
     position: relative;
     width: 80vw;
     height: 50vh;
-    padding: 4rem 4rem 2rem;
+    padding: 2rem 4rem;
 
     margin: 10%;
     border: 0;
@@ -230,6 +224,57 @@ header nav {
 
 }
 
+/* the background when the modal open */
+.modal::backdrop { 
+    background: hsl(0 0% 0% / 50%);
+}
+
+.section-gallery-container {
+    display: flex;
+    gap: 1em;
+
+    /**** Figure ****/
+    .gallery-items {
+        width: 100px;
+        padding: 1em 0;
+        gap: 10px;
+
+        img {
+            width: 100%;
+            height: 100px;
+            border-radius: 15px;
+            object-fit: cover;
+        }
+
+        figcaption {
+            text-align: center;
+        }
+    }
+}
+
+/********** Loading icon **********/
+.loading-svg {
+    position: absolute;
+    transform: translateX(50%);
+
+    top: 30%;
+    right: 50%;
+
+    svg {
+        width: 100px;
+
+
+        fill: white;
+        animation: 1s linear infinite rotate;
+    }
+}
+
+@keyframes rotate {
+    from {transform: rotate(0deg);}
+    to {transform: rotate(360deg);}
+}
+
+/********** Absolute btn **********/
 .modal-close-btn {
     width: 3em;
     height: 3em;
@@ -247,11 +292,11 @@ header nav {
     align-items: center;
 
     transition: 0.1s;
-
+    
     &:hover {
         border: 0px solid red;
         transform: translateY(1px);
-        background: none;
+        /* background: inherit; */
         transition: 0.1s;
     }
 
@@ -268,20 +313,17 @@ header nav {
 }
 
 .modal-return-arrow {
-    width: 2.5em;
-    height: 2.5em;
+    width: 3em;
+    height: 3em;
 
     position: absolute;
-    top: 1em;
-    left: 1em;
+    top: 2.90em;
+    left: 0.75em;
 
     background: none;
     border: none;
 
     display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 1em;
 
     transition: 0.1s;
 
@@ -302,39 +344,6 @@ header nav {
         cursor: pointer;
     }
 }
-
-/* the background when the modal open */
-.modal::backdrop { 
-    background: hsl(0 0% 0% / 50%);
-}
-
-.section-gallery-container {
-
-    display: flex;
-    gap: 1em;
-
-    .section-gallery {
-        padding: 1em 0;
-        gap: 10px;
-    }
-
-    /**** Figure ****/
-    .gallery-items {
-        width: 100px;
-
-        img {
-            width: 100%;
-            height: 100px;
-            border-radius: 15px;
-            object-fit: cover;
-        }
-
-        figcaption {
-            text-align: center;
-        }
-    }
-}
-
 
 /************************************************************************************/
 /************************************* Timeline *************************************/
@@ -406,8 +415,6 @@ header nav {
     transform: scale(1.2);
 }
 
-      
-
 /*********************************************************************************************************/
 /*********************************************** Equipment ***********************************************/
 /*********************************************************************************************************/
@@ -437,7 +444,7 @@ header nav {
     }
 }
 
-/****************** Page Container ******************/
+/***************** Equip  Container *****************/
 /* Encompasses all the content specific to the page */
 /****************************************************/
 #equip-menu-container {
@@ -554,8 +561,180 @@ header nav {
     justify-content: space-evenly;
 }
 
-  
-  
+/********************************************************************************************************/
+/*********************************************** HomePage ***********************************************/
+/********************************************************************************************************/
+.wrap-home {
+    min-height: 100svh;
+
+
+    gap: 25px;
+
+    background-image: var(--linear-gradient-dark);
+}
+.wrap-home #wrapperMain:first-child {
+    gap: 5em;
+}
+
+.wrap-home #wrapperMain {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 45px;
+
+    text-align: center;
+
+    section,
+    article {
+        height: 100%;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+
+        h2, h3, h4 {
+            font-size: 3.5em;
+        }
+
+        p {
+            font-size: 2em;
+            color: #c0c0c0;
+            /* width: 50%; */
+        }
+
+        /* a {
+            width: fit-content;
+            padding: 10px;
+
+            font-size: 2em;
+
+            background-color: var(--primary-color);
+            border-radius: 5px;
+
+            color: var(--font-color-light); */
+
+            /* a {
+            background-color: #11496b;
+            border: solid transparent;
+            border-radius: 16px;
+            border-width: 0 0 4px;
+            box-sizing: border-box;
+            color: #FFFFFF;
+            cursor: pointer;
+            display: inline-block;
+            font-size: 2em;
+            margin: 0;
+            outline: none;
+            overflow: visible;
+            padding: 13px 16px;
+            text-align: center;
+            touch-action: manipulation;
+            transform: translateZ(0);
+            transition: filter .2s;
+            user-select: none;
+            -webkit-user-select: none;
+            vertical-align: middle;
+            white-space: nowrap;
+            width: fit-content;
+            }
+            
+
+            a:after {
+            background-clip: padding-box;
+            background-color: var(--primary-color);
+            border: solid transparent;
+            border-radius: 16px;
+            border-width: 0 0 4px;
+            bottom: -4px;
+            content: "";
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            z-index: -1;
+            }
+
+            a:hover {
+            filter: brightness(1.1);
+            -webkit-filter: brightness(1.1);
+            }
+
+            a:active {
+            border-width: 4px 0 0;
+            background: none;
+            } */
+
+            /* CSS */
+            a {
+            align-items: center;
+            background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
+            border: 0;
+            border-radius: 8px;
+            box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+            box-sizing: border-box;
+            color: #FFFFFF;
+            display: flex;
+            font-size: 20px;
+            justify-content: center;
+            line-height: 1em;
+            max-width: 100%;
+            min-width: 140px;
+            padding: 3px;
+            text-decoration: none;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            white-space: nowrap;
+            cursor: pointer;
+            }
+
+            a:active,
+            a:hover {
+            outline: 0;
+            }
+
+            a span {
+            background-color: rgb(5, 6, 45);
+            padding: 16px 24px;
+            border-radius: 6px;
+            width: 100%;
+            height: 100%;
+            transition: 300ms;
+            }
+
+            a:hover span {
+            background: none;
+            }
+
+            @media (min-width: 768px) {
+            a {
+                font-size: 24px;
+                min-width: 196px;
+            }
+            }
+        
+        figure {
+            border-radius: 10px;
+            background-image: var(--linear-gradient-colour);
+        }
+    }
+
+    article {
+        figure {
+            width: 600px;
+            height: 200px;
+        }
+    }
+
+    section {
+        figure {
+            width: 400px;
+            height: 200px;
+        }
+    }
+}
 
 
 
