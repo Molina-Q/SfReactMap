@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 
 import LeafletMap from './LeafletMap';
 import Timeline from './timeline/Timeline';
-import ModalShowArticle from './modal/ModalShowArticle';
+import Modal from './modal/Modal';
+import ShowArticle from './modal/ShowArticle';
 import Loading from './animation/Loading';
 
 import { fetchAnything } from "../../../tools/Fetchs";
+import ShowSection from './modal/ShowSection';
 
 const SfReactMap = () => {
 
@@ -29,30 +31,63 @@ const SfReactMap = () => {
   // array of elements the modal will show
   const [contentModal, setContentModal] = useState(null);
 
-  const [reloadFetch, setReloadFetch] = useState(false);
+  // URI of the content of the modal
+  const [dataURI, setDataURI] = useState(`/dataCountry/${clickedCountry}/${checkedYear}`);
+
+  // used for loading during the fetch of the modal
+  const [loading, setLoading] = useState(false);
+
+  // const [error, setError] = useState(null);
 
   /***** Callback to ModalShowArticle *****/
   /****************************************/
   const modalIsClosed = () => {
-    if (openModal) {
-      setOpenModal(false);
-    }
+
+    // Check if the modal is open then close it 
+    (openModal ? setOpenModal(false) : '');
+  }
+  
+  // onClick backArrow
+  const backArrowHandler = () => {
+
+    // change the URI of the fetch to return to the original data
+    setDataURI(`/dataCountry/${clickedCountry}/${checkedYear}`);
+  }
+
+  const getDetailsSection = (id) => {
+
+    // change the URI of the fetch to return to the original data
+    setDataURI(`/dataCountry/section/${id}`);
   }
   
   /***** Callback to Timeline *****/
   /********************************/ 
-  const returnValue = string => {
-    setCheckedYear(string);
+  const returnValue = (stringYear) => {
+    // change it to the currently checked year
+    setCheckedYear(stringYear);
+
+    // change the URI to match the checked year
+    setDataURI(`/dataCountry/${clickedCountry}/${stringYear}`);
   }
 
-  const [dataURI, setDataURI] = useState(`/dataCountry/${clickedCountry}/${checkedYear}`);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  /***** Callback to LeafletMap *****/
+  /**********************************/ 
+  const handleClickOnCountry = (countryName) => {
+    // change it to the clicked country
+    setClickedCountry(countryName);
+
+    // change the URI to match the clicked country
+    setDataURI(`/dataCountry/${countryName}/${checkedYear}`);
+
+    // open the modal
+    setOpenModal(true);
+  };
 
   useEffect(() => {
     
     // async function that fetch articles data for the country during the selected century from the MapController
     async function fetchData(URI = `/dataCountry/${clickedCountry}/${checkedYear}`) {
+    // async function fetchData() {
 
       // await for data at the given URI (Uniform Resource Identifier)
       setLoading(true);
@@ -82,165 +117,27 @@ const SfReactMap = () => {
     }
 
     // immediatly calls himself
-    fetchData();
+    fetchData(dataURI);
   
-  }, [clickedCountry, checkedYear]); // will re-run only when one of those variables changes (using Object.js comparison)
+  }, [dataURI]); // will re-run only when one of those variables changes (using Object.js comparison)
 
-  // is called when a polygon is clicked in leafletMap
-  const handleClickOnCountry = (countryName) => {
-    setClickedCountry(countryName);
-    setOpenModal(true);
-  };
+  useEffect(() => {
 
-  // function used to loop on all important information of a section
-  const showAllSections = (sectionsData) => {
-    const sections = [];
-
-    if (!sectionsData) {
-      return ;
+    if (!fetchedData) {
+      return setContentModal(<h2 className='article-none'>Sorry this country doesn't have an Article for this period.</h2>);
     }
 
-    for(let section of sectionsData ) {
-      // the uri to the section details
-      let id_section = section.id;
+    if (typeof fetchedData.section == 'undefined') {
 
-      // push all the sections into a single array
-      sections.push(
-
-        // key so that React can diffentiate them
-        <div className='section-items' key={id_section}>
-
-          {/* the link created higher */}
-          <h3 onClick={() => {showDetails(id_section)}}>{section.title}</h3>
-
-          <p>{section.text}</p>
-
-        </div>
-      )
-    }
-
-    return sections;
-  }
-
-  // function used to loop on all important information of a section
-  const showGallery = (galleryData) => {
-    const sections = [];
-
-    if (!galleryData) {
-      return ;
-    }
-
-    for(let gallery of galleryData ) {
-
-      let id_section = gallery.id;
-      let pathImg = `/img/upload/${gallery.Equipment.imgObjects[0].Img.path}`;
-
-      // push all the sections into a single array
-      sections.push(
-
-        // key so that React can diffentiate them
-        <div className='section-gallery' key={id_section}>
-          
-          <figure className='gallery-items'>
-            <img src={pathImg} alt={gallery.Equipment.name} />
-
-            <figcaption>
-              {gallery.Equipment.name}
-            </figcaption>
-          </figure>
-
-          {/* <h3 onClick={() => {showDetails(id_section)}}>{section.title}</h3> */}
-
-        </div>
-      )
-    }
-
-    return sections;
-  }
-  
-
-  // const modalContent = (data) => {
-
-    useEffect(() => {
-
-      if (!fetchedData) {
-        return setContentModal(<h2 className='article-none'>Sorry this country doesn't have an Article for this period.</h2>);
-      }
-
-      if (typeof fetchedData.section == 'undefined') {
-
-        const article = fetchedData.article;
-        
-        return setContentModal(<article>
-            <h2>{article.Country.name} - {article.Century.year}</h2>
-            <h1>{article.title}</h1> 
-            <p>{article.summary}</p> 
-
-            <section className='section-container'>
-              {showAllSections(article.sections)}
-            </section>
-
-          </article> 
-        );
-
-      } else {
-
-        const section = fetchedData.section;
-
-        return setContentModal( <article>
-            <h1>{section.title}</h1>
-
-            <h2>{section.summary}</h2> 
-
-            <p>{section.text}</p> 
-
-            <section className='section-gallery-container'>
-              {showGallery(section.equipmentSections)}
-            </section>
-
-          </article> 
-        );
-      }
- 
-     
-    }, [fetchedData])
-  
-  // }
-
-  // const handleModalClick = (id) => {
-  //   showDetails(id);
-
-  // }
-
-  async function showDetails(id) {
-    setLoading(true);
-    setDataURI(`/dataCountry/section/${id}`);
-
-    console.log("-- Section Fetch - sent --");
-
-    const data = await fetchAnything(`/dataCountry/section/${id}`);
-
-    console.log("-- Section Fetch - received --");
-
-    // if the given data were valid
-    if (data) {
-
-      // set the content of data
-      setLoading(false);
-      return setFetchedData(data);
+      return setContentModal(<ShowArticle article={fetchedData.article} showDetails={getDetailsSection} />);
 
     } else {
 
-      // there was a mistake and the data is null
-      setLoading(false);
-      console.error('No country selected (Can mean that the fetchData returned an error)');
-      return setFetchedData(null);
-    }
-  }
+      return setContentModal(<ShowSection section={fetchedData.section} />);
 
-  const backArrowHandler = () => {
-    setDataURI(`/dataCountry/${clickedCountry}/${checkedYear}`);
-  }
+    }
+    
+  }, [fetchedData])
 
   return (<>
     <LeafletMap
@@ -248,7 +145,7 @@ const SfReactMap = () => {
       handleClickOnCountry={handleClickOnCountry}
     />
 
-    <ModalShowArticle
+    <Modal
       isOpen={openModal}
       onClose={modalIsClosed}
       handleReturn={backArrowHandler}
@@ -257,7 +154,7 @@ const SfReactMap = () => {
       {/* {modalContent(fetchedData)} */}
       {contentModal}
 
-    </ModalShowArticle>
+    </Modal>
 
     <div id="timeline">
       <Timeline 
