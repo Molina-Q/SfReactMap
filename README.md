@@ -6,12 +6,13 @@ This is a Symfony-based web application using Symfony UX React to integrate Reac
 
 ### Prerequisites
 
-- PHP 
-- Composer
-- Symfony CLI
-- npm
+- PHP >=8.1
+- Composer (https://getcomposer.org/)
+- Scoop (https://scoop.sh/)
+- Symfony CLI (https://symfony.com/download)
+- Node (https://nodejs.org/en)
 - MySQL Database
-- Make for windows (optionnal)
+- Make for windows - (Optionnal) - Complete package (https://gnuwin32.sourceforge.net/packages/make.htm)
 
 ### Setup
 
