@@ -26,6 +26,7 @@ class MapController extends AbstractController
         ]);
     }
 
+    // modal showSection
     #[Route('/dataCountry/section/{id}', name: 'show_section', methods: ['GET'])]
     public function showSection(
         int $id,
@@ -55,6 +56,7 @@ class MapController extends AbstractController
 
     }
 
+    // modal showArticle
     #[Route('/dataCountry/{country}/{century}', name: 'show_article', methods: ['GET'])]
     public function dataCount(
         string $country,
@@ -84,7 +86,6 @@ class MapController extends AbstractController
             return new JsonResponse(false);
         }
 
-    
         return new JsonResponse([ 
             'article' => \json_decode($jsonContent)
         ]);
