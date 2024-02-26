@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Forum{% endblock %}
+{% block metadesc %}Forum HomePage{% endblock %}
+
+{% block pageWrapper %}equip{% endblock %}
+
+{% block body %}
+
+<section class="table-popular">
+
+    {% for topic in topics %}
+    <div> 
+        <span> {{ topic.showCategory }}
+            <a href="{{ path('show_topic', {id:topic.id }) }}">
+                {{ topic.title }}
+            </a>
+        </span>
+    </div>
+    {% endfor %}
+
+</section>
+
+{% endblock %}
