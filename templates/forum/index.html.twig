@@ -7,6 +7,28 @@
 
 {% block body %}
 
-<h2 class="primary-title">Welcome {{ app.user }}!</h1>
+<h2 class="primary-title">Welcome {{ app.user }}!</h2>
+
+<div class="topics-category">
+    <a href="">Topics by year</a>
+    <a href="">Topics by countries</a>
+    <a href="">Topics by weapon</a>
+    <a href="">Topics by armour</a>
+    <a href="">Topics by tools</a>
+</div>
+
+<section class="table-popular">
+    <div>
+        <h3>Popular topics</h3>
+    </div>
+    {% for topic in topics %}
+    <div>
+        <a href="{{ path('show_topic', {id:topic.id}) }}">
+            <p>{{ topic.title }}</p>
+        </a>
+    </div>
+    {% endfor %}
+
+</section>
 
 {% endblock %}

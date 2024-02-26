@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Forum{% endblock %}
+{% block metadesc %}Forum HomePage{% endblock %}
+
+{% block pageWrapper %}equip{% endblock %}
+
+{% block body %}
+
+
+<div id="details-topic-header">
+
+    <div class="icons">
+
+        <a href="">
+            
+        </a>
+
+        <a class="deleteIcon" href="">
+
+        </a>
+
+        <a href="">
+            
+        </a>
+
+        <a href="">
+
+        </a>
+
+    </div>
+
+    <div class="details-topic-info">
+        <strong>{{ topic.category }}</strong>
+
+        <p>
+            by
+            <a href="">
+                {{ topic.author.username }}
+            </a>
+        </p>
+
+    </div>
+
+    <div class="details-topic-content">
+
+        <h1>{{ topic.title }}</h1>
+
+        {% for message in topic.messages %}
+
+        <p>{{ message.text }}</p>
+    
+        {% endfor %}
+
+    </div>
+
+</div>
+
+
+
+{% endblock %}
