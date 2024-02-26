@@ -273,4 +273,9 @@ class Article
     {
         return $this->Country." - ".$this->Century ;
     }
+
+    public function articleTag() 
+    {
+        return $this->Country." - ".$this->Century ;
+    }
 }
