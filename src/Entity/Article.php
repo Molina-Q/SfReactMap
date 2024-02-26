@@ -51,8 +51,6 @@ class Article
     #[ORM\OneToMany(mappedBy: 'Article', targetEntity: ArticleLike::class)]
     private Collection $articleLikes;
 
-    private ?string $tags = null;
-
     public function __construct()
     {
         $this->sections = new ArrayCollection();
@@ -271,20 +269,8 @@ class Article
         return $this;
     }
 
-    public function getTags(): ?string
+    public function __toString()
     {
-        return $this->tags;
+        return $this->Country." - ".$this->Century ;
     }
-
-    public function setTags(string $tags): static
-    {
-        $this->tags = $tags;
-
-        return $this;
-    }
-
-    // public function __toString()
-    // {
-    //     return;
-    // }
 }
