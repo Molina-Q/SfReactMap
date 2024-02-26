@@ -139,12 +139,36 @@ class Topic
         return $this->getTitle();
     }
 
-    public function category() 
+    public function showStrCategory()
+    {
+        if(empty($this->Article)) {
+            return $this->Equipment->getSubCategory()->getCategory()->getLabel();
+        } else {
+            return "Article";
+        }
+    } 
+
+    public function showCategory() 
     {
         if(empty($this->Article)) {
             return $this->Equipment;
         } else {
             return $this->Article;
         }
+    }
+
+    public function showCategId() 
+    {
+        if(empty($this->Article)) {
+            return $this->Equipment->getSubCategory()->getCategory()->getId();
+        } else {
+            return $this->Article->getId();
+        }
+    }
+
+    public function categories()
+    {
+        $cat = ['Century', 'Country', 'Ceapon', 'Armour', 'Tool']; 
+        return $cat;
     }
 }
