@@ -46,29 +46,6 @@ class TopicRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-public function findUnregisteredUser($session_id) {
-    $em = $this->getEntityManager();
-    $sub = $em->createQueryBuilder();
-
-    $qb = $sub;
-
-    $qb->select('u')
-        ->from('App\Entity\User', 'u')
-        ->leftJoin('u.sessions', 'se')
-        ->where('se.Session = :id');
-
-    $sub = $em->createQueryBuilder();
-    // sub query ou je recherche tous les student qui ne sont pas reliés à la session actuelle
-    $sub->select('us')
-        ->from('App\Entity\User', 'us')
-        ->where($sub->expr()->notIn('us.id', $qb->getDQL()))
-        ->setParameter('id', $session_id)
-        ->orderBy('us.last_name, us.first_name');
-
-    $query = $sub->getQuery();
-    return $query->getResult();
-}
-
     public function findByEquip($id)
     {
         $em = $this->getEntityManager();
