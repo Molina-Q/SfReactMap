@@ -133,4 +133,18 @@ class Topic
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->getTitle();
+    }
+
+    public function category() 
+    {
+        if(empty($this->Article)) {
+            return $this->Equipment;
+        } else {
+            return $this->Article;
+        }
+    }
 }
