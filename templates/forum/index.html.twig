@@ -11,6 +11,10 @@
 
 <div class="topics-category">
 
+    <a href="{{ path('create_topic')}}">
+        <button>New topic</button>
+    </a>
+
     {% for category in equipCateg %}
    
         <a href="{{ path('list_topic', {id:category.id, sortBy:'equip'}) }}">
@@ -22,9 +26,6 @@
     <a href="{{ path('list_topic', {sortBy:'article'}) }}">
         <button>Topics by Article</button>
     </a>
-    
-
-        
 
 </div>
 
