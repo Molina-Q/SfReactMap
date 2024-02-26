@@ -10,11 +10,22 @@
 <h2 class="primary-title">Welcome {{ app.user }}!</h2>
 
 <div class="topics-category">
-    <a href="">Topics by year</a>
-    <a href="">Topics by countries</a>
-    <a href="">Topics by weapon</a>
-    <a href="">Topics by armour</a>
-    <a href="">Topics by tools</a>
+
+    {% for category in equipCateg %}
+   
+        <a href="{{ path('list_topic', {id:category.id, sortBy:'equip'}) }}">
+            <button>Topics by {{ category.label }} </button>
+        </a>
+        
+    {% endfor %}
+    
+    <a href="{{ path('list_topic', {sortBy:'article'}) }}">
+        <button>Topics by Article</button>
+    </a>
+    
+
+        
+
 </div>
 
 <section class="table-popular">
@@ -22,6 +33,7 @@
         <h3>Popular topics</h3>
     </div>
     {% for topic in topics %}
+   
     <div>
         <a href="{{ path('show_topic', {id:topic.id}) }}">
             <p>{{ topic.title }}</p>
