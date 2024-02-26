@@ -45,4 +45,61 @@ class TopicRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+public function findUnregisteredUser($session_id) {
+    $em = $this->getEntityManager();
+    $sub = $em->createQueryBuilder();
+
+    $qb = $sub;
+
+    $qb->select('u')
+        ->from('App\Entity\User', 'u')
+        ->leftJoin('u.sessions', 'se')
+        ->where('se.Session = :id');
+
+    $sub = $em->createQueryBuilder();
+    // sub query ou je recherche tous les student qui ne sont pas reliés à la session actuelle
+    $sub->select('us')
+        ->from('App\Entity\User', 'us')
+        ->where($sub->expr()->notIn('us.id', $qb->getDQL()))
+        ->setParameter('id', $session_id)
+        ->orderBy('us.last_name, us.first_name');
+
+    $query = $sub->getQuery();
+    return $query->getResult();
+}
+
+    public function findByEquip($id)
+    {
+        $em = $this->getEntityManager();
+        $sub = $em->createQueryBuilder();
+
+        $qb = $sub; 
+
+        $qb->select('t')
+            ->from('App\Entity\Topic', 't')
+            ->leftJoin('t.Equipment', 'e')
+            ->leftJoin('e.sub_category', 'sub')
+            ->where('sub.Category = :id')
+            ->setParameter('id', $id);
+
+        $query = $qb->getQuery();
+        return $query->getResult();
+    }
+
+    public function findByArticle()
+    {
+        $em = $this->getEntityManager();
+        $sub = $em->createQueryBuilder();
+
+        $qb = $sub; 
+
+        $qb->select('t')
+            ->from('App\Entity\Topic', 't')
+            ->where('t.Equipment IS NULL');
+
+        $query = $qb->getQuery();
+        return $query->getResult();
+    }
+    
 }
