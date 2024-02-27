@@ -23,8 +23,14 @@
     {{ form_errors(createTopicForm) }}
     
     {{ form_row(createTopicForm.title) }}
+    {# {{ form_row(createTopicForm.message) }}
+
+    {{ form_row(createTopicForm.messageFile) }} #}
+
     {{ form_row(createTopicForm.Equipment) }}
     {{ form_row(createTopicForm.Article) }}
+
+    {{ form_row(createTopicForm.messages) }}
 
     <button type="submit" class="form-btn-submit" >Submit</button>
 {{ form_end(createTopicForm) }}

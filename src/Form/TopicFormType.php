@@ -5,13 +5,18 @@ namespace App\Form;
 use App\Entity\User;
 use App\Entity\Topic;
 use App\Entity\Article;
+use App\Entity\Message;
 use App\Entity\Equipment;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class TopicFormType extends AbstractType
 {
@@ -44,6 +49,10 @@ class TopicFormType extends AbstractType
                 'attr' => [
                     'class' => 'form-input-select',
                 ],
+                'required' => false,
+
+                'expanded' => 'true',
+                // 'multiple' => 'false',
             ])
 
             ->add('Article', EntityType::class, [
@@ -52,7 +61,53 @@ class TopicFormType extends AbstractType
                 'attr' => [
                     'class' => 'form-input-select',
                 ],
+                'required' => false,
+                'expanded' => 'true',
+                // 'multiple' => 'false',
             ])
+
+            // ->add('message', TextType::class, [
+            //     'label' => 'Text',
+            //     'attr' => [
+            //         'class' => 'form-input-text',
+            //     ],
+            // ])
+
+            // ->add('messageFile', FileType::class, [
+            //     'label' => 'Add a picture',
+            //     'attr' => [
+            //         'class' => 'form-input-file',
+            //     ],
+            //     'required' => false,
+            // ])
+
+            ->add(
+                $builder
+                    ->create('messages', FormType::class, [
+                        'by_reference' => true
+                    ])
+
+                    ->add('text', TextareaType::class, [
+                        // 'by_reference' => false
+                    ])
+            )
+
+            // ->add('msgAuthor', TextareaType::class, [
+
+            //     // 'entry_type' => TextareaType::class, 
+            
+            //     'attr' => [
+            //         'by_reference' => false, 
+            //         'class' => 'form-input-text',
+            //         'data_class' => Message::class,
+
+            //     ],
+            //     'label' => 'Text',
+            //     // 'class' => Message::class,
+                
+            //     // 'allow_add' => true,
+            //     // 'allow_delete' => true,
+            // ])
 
         ;
     }
