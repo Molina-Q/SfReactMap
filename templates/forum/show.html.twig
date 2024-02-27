@@ -3,7 +3,7 @@
 {% block title %}Forum{% endblock %}
 {% block metadesc %}Forum HomePage{% endblock %}
 
-{% block pageWrapper %}equip{% endblock %}
+{% block pageWrapper %}forum{% endblock %}
 
 {% block body %}
 
@@ -30,8 +30,8 @@
 
     </div>
 
-    <div class="details-topic-info">
-        <strong>{{ topic.showCategory }}</strong>
+    {# <div class="details-topic-info">
+        <strong class="topic-tag">{{ topic.showCategory }}</strong>
 
         <p>
             by
@@ -40,8 +40,10 @@
             </a>
         </p>
 
-    </div>
-
+    </div> #}
+    <div class="details-topic-info" {{ react_component('components/forum/TopicTag', {'category': "~ topic.showCategory", 'author': "~ topic.author.username"}) }}></div>
+    
+   
     <div class="details-topic-content">
 
         <h1>{{ topic.title }}</h1>
@@ -53,7 +55,9 @@
         {% endfor %}
 
     </div>
-
+    <a href="{{ path('show_topic', {id:topic.id }) }}">
+        <em>MON LIEN</em>
+    </a>
 </div>
 
 

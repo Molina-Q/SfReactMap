@@ -3,17 +3,17 @@
 {% block title %}Forum{% endblock %}
 {% block metadesc %}Forum HomePage{% endblock %}
 
-{% block pageWrapper %}equip{% endblock %}
+{% block pageWrapper %}forum{% endblock %}
 
 {% block body %}
 
 <h2 class="primary-title">Welcome {{ app.user }}!</h2>
 
-<div class="topics-category">
+<a href="{{ path('create_topic')}}">
+    <button>New topic</button>
+</a>
 
-    <a href="{{ path('create_topic')}}">
-        <button>New topic</button>
-    </a>
+<div class="topics-category">
 
     {% for category in equipCateg %}
    
@@ -30,17 +30,19 @@
 </div>
 
 <section class="table-popular">
-    <div>
+    <div class="table-header table-row">
         <h3>Popular topics</h3>
     </div>
-    {% for topic in topics %}
-   
-    <div>
-        <a href="{{ path('show_topic', {id:topic.id}) }}">
-            <p>{{ topic.title }}</p>
-        </a>
+    
+    <div class="table-body">
+        {% for topic in topics %}
+        <div class="table-row">
+            <a href="{{ path('show_topic', {id:topic.id}) }}">
+                <p>{{ topic.title }}</p>
+            </a>
+        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
 
 </section>
 
