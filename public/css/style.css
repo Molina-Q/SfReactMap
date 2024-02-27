@@ -195,7 +195,7 @@ header nav {
 #myDialog { 
     position: relative;
     width: 80vw;
-    height: 50vh;
+    height: 70vh;
     padding: 2rem 4rem;
 
     margin: 10%;
@@ -247,8 +247,9 @@ header nav {
 }
 
 /* the background when the modal open */
-.modal::backdrop { 
+#myDialog::backdrop { 
     background: hsl(0 0% 0% / 50%);
+    /* filter: blur(150px); */
 }
 
 .section-gallery-container {
@@ -607,44 +608,31 @@ header nav {
             /* width: 50%; */
         }
 
-        /* a {
+        a {
+            background-color: #11496b;
+            border: solid transparent;
+            border-radius: 16px;
+            border-width: 0 0 4px;
+
+            color: #FFFFFF;
+            cursor: pointer;
+            /* display: inline-block; */
+            font-size: 1.7em;
+            margin: 0;
+            outline: none;
+            overflow: visible;
+            padding: 13px 16px;
+            text-align: center;
+            /* touch-action: manipulation; */
+            transform: translateZ(0);
+            transition: filter .2s;
+            /* user-select: none; */
+            /* -webkit-user-select: none; */
+            /* vertical-align: middle; */
+            white-space: nowrap;
             width: fit-content;
-            padding: 10px;
 
-            font-size: 2em;
-
-            background-color: var(--primary-color);
-            border-radius: 5px;
-
-            color: var(--font-color-light); */
-
-            a {
-                background-color: #11496b;
-                border: solid transparent;
-                border-radius: 16px;
-                border-width: 0 0 4px;
-
-                color: #FFFFFF;
-                cursor: pointer;
-                /* display: inline-block; */
-                font-size: 1.7em;
-                margin: 0;
-                outline: none;
-                overflow: visible;
-                padding: 13px 16px;
-                text-align: center;
-                /* touch-action: manipulation; */
-                transform: translateZ(0);
-                transition: filter .2s;
-                /* user-select: none; */
-                /* -webkit-user-select: none; */
-                /* vertical-align: middle; */
-                white-space: nowrap;
-                width: fit-content;
-            }
-            
-
-            a:after {
+            &:after {
                 background-clip: padding-box;
                 background-color: var(--primary-color);
                 border: solid transparent;
@@ -658,64 +646,18 @@ header nav {
                 top: 0;
                 z-index: -1;
             }
-
-            a:hover {
+    
+            &:hover {
                 filter: brightness(1.1);
                 -webkit-filter: brightness(1.1);
             }
-
-            a:active {
+    
+            &:active {
                 border-width: 4px 0 0;
                 background: none;
             }
-
-            /* CSS */
-            /* a {
-            align-items: center;
-            background-image: linear-gradient(144deg, var(--secondary-color), var(--primary-color));
-            border: 0;
-            border-radius: 8px;
-            box-sizing: border-box;
-            color: #FFFFFF;
-            display: flex;
-            font-size: 20px;
-            justify-content: center;
-            line-height: 1em;
-            max-width: 100%;
-            min-width: 140px;
-            padding: 3px;
-            text-decoration: none;
-            user-select: none;
-            -webkit-user-select: none;
-            touch-action: manipulation;
-            white-space: nowrap;
-            cursor: pointer;
-            }
-
-            a:active,
-            a:hover {
-            outline: 0;
-            }
-
-            a span {
-            background-color: rgb(5, 6, 45);
-            padding: 16px 24px;
-            border-radius: 6px;
-            width: 100%;
-            height: 100%;
-            transition: 300ms;
-            }
-
-            a:hover span {
-            background: none;
-            }
-
-            @media (min-width: 768px) {
-            a {
-                font-size: 24px;
-                min-width: 196px;
-            }
-            } */
+        }
+ 
         
         figure {
             border-radius: 10px;
@@ -744,19 +686,24 @@ header nav {
 .form-create {
     background-color: var(--secondary-background);
     padding: 10px 25px;
+
     border: 5px solid var(--primary-color);
     border-radius: 3px;   
+
     display: grid;
-    grid-template-columns: auto;
-    grid-template-rows: auto;
+    /* grid-template-columns: auto;
+    grid-template-rows: auto; */
+
     column-gap: 25px;
     row-gap: 15px;
+
     box-shadow: rgba(50, 50, 93, 0.25) 0px 3px 7px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
 
 .form-create div {
     display: flex;
     flex-direction: column;
+    justify-content: center;
 }
 
 .form-create div label {
@@ -765,7 +712,7 @@ header nav {
 }
 
 [class*="form-input"] {
-    height: 35px;
+    /* height: 35px; */
     font-size: 17px;
 
     padding: 0 10px ;
@@ -774,11 +721,11 @@ header nav {
 .form-create div { /* affect all div that doesn't have a date input */
     grid-column: 1 / 5;
 }
-
+/* 
 div input[type=checkbox] {
     width: 25px;
     margin-left: 15px;
-}
+} */
 
 .form-btn-submit {
     height: 35px;
@@ -806,14 +753,12 @@ div input[type=checkbox] {
 /*****************************************************************************************************/
 /*********************************************** Forum ***********************************************/
 /*****************************************************************************************************/
-
 .wrap-forum #wrapperMain {
 
-    .topic-tag {
-        background-color: var(--primary-color);
-        padding: 5px 10px;
-        border-radius: 3px;
-    }
+    a:hover {
+        color: var(--background-colour-light);
+        transition: 0.1s;
+    }  
 
     .topics-category {
         display: flex;
@@ -834,22 +779,31 @@ div input[type=checkbox] {
         .table-header {
             flex: 1;
             padding: 5px 10px;
+
             background-image: var(--linear-gradient-colour);
+
             border-top-left-radius: 3px;
             border-top-right-radius: 3px;
         }
 
         .table-body {
+            padding: 10px;
+
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            padding: 10px;
+            gap: 25px;
+
             background-color: var(--background-gray-dark);
             border: 5px solid var(--background-gray);
+
             border-bottom-left-radius: 3px;
             border-bottom-right-radius: 3px;
+
             .table-row {
                 flex: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
                 /* background-color: var(--background-gray-dark); */
             }
         }
@@ -863,5 +817,16 @@ div input[type=checkbox] {
         align-items: center;
 
         gap: 10px;
+
+        .topic-tag {
+            background-color: var(--primary-color);
+            font-size: 0.95em;
+            font-weight: 500;
+            padding: 3px 7px;
+            color: var(--font-color-dark);
+            border-radius: 3px;
+        } 
+        
+
     }
 }
