@@ -171,4 +171,19 @@ class Topic
         $cat = ['Century', 'Country', 'Ceapon', 'Armour', 'Tool']; 
         return $cat;
     }
+
+    public function msgAuthor() {
+
+        if(isset($this->messages[0])) {
+            return $this->messages[0]->getText();
+        } 
+
+        return "";
+    }
+
+    public function setMsgAuthor(string $newMsg) {
+        $this->messages[0]->setText($newMsg);
+
+        return $this;
+    }
 }
