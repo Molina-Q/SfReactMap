@@ -37,6 +37,8 @@
     <div class="table-body">
         {% for topic in topics %}
         <div class="table-row">
+            <div class="details-topic-info" {{ react_component('components/forum/TopicTag', {category: ''~ topic.showCategory, author: ''~ topic.author.username }) }}></div>
+            
             <a href="{{ path('show_topic', {id:topic.id}) }}">
                 <p>{{ topic.title }}</p>
             </a>
