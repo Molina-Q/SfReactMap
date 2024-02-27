@@ -8,6 +8,8 @@
     --background-gray-dark: #282A2E;
     --background-gray-light: #A8A8A8;
     --background-gray-lighter: #D9D9D9;
+
+    --background-colour-light: #33d2e1;
     
     --font-color-light:#fff;
     --font-color-dark: #2C2C2C;
@@ -30,20 +32,40 @@ body {
 }
 
 #wrapperBody {
+    min-height: 100svh;
+
     position: relative;
 
     display: flex;
     flex-direction: column;
 
     font-family: 'Encode Sans';
+
+
+    background: var(--linear-gradient-dark);
+}
+
+#wrapperMain {
+    display: flex;
+    flex-direction: column;
+
+    gap: 25px ;
+    padding: 0 8%;
+
+    button {
+        background: var(--linear-gradient-colour);
+        border: none;
+        border-radius: 5px;
+        
+        padding: 0.5em;
+        font: inherit;
+        line-height: 1;
+        cursor: pointer;
+    }
 }
 
 .wrap-equip, .wrap-forum {
     gap: 2em;
-}
-
-#wrapperMain {
-    padding: 0 8%;
 }
 
 .icon {
@@ -419,30 +441,7 @@ header nav {
 /*********************************************** Equipment ***********************************************/
 /*********************************************************************************************************/
 /* body of the equipment page */
-.wrap-equip {
-    min-height: 100svh;
-    max-height: 100lvh;
 
-    background: var(--linear-gradient-dark);
-}
-
-.wrap-equip #wrapperMain {
-    display: flex;
-    flex-direction: column;
-
-    gap: 25px ;
-
-    button {
-        background: var(--linear-gradient-colour);
-        border: none;
-        border-radius: 5px;
-        
-        padding: 0.5em;
-        font: inherit;
-        line-height: 1;
-        cursor: pointer;
-    }
-}
 
 /***************** Equip  Container *****************/
 /* Encompasses all the content specific to the page */
@@ -738,6 +737,7 @@ header nav {
         }
     }
 }
+
 /****************************************************************************************************/
 /*********************************************** Form ***********************************************/
 /****************************************************************************************************/
@@ -802,4 +802,66 @@ div input[type=checkbox] {
         transition: 0.3s;
     }
 }
-  
+
+/*****************************************************************************************************/
+/*********************************************** Forum ***********************************************/
+/*****************************************************************************************************/
+
+.wrap-forum #wrapperMain {
+
+    .topic-tag {
+        background-color: var(--primary-color);
+        padding: 5px 10px;
+        border-radius: 3px;
+    }
+
+    .topics-category {
+        display: flex;
+        flex-direction: row;
+        gap: 15px;
+
+        a button {
+            padding: 10px;
+        }
+    }
+
+    .table-popular {
+        width: 300px;
+
+        display: flex;
+        flex-direction: column;
+
+        .table-header {
+            flex: 1;
+            padding: 5px 10px;
+            background-image: var(--linear-gradient-colour);
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+        }
+
+        .table-body {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 10px;
+            background-color: var(--background-gray-dark);
+            border: 5px solid var(--background-gray);
+            border-bottom-left-radius: 3px;
+            border-bottom-right-radius: 3px;
+            .table-row {
+                flex: 1;
+                /* background-color: var(--background-gray-dark); */
+            }
+        }
+       
+    }
+
+    /**** showTopic ****/
+    .details-topic-info {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        gap: 10px;
+    }
+}
