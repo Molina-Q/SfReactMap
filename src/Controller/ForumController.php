@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ForumController extends AbstractController
 {
+
     #[Route('/forum', name: 'app_forum')]
     public function index(
         TopicRepository $topicRepository,
@@ -91,7 +92,7 @@ class ForumController extends AbstractController
                 break;
 
             default:
-                redirectToRoute('app_forum');
+                $this->redirectToRoute('app_forum');
                 break;
         }
 
