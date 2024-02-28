@@ -186,4 +186,11 @@ class Topic
 
         return $this;
     }
+
+    public function showMessages()
+    {
+        $massages = $this->messages;
+        // needs to return array with all messages except the one in the header
+        return $this;
+    }
 }
