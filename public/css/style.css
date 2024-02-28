@@ -482,7 +482,7 @@ header nav {
     padding: 1em 0; 
     display: grid;
 
-    grid-template-columns:  repeat(auto-fit, minmax(min(100px, 100%), 1fr));;
+    grid-template-columns:  repeat(auto-fit, minmax(min(100px, 100%), 1fr));
     justify-items: center;
     flex-wrap: wrap;
     gap: 10px;
@@ -811,22 +811,104 @@ div input[type=checkbox] {
     }
 
     /**** showTopic ****/
-    .details-topic-info {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
+    #details-topic-header {
 
-        gap: 10px;
+        padding: 10px;
 
-        .topic-tag {
-            background-color: var(--primary-color);
-            font-size: 0.95em;
-            font-weight: 500;
-            padding: 3px 7px;
-            color: var(--font-color-dark);
+        background-color: var(--background-gray);
+
+        border-radius: 3px;
+
+        .topic-header-wrapper { /* la div vide ICONS cause la gap au dessus du tag du topic */
+            background-color: var(--background-gray-dark);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+
+            padding: 10px 15px;
+
             border-radius: 3px;
-        } 
-        
+
+            .param-btn-container {
+                display: grid;
+                
+                grid-template-columns:  repeat(auto-fit, minmax(min(100px, 100%), 1fr));
+                
+
+                align-items: center;
+
+                gap: 15px;
+
+                a {
+                    grid-column: -1;
+                    grid-row: 1;
+
+                    text-align: end;
+                }
+
+                a:last-child {
+                    grid-column: -2;
+                }
+
+                .details-topic-info {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+
+                    gap: 10px;
+                    
+                    grid-column: 1;
+
+                    .topic-tag {
+                        background-color: var(--primary-color);
+                        font-size: 0.95em;
+                        font-weight: 500;
+                        padding: 3px 7px;
+                        color: var(--font-color-dark);
+                        border-radius: 3px;
+                    } 
+                }
+            }
+
+
+        }
+    }
+
+    #details-topic-reponses {
+        height: 400px;
+        background-color: var(--background-gray);
+
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        border-radius: 3px;
+
+        .details-topic-tree {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding: 5px 10px;
+
+            .details-topic-msg {
+                background-color: var(--background-gray-dark);
+                border-radius: 3px;
+                padding: 5px;
+                display: flex;
+                flex-direction: column;
+                gap: 3px;
+            }
+
+            .details-topic-comment {
+                background-color: var(--background-gray-dark);
+                border-radius: 3px;
+                padding: 5px;
+
+                margin-left: 25px;
+                display: flex;
+                flex-direction: column;
+                gap: 3px;
+            }
+        }
 
     }
 }
