@@ -7,6 +7,7 @@ use DateTime;
 use App\Entity\Topic;
 use App\Entity\Message;
 use App\Form\TopicFormType;
+use App\Form\MessageFormType;
 use App\Repository\UserRepository;
 use App\Repository\TopicRepository;
 use App\Repository\MessageRepository;
@@ -148,13 +149,33 @@ class ForumController extends AbstractController
     public function showTopic(
         int $id,
         TopicRepository $topicRepository,
+        Request $request,
+        EntityManagerInterface $entityManager
     ): Response
     {
-
+        $message = new Message();
         $topic = $topicRepository->findOneById($id);
+
+        $form = $this->createForm(MessageFormType::class, $message, ['attr' => ['class' => 'form-create']]);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $dateNow = new \DateTime('now');
+
+            $message->setCreationDate($dateNow);
+            $message->setAuthor($topic->getAuthor());
+            $message->setTopic($topic);
+
+            $entityManager->persist($message);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('show_topic', ['id' => $id]);
+        }
+
 
         return $this->render('forum/show.html.twig', [
             'topic' => $topic,
+            'createMessageForm' => $form->createView(),
         ]);
     }   
 

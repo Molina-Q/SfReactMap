@@ -11,48 +11,48 @@
 <article id="details-topic-header">
     <div class="topic-header-wrapper">
 
-    
+        <div class="param-btn-container">
+            
+            <div class="details-topic-info" 
+                {{ react_component('components/forum/TopicTag', {category: ''~ topic.showCategory, author: ''~ topic.author.username }) }}
+            >
+            </div>
 
-    <div class="param-btn-container">
-        
-        <div class="details-topic-info" 
-            {{ react_component('components/forum/TopicTag', {category: ''~ topic.showCategory, author: ''~ topic.author.username }) }}
-        >
+            <a href="{{ path('update_topic', {id: topic.id}) }}">
+                <strong>
+                    EDIT
+                </strong>
+            </a>
+
+            
+            <a href="{{ path('delete_topic', {id: topic.id}) }}" class="delete-btn">
+                <strong>
+                    DELETE
+                </strong>
+            </a>
+
         </div>
 
-        <a href="{{ path('update_topic', {id: topic.id}) }}">
-            <strong>
-                EDIT
-            </strong>
-        </a>
+        <div class="details-topic-content">
+            <h1>{{ topic.title }}</h1>
 
+            <p>{{ topic.msgAuthor }}</p>
+        </div>
         
-        <a href="{{ path('delete_topic', {id: topic.id}) }}" class="delete-btn">
-            <strong>
-                DELETE
-            </strong>
+        <a href="{{ path('show_topic', {id:topic.id }) }}">
+            <em>MON LIEN</em>
         </a>
 
     </div>
+</article> 
 
- 
-
-
-
-    <div class="details-topic-content">
-
-        <h1>{{ topic.title }}</h1>
-
-        <p>{{ topic.msgAuthor }}</p>
-
+{{ form_start(createMessageForm) }}
+    {{ form_errors(createMessageForm) }}
     
-    </div>
-    
-    <a href="{{ path('show_topic', {id:topic.id }) }}">
-        <em>MON LIEN</em>
-    </a>
-    </div>
-</article>
+    {{ form_row(createMessageForm.text) }}
+
+    <button type="submit" class="form-btn-submit" >Send</button>
+{{ form_end(createMessageForm) }}
 
 <section id="details-topic-reponses">
     {% if topic.messages | length > 1 %}

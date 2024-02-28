@@ -29,20 +29,6 @@ class TopicFormType extends AbstractType
                 ],
             ])
 
-            // ->add('creationDate', DateTimeType::class, [
-            //     'attr' => [
-            //         'class' => 'form-input-date',
-            //     ],
-            // ])
-
-            // ->add('Author', EntityType::class, [
-            //     'class' => User::class,
-            //     'choice_label' => 'username',
-            //     'attr' => [
-            //         'class' => 'form-input-select',
-            //     ],
-            // ])
-
             ->add('Equipment', EntityType::class, [
                 'class' => Equipment::class,
                 'choice_label' => 'name',
@@ -65,26 +51,6 @@ class TopicFormType extends AbstractType
                 'expanded' => 'true',
                 // 'multiple' => 'false',
             ])
-
-            // ->add('message', TextType::class, [
-            //     'label' => 'Text',
-            //     'attr' => [
-            //         'class' => 'form-input-text',
-            //     ],
-            // ])
-
-            // ->add('messageFile', FileType::class, [
-            //     'label' => 'Add a picture',
-            //     'attr' => [
-            //         'class' => 'form-input-file',
-            //     ],
-            //     'required' => false,
-            // ])
-
-            // ->add(
-            //     $builder->create('Message', FormType::class, ['by_reference' => true])
-            //         ->add('text', TextareaType::class)
-            // )
 
             ->add('msgAuthor', TextareaType::class, [
 
