@@ -45,4 +45,21 @@ class MessageRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+public function findOneByTopic($id) {
+    
+    $em = $this->getEntityManager();
+    $sub = $em->createQueryBuilder();
+
+    $qb = $sub; 
+
+    $qb->select('m')
+        ->from('App\Entity\Message', 'm')
+        ->where('m.Topic = :id')
+        ->setParameter('id', $id);
+
+    $query = $qb->getQuery();
+    return $query->getOneOrNullResult();
+    
+}
 }

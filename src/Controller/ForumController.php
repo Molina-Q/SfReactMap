@@ -9,6 +9,7 @@ use App\Entity\Message;
 use App\Form\TopicFormType;
 use App\Repository\UserRepository;
 use App\Repository\TopicRepository;
+use App\Repository\MessageRepository;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,41 +46,43 @@ class ForumController extends AbstractController
     ): Response
     {
         $topic = new Topic();
-        $messages = new Message();
+        $message = new Message();
+
         $user = $userRepository->findOneById(1);
-        $form = $this->createForm(TopicFormType::class, $topic, ['attr' => ['class' => 'form-create']]);
+
+        $form = $this->createForm(TopicFormType::class, null, ['attr' => ['class' => 'form-create']]);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-
-            // $message->setAuthor($topic->getAuthor()->getId());
             $dateNow = new \DateTime('now');
+
+            // first set topic's fields
+            $topic->setAuthor($user);
+            $topic->setTitle($form->get('title')->getData());
+            $topic->setEquipment($form->get('Equipment')->getData());
+            $topic->setArticle($form->get('Article')->getData());
+
             $topic->setAuthor($user);
             $topic->setCreationDate($dateNow);
             
             $entityManager->persist($topic);
             $entityManager->flush();
 
-            $messages->setAuthor($user);
-            $messages->setTopic($topic);
+            // then message fields
+            $message->setAuthor($user);
+            $message->setTopic($topic);
 
-            // $message->setText($form->get('msgAuthor')->getData());
-
-            $messages->setCreationDate($dateNow);
-            $messages->setText($form->get('text')->getData());
+            $message->setCreationDate($dateNow);
+            $message->setText($form->get('msgAuthor')->getData());
         
-
-            $entityManager->persist($messages);
+            $entityManager->persist($message);
             $entityManager->flush();
-
-            $topic->addMessage($messages);
 
             $this->addFlash('success', 'The Topic '.$topic->getTitle().' was successfully created');
 
             return $this->redirectToRoute('app_forum');
         }
-// Got myself a nice green sword, but not very magic
-// I took it from a sleeping fat guy with horns.
+
         return $this->render('forum/create.html.twig', [
             'createTopicForm' => $form->createView(),
         ]);
@@ -88,6 +91,7 @@ class ForumController extends AbstractController
     #[Route('/forum/update/{id}', name: 'update_topic')]
     public function update(
         TopicRepository $topicRepository,
+        MessageRepository $messageRepository,
         Request $request,
         EntityManagerInterface $entityManager,
         int $id
@@ -95,16 +99,19 @@ class ForumController extends AbstractController
     ): Response
     {
         $topic = $topicRepository->findOneById($id);
-        $message = new Message();
+        $message = $messageRepository->findOneByTopic($id);
 
         $form = $this->createForm(TopicFormType::class, $topic, ['attr' => ['class' => 'form-create']]);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
 
-            $topic->setMsgAuthor($form->get('msgAuthor')->getData());
+            $message->setText($form->get('msgAuthor')->getData());
 
             $entityManager->persist($topic);
+            $entityManager->flush();
+
+            $entityManager->persist($message);
             $entityManager->flush();
 
             $this->addFlash('success', 'The Topic '.$topic->getTitle().' was successfully updated');
@@ -117,6 +124,25 @@ class ForumController extends AbstractController
         ]);
     }
 
+    #[Route('/forum/delete/{id}', name: 'delete_topic')]
+    public function delete(
+        TopicRepository $topicRepository,
+        MessageRepository $messageRepository,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        int $id
+        
+    ): Response
+    {
+        $topic = $topicRepository->findOneById($id);
+
+        $entityManager->remove($topic);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'The session was successfully deleted');
+
+        return $this->redirectToRoute('app_forum');
+    }
 
     #[Route('/forum/topic/{id}', name: 'show_topic')]
     public function showTopic(
@@ -159,6 +185,4 @@ class ForumController extends AbstractController
             'topics' => $topics,
         ]);
     }
-
 }
-

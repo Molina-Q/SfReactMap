@@ -81,33 +81,27 @@ class TopicFormType extends AbstractType
             //     'required' => false,
             // ])
 
-            ->add(
-                $builder
-                    ->create('messages', FormType::class, [
-                        'by_reference' => true
-                    ])
+            // ->add(
+            //     $builder->create('Message', FormType::class, ['by_reference' => true])
+            //         ->add('text', TextareaType::class)
+            // )
 
-                    ->add('text', TextareaType::class, [
-                        // 'by_reference' => false
-                    ])
-            )
+            ->add('msgAuthor', TextareaType::class, [
 
-            // ->add('msgAuthor', TextareaType::class, [
-
-            //     // 'entry_type' => TextareaType::class, 
+                // 'entry_type' => TextareaType::class, 
             
-            //     'attr' => [
-            //         'by_reference' => false, 
-            //         'class' => 'form-input-text',
-            //         'data_class' => Message::class,
+                'attr' => [
+                    'by_reference' => false, 
+                    'class' => 'form-input-text',
+                    'data_class' => Message::class,
 
-            //     ],
-            //     'label' => 'Text',
-            //     // 'class' => Message::class,
+                ],
+                'label' => 'Text',
+                // 'class' => Message::class,
                 
-            //     // 'allow_add' => true,
-            //     // 'allow_delete' => true,
-            // ])
+                // 'allow_add' => true,
+                // 'allow_delete' => true,
+            ])
 
         ;
     }
@@ -115,7 +109,7 @@ class TopicFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Topic::class,
+            // 'data_class' => Topic::class,
         ]);
     }
 }
