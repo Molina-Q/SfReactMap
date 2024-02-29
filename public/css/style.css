@@ -876,7 +876,7 @@ div input[type=checkbox] {
     }
 
     #details-topic-reponses {
-        height: 400px;
+        /* height: 400px; */
         background-color: var(--background-gray);
 
         display: flex;
@@ -897,6 +897,31 @@ div input[type=checkbox] {
                 display: flex;
                 flex-direction: column;
                 gap: 3px;
+
+                .form-create {
+
+                    button { 
+                        width: 1.2em;
+                        height: 1.2em;
+                        padding: 0 10px;
+                    
+                        font-size: 18px;
+                    
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: center;
+                    
+                        color: var(--font-color-light);
+                        text-decoration: none;
+
+                        svg {
+                            width: 1.2em;
+                            margin-right: 5px;
+                            fill: var(--font-color-light);
+                        }
+                    }
+                }
             }
 
             .details-topic-comment {
