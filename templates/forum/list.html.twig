@@ -8,17 +8,23 @@
 {% block body %}
 
 <section class="table-popular">
-
-    {% for topic in topics %}
-    <div> 
-        <span> {{ topic.showCategory }}
-            <a href="{{ path('show_topic', {id:topic.id }) }}">
-                {{ topic.title }}
-            </a>
-        </span>
+    <div>
+        {% for topic in topics %}
+        <div class="details-topic-info" 
+        {{ react_component('components/forum/TopicTag', {category: ''~ topic.showCategory, author: ''~ topic.author.username }) }}
+        >
+        {% endfor %}
     </div>
+  
+    {% for topic in topics %}
+    <a href="{{ path('show_topic', {id:topic.id }) }}">
+        <strong>{{ topic.title }}</strong>
+    </a>
     {% endfor %}
+
+    
 
 </section>
 
+    
 {% endblock %}
