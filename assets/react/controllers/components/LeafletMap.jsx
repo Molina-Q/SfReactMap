@@ -6,6 +6,7 @@ import myGeoJson1600 from '../../../../public/geojson/1600countries.json';
 import myGeoJson1700 from '../../../../public/geojson/1700countries.json';
 import myGeoJson1800 from '../../../../public/geojson/1800countries.json';
 import myGeoJson1900 from '../../../../public/geojson/1900countries.json';
+import { PosAnimation } from 'leaflet';
 
 // all possible value for geoJSonFeatures
 const myGeoJsons = {
@@ -18,7 +19,7 @@ const myGeoJsons = {
 };
 
 const LeafletMap = ({ checkedValue, handleClickOnCountry }) => {
-  const position = [46.2276, 2.2137];
+  const position = [46.2276, 3.2137];
 
   // ce state sera géré par son parent SfReactMap
   // const [checkedValue, setCheckedValue] = useState('1900') ;
@@ -84,6 +85,7 @@ const LeafletMap = ({ checkedValue, handleClickOnCountry }) => {
             click() {
               handleClickOnCountry(feature.properties.ADMIN);
               map.panInsideBounds(polygon)
+              PosAnimation();
             },
           }),
           [map],
@@ -105,13 +107,19 @@ const LeafletMap = ({ checkedValue, handleClickOnCountry }) => {
   }
 
   return (<>
-    <MapContainer className='map' center={position} zoom={6} scrollWheelZoom={true} >
+    <MapContainer
+      className='map' 
+      center={position} 
+      zoom={6}
+      scrollWheelZoom={true}
+      zoomControl={false}
+    >
       {/* My map img */}
       <TileLayer
         url='https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png'
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-        minZoom={3}
-        maxZoom={8}
+        // minZoom={3}
+        // maxZoom={8}
       />
       
       {/* Country polygon */}
