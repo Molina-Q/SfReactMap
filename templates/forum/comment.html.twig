@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Update a comment{% endblock %}
+{% block metadesc %}Form to create a topic{% endblock %}
+
+{% block pageWrapper %}create-topic{% endblock %}
+
+{% block body %}
+
+<h1>Update a comment</h1>
+
+{# read and display all flash messages #}
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="flash-{{ label }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+{% endfor %}
+
+{{ form_start(updateCommentForm) }}
+    {{ form_errors(updateCommentForm) }}
+    
+    {{ form_row(updateCommentForm.text) }}
+
+    <button type="submit" class="form-btn-submit" >Submit</button>
+{{ form_end(updateCommentForm) }}
+
+{% endblock %}
