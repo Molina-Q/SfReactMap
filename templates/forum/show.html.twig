@@ -15,8 +15,7 @@
             
             <div class="details-topic-info" 
                 {{ react_component('components/forum/TopicTag', {category: ''~ topic.showCategory, author: ''~ topic.author.username }) }}
-            >
-            </div>
+            ></div>
 
             <a href="{{ path('update_topic', {id: topic.id}) }}">
                 <strong>
@@ -38,11 +37,6 @@
 
             <p>{{ topic.msgAuthor }}</p>
         </div>
-        
-        <a href="{{ path('show_topic', {id:topic.id }) }}">
-            <em>MON LIEN</em>
-        </a>
-
     </div>
 </article> 
 
@@ -55,17 +49,18 @@
 {{ form_end(createMessageForm) }}
 
 <section id="details-topic-reponses">
-    {% if topic.messages | length > 1 %}
-        {% for message in topic.messages %}
+    {% if responses | length > 0 %}
+
+        {% for response in responses %}
 
         <div class="details-topic-tree">
             <div class="details-topic-msg">
-                <p>{{ message.Author }} - <span>{{ message.creationDate | date("F jS \\a\\t g:ia") }}</span> </p>
-                <p>{{ message.text }}</p>
+                <p>{{ response.Author }} - <span>{{ response.creationDate | date("F jS \\a\\t g:ia") }}</span> </p>
+                <p>{{ response.text }}</p>
             </div>
 
-            {% if message.comments | length > 0 %}
-                {% for comment in message.comments %}
+            {% if response.comments | length > 0 %}
+                {% for comment in response.comments %}
                 <div class="details-topic-comment">
                     <p>{{ comment.Author }} - <span>{{ comment.creationDate | date("F jS \\a\\t g:ia") }}</span> </p>
                     <p>{{ comment.text }}</p>
@@ -75,10 +70,12 @@
 
         </div>
         {% endfor %}
+
+    {% else %}
+        <div class="details-topic-tree">
+            <p>This topic doesn't have any messages</p>
+        </div>
     {% endif %}
-
 </section>
-
-
 
 {% endblock %}
