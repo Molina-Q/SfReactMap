@@ -149,6 +149,7 @@ class ForumController extends AbstractController
     public function showTopic(
         int $id,
         TopicRepository $topicRepository,
+        MessageRepository $messageRepository,
         Request $request,
         EntityManagerInterface $entityManager
     ): Response
@@ -172,9 +173,11 @@ class ForumController extends AbstractController
             return $this->redirectToRoute('show_topic', ['id' => $id]);
         }
 
+        $responses = $messageRepository->findMessages($id);
 
         return $this->render('forum/show.html.twig', [
             'topic' => $topic,
+            'responses' => $responses,
             'createMessageForm' => $form->createView(),
         ]);
     }   
@@ -186,7 +189,7 @@ class ForumController extends AbstractController
         TopicRepository $topicRepository,
     ): Response
     {
-        $topics;
+        $topics = '';
         switch ($sortBy) {
             case 'equip':
                 $topics = $topicRepository->findByEquip($id);
