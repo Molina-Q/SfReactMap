@@ -12,6 +12,7 @@ use App\Form\CommentFormType;
 use App\Form\MessageFormType;
 use App\Repository\UserRepository;
 use App\Repository\TopicRepository;
+use App\Repository\CommentRepository;
 use App\Repository\MessageRepository;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -286,5 +287,107 @@ class ForumController extends AbstractController
         return $this->render('forum/list.html.twig', [
             'topics' => $topics,
         ]);
+    }
+
+    #[Route('/forum/message/update/{id}', name: 'update_message')]
+    public function updateMessage(
+        TopicRepository $topicRepository,
+        MessageRepository $messageRepository,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        int $id
+        
+    ): Response
+    {
+        $message = $messageRepository->findOneById($id);
+        $topic = $message->getTopic();
+
+        $form = $this->createForm(MessageFormType::class, $message, ['attr' => ['class' => 'form-create']]);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+
+            $entityManager->persist($message);
+            $entityManager->flush();
+         
+           return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
+        }
+
+        return $this->render('forum/message.html.twig', [
+            'updateMessageForm' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/forum/message/delete/{id}', name: 'delete_message')]
+    public function deleteMessage(
+        TopicRepository $topicRepository,
+        MessageRepository $messageRepository,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        int $id
+        
+    ): Response
+    {
+        $message = $messageRepository->findOneById($id);
+        $topic = $message->getTopic();
+
+        $entityManager->remove($message);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'The session was successfully deleted');
+        
+        return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
+    }
+
+    #[Route('/forum/comment/update/{id}', name: 'update_comment')]
+    public function updateComment(
+        TopicRepository $topicRepository,
+        MessageRepository $messageRepository,
+        CommentRepository $commentRepository,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        int $id
+        
+    ): Response
+    {
+        $comment = $commentRepository->findOneById($id);
+        $topic = $comment->getMessage()->getTopic();
+
+        $form = $this->createForm(CommentFormType::class, $comment, ['attr' => ['class' => 'form-create']]);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
+        }
+
+        return $this->render('forum/comment.html.twig', [
+            'updateCommentForm' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/forum/comment/delete/{id}', name: 'delete_comment')]
+    public function deleteComment(
+        TopicRepository $topicRepository,
+        MessageRepository $messageRepository,
+        CommentRepository $commentRepository,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        int $id
+        
+    ): Response
+    {
+        $comment = $commentRepository->findOneById($id);
+        $topic = $comment->getMessage()->getTopic();
+
+        $entityManager->remove($comment);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'The session was successfully deleted');
+
+        return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
     }
 }
