@@ -46,20 +46,57 @@ class MessageRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-public function findOneByTopic($id) {
-    
-    $em = $this->getEntityManager();
-    $sub = $em->createQueryBuilder();
+    public function findOneByTopic($id) {
+        
+        $em = $this->getEntityManager();
+        $sub = $em->createQueryBuilder();
 
-    $qb = $sub; 
+        $qb = $sub; 
 
-    $qb->select('m')
-        ->from('App\Entity\Message', 'm')
-        ->where('m.Topic = :id')
-        ->setParameter('id', $id);
+        $qb->select('m')
+            ->from('App\Entity\Message', 'm')
+            ->leftJoin('m.Topic', 't')
+            ->where('m.Topic = :id')
+            ->setParameter('id', $id)
+            ->andWhere('m.creationDate = t.creationDate');
 
-    $query = $qb->getQuery();
-    return $query->getOneOrNullResult();
-    
-}
+        // $sub = $em->createQueryBuilder();
+
+        // $sub->select('me')
+        //     ->from('App\Entity\Message', 'me')
+        //     ->where($sub->expr()->notIn('me.id', $qb->getDQL()))
+        //     ->setParameter('id', $id)
+        //     ->orderBy('me.creationDate');
+
+        $query = $qb->getQuery();
+        return $query->getOneOrNullResult();
+        
+    }
+
+    public function findMessages($id) {
+        
+        $em = $this->getEntityManager();
+        $sub = $em->createQueryBuilder();
+
+        $qb = $sub; 
+
+        $qb->select('m')
+            ->from('App\Entity\Message', 'm')
+            ->leftJoin('m.Topic', 't')
+            ->where('m.Topic = :id')
+            ->setParameter('id', $id)
+            ->andWhere('m.creationDate != t.creationDate');
+
+        // $sub = $em->createQueryBuilder();
+
+        // $sub->select('me')
+        //     ->from('App\Entity\Message', 'me')
+        //     ->where($sub->expr()->notIn('me.id', $qb->getDQL()))
+        //     ->setParameter('id', $id)
+        //     ->orderBy('me.creationDate');
+
+        $query = $qb->getQuery();
+        return $query->getResult();
+        
+    }
 }
