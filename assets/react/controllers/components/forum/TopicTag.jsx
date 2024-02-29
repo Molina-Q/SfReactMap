@@ -13,8 +13,6 @@ function TopicTag(props) {
           </a>
         </p>
     </>
-
-    
   )
 }
 
