@@ -5,8 +5,10 @@ namespace App\Controller;
 use Date;
 use DateTime;
 use App\Entity\Topic;
+use App\Entity\Comment;
 use App\Entity\Message;
 use App\Form\TopicFormType;
+use App\Form\CommentFormType;
 use App\Form\MessageFormType;
 use App\Repository\UserRepository;
 use App\Repository\TopicRepository;
@@ -145,6 +147,54 @@ class ForumController extends AbstractController
         return $this->redirectToRoute('app_forum');
     }
 
+    #[Route('/forum/topic/comment', name: 'create_comment')]
+    public function createComment(
+        MessageRepository $messageRepository,
+        EntityManagerInterface $entityManager
+    ): Response
+    {
+
+        $comment = new Comment();
+        $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $text = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+        
+        $message = $messageRepository->findOneById($id);
+
+        $errorCheck = false;
+
+        if(!$message) {
+            $errorCheck = true;
+            $this->redirectToRoute('app_forum');
+        }
+
+        if(empty($id)) {
+            $errorCheck = true;
+            $this->addFlash('error', 'The session was successfully deleted');
+        }
+
+        if(empty($text)) {
+            $errorCheck = true;
+            $this->addFlash('error', 'Text cannot be empty');
+        }
+
+        if(!$errorCheck) {
+            $dateNow = new \DateTime('now');
+
+            $comment->setText($text);
+            $comment->setCreationDate($dateNow);
+            $comment->setAuthor($message->getAuthor());
+            $comment->setMessage($message);
+            
+            $entityManager->persist($comment);
+            $entityManager->flush();
+        }
+     
+        $idTopic = $message->getTopic()->getId();
+
+        return $this->redirectToRoute('show_topic', ['id' => $idTopic]);
+    }   
+
     #[Route('/forum/topic/{id}', name: 'show_topic')]
     public function showTopic(
         int $id,
@@ -154,13 +204,17 @@ class ForumController extends AbstractController
         EntityManagerInterface $entityManager
     ): Response
     {
+
         $message = new Message();
+
+        $responses = $messageRepository->findMessages($id);
+
         $topic = $topicRepository->findOneById($id);
 
-        $form = $this->createForm(MessageFormType::class, $message, ['attr' => ['class' => 'form-create']]);
-        $form->handleRequest($request);
+        $formMessage = $this->createForm(MessageFormType::class, $message, ['attr' => ['class' => 'form-create']]);
+        $formMessage->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if($formMessage->isSubmitted() && $formMessage->isValid()) {
             $dateNow = new \DateTime('now');
 
             $message->setCreationDate($dateNow);
@@ -173,14 +227,38 @@ class ForumController extends AbstractController
             return $this->redirectToRoute('show_topic', ['id' => $id]);
         }
 
-        $responses = $messageRepository->findMessages($id);
+        $comment = new Comment();
+        // $formsComment = [];
+
+        // foreach ($responses as $response) {
+        //     $formComment = $this->createForm(CommentFormType::class, $comment, ['attr' => ['class' => 'form-create'], "responses" => $responses]);
+        //     $formsComment[$response->getId()] = $formComment->createView();
+        // }
+        // $formComment = $this->createForm(CommentFormType::class, null, ['attr' => ['class' => 'form-create'], "responses" => $responses]);
+
+        // if($formComment->isSubmitted() && $formComment->isValid()) {
+        //     $dateNow = new \DateTime('now');
+
+        //     $message->setCreationDate($dateNow);
+        //     $message->setAuthor($topic->getAuthor());
+        //     $message->setTopic($topic);
+
+        //     $entityManager->persist($message);
+        //     $entityManager->flush();
+
+        //     return $this->redirectToRoute('show_topic', ['id' => $id]);
+        // }
+
 
         return $this->render('forum/show.html.twig', [
             'topic' => $topic,
             'responses' => $responses,
-            'createMessageForm' => $form->createView(),
+            'createMessageForm' => $formMessage->createView(),
+            // 'formsComment' => $formComment->createView()
         ]);
     }   
+
+ 
 
     #[Route('/forum/topic/list/{sortBy}/{id?}', name: 'list_topic', defaults: ['id' => null])]
     public function listTopics(
