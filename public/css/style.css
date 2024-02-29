@@ -45,7 +45,8 @@ body {
     background: var(--linear-gradient-dark);
 }
 
-#wrapperMain {
+.wrap-equip #wrapperMain,
+.wrap-forum #wrapperMain {
     display: flex;
     flex-direction: column;
 
@@ -454,6 +455,7 @@ header nav {
 /* title */
 #equip-menu-container h1 { 
     width: fit-content;
+
     padding: 0 1rem;
     margin: 0 1rem;
 
@@ -466,6 +468,7 @@ header nav {
 /*********************************************************/  
 .equip-menu {
     width: auto;
+    height: 500px;
     background-color: var(--background-gray);
     border-radius: 8px;
 
@@ -507,8 +510,8 @@ header nav {
 /***** Aside - Equipment's details *****/
 /***************************************/
 .equip-description {
-    height: 400px;
     width: 35%;
+    height: 90%;
 
     padding: 15px;
     margin: 10px 0 ;
@@ -811,12 +814,27 @@ div input[type=checkbox] {
     }
 
     /**** showTopic ****/
-    #details-topic-header {
+    .details-topic-info {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
 
+        gap: 10px;
+
+        .topic-tag {
+            background-color: var(--primary-color);
+            font-size: 0.95em;
+            font-weight: 500;
+            padding: 3px 7px;
+            color: var(--font-color-dark);
+            border-radius: 3px;
+        } 
+    }
+
+    #details-topic-header {
         padding: 10px;
 
         background-color: var(--background-gray);
-
         border-radius: 3px;
 
         .topic-header-wrapper { /* la div vide ICONS cause la gap au dessus du tag du topic */
@@ -833,11 +851,15 @@ div input[type=checkbox] {
                 display: grid;
                 
                 grid-template-columns:  repeat(auto-fit, minmax(min(100px, 100%), 1fr));
-                
 
                 align-items: center;
 
                 gap: 15px;
+
+                .details-topic-info {  
+                    grid-column: 1;
+            
+                }
 
                 a {
                     grid-column: -1;
@@ -849,28 +871,7 @@ div input[type=checkbox] {
                 a:last-child {
                     grid-column: -2;
                 }
-
-                .details-topic-info {
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-
-                    gap: 10px;
-                    
-                    grid-column: 1;
-
-                    .topic-tag {
-                        background-color: var(--primary-color);
-                        font-size: 0.95em;
-                        font-weight: 500;
-                        padding: 3px 7px;
-                        color: var(--font-color-dark);
-                        border-radius: 3px;
-                    } 
-                }
             }
-
-
         }
     }
 
