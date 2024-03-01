@@ -35,10 +35,10 @@ class TopicFormType extends AbstractType
                 'attr' => [
                     'class' => 'form-input-select',
                 ],
-                'required' => false,
+                'required' => true,
 
                 'expanded' => 'true',
-                // 'multiple' => 'false',
+                // 'multiple' => 'true',
             ])
 
             ->add('Article', EntityType::class, [
@@ -47,8 +47,9 @@ class TopicFormType extends AbstractType
                 'attr' => [
                     'class' => 'form-input-select',
                 ],
-                'required' => false,
-                'expanded' => 'true',
+                'required' => true,
+
+                'expanded' => 'false',
                 // 'multiple' => 'false',
             ])
 
@@ -68,6 +69,8 @@ class TopicFormType extends AbstractType
                 // 'allow_add' => true,
                 // 'allow_delete' => true,
             ])
+
+  
 
         ;
     }
