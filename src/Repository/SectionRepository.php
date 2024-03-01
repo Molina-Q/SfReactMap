@@ -45,4 +45,23 @@ class SectionRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function findByArticle($id)
+    {
+     
+        $em = $this->getEntityManager();
+        $sub = $em->createQueryBuilder();
+
+        $qb = $sub; 
+
+        $qb->select('s')
+            ->from('App\Entity\Section', 's')
+            ->where('s.Article = :id')
+            ->setParameter(':id', $id);
+
+        $query = $qb->getQuery();
+        return $query->getResult();
+    
+        
+    } 
 }
