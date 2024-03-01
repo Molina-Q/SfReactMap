@@ -46,14 +46,60 @@ class MapController extends AbstractController
         
         $serializer = new Serializer([$normalizer], [$encoder]);
         
-        $section = $sectionRepository->findOneById($id);
 
-        $jsonContent = $serializer->serialize($section, 'json');
 
+        // $jsonContent = $serializer->serialize($section, 'json');
+
+        $equipementsSections = [];
+        
+        $Equipements = [];
+        $equipementsImages = [];
+        $IMG = [];
+        // $equipSections = $sectionSF->getEquipmentSections();
+
+        $sectionSF = $sectionRepository->findOneById($id); // Ma section
+
+        foreach ($sectionSF->getEquipmentSections() as $equip) {
+            $equipementsSections[] = $equip->getEquipment(); // Les equipements de la section
+        }
+
+        $img = [];
+ 
+        foreach ($equipementsSections as $equipm) {
+            $equipementsImages[] = $equipm->getImgObjects();
+        }
+
+        foreach ($equipementsImages as $imgObject) {     
+            foreach ($imgObject as $image) {
+                $img[] = ['path' => $image->getImg()->getPath()];
+            }
+        }
+
+        foreach ($equipementsSections as $equipm) {
+            $Equipements[] = [
+                'id' => $equipm->getId(),
+                'name' => $equipm->getName(),
+                'text' => $equipm->getText(),
+
+                'img' => $img
+            ];
+        }
+
+        $object = [
+            'id' => $sectionSF->getId(),
+            'title' => $sectionSF->getTitle(),
+            'text' => $sectionSF->getText(),
+            'summary' => $sectionSF->getSummary(),
+
+            'Equipments' => $Equipements
+        ];
+
+        $jsonContent = $serializer->serialize($object, 'json');
         return new JsonResponse([ 
             'section' => \json_decode($jsonContent)
         ]);
 
+        dd($Equipements);
     }
 
     // modal showArticle
@@ -63,6 +109,7 @@ class MapController extends AbstractController
         string $century,
         ArticleRepository $articleRepository,
         SerializerInterface $serializer,
+        SectionRepository $sectionRepository
     ): Response
     {
         
@@ -75,19 +122,45 @@ class MapController extends AbstractController
         ];
 
         $normalizer = new ObjectNormalizer(null, null, null, null, null, null, $defaultContext);
-        
+
         $serializer = new Serializer([$normalizer], [$encoder]);
 
         $article = $articleRepository->findOneByCountryAndCentury($country, $century);
 
-        $jsonContent = $serializer->serialize($article, 'json');
+        // $jsonContent = $serializer->serialize($article, 'json');
+        $sectionsSf = $sectionRepository->findByArticle($article->getId());
 
+        $sections = [];
+
+        foreach ($sectionsSf as $section) {
+            $sections[] = [
+                'id' => $section->getId(),
+                'title' => $section->getTitle(),
+                'text' => $section->getText(),
+                'summary' => $section->getSummary()
+            ];
+        }
+        // dd($article);
         if(!$article) {
             return new JsonResponse(false);
         }
 
+        $object = [
+            "title" => $article->getTitle(),
+            "summary" => $article->getSummary(),
+            "creation_date" => $article->getCreationDate(),
+
+            "Country" => ["name" => $article->getCountry()->getName()],
+            "Century" => ["year" => $article->getCentury()->getYear()],
+
+            "sections" => $sections
+        ];
+
+        $jsonContent = $serializer->serialize($object, 'json');
+
         return new JsonResponse([ 
-            'article' => \json_decode($jsonContent)
+            // 'article' => \json_decode($jsonContent)
+            'article' => $object
         ]);
 
         // return $this->json($article, 200, [], []);
