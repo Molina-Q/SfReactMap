@@ -84,8 +84,7 @@ const LeafletMap = ({ checkedValue, handleClickOnCountry }) => {
           () => ({
             click() {
               handleClickOnCountry(feature.properties.ADMIN);
-              map.panInsideBounds(polygon)
-              PosAnimation();
+              map.panInsideBounds(polygon);
             },
           }),
           [map],
@@ -118,8 +117,8 @@ const LeafletMap = ({ checkedValue, handleClickOnCountry }) => {
       <TileLayer
         url='https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png'
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-        // minZoom={3}
-        // maxZoom={8}
+        minZoom={3}
+        maxZoom={8}
       />
       
       {/* Country polygon */}
