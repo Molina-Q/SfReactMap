@@ -4,7 +4,6 @@ import SingleSectionInArticle from './SingleSectionInArticle'
 function ShowArticle({article, showDetails}) {
   return (
     <article>
-
         <h2>{article.Country.name} - {article.Century.year}</h2>
 
         <h1>{article.title}</h1> 
