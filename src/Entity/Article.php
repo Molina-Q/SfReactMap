@@ -57,7 +57,6 @@ class Article
         $this->topics = new ArrayCollection();
         $this->articleEditeds = new ArrayCollection();
         $this->articleLikes = new ArrayCollection();
-        $this->tags = $this->Country->getName()." - ".$this->Century->getYear();
     }
 
     public function getId(): ?int
