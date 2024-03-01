@@ -52,7 +52,7 @@ class ForumController extends AbstractController
         $topic = new Topic();
         $message = new Message();
 
-        $user = $userRepository->findOneById(1);
+        $user = $this->getUser(); // get the user currently logged in
 
         $form = $this->createForm(TopicFormType::class, null, ['attr' => ['class' => 'form-create']]);
         $form->handleRequest($request);
@@ -65,8 +65,6 @@ class ForumController extends AbstractController
             $topic->setTitle($form->get('title')->getData());
             $topic->setEquipment($form->get('Equipment')->getData());
             $topic->setArticle($form->get('Article')->getData());
-
-            $topic->setAuthor($user);
             $topic->setCreationDate($dateNow);
             
             $entityManager->persist($topic);
@@ -75,7 +73,6 @@ class ForumController extends AbstractController
             // then message fields
             $message->setAuthor($user);
             $message->setTopic($topic);
-
             $message->setCreationDate($dateNow);
             $message->setText($form->get('msgAuthor')->getData());
         
@@ -184,7 +181,7 @@ class ForumController extends AbstractController
 
             $comment->setText($text);
             $comment->setCreationDate($dateNow);
-            $comment->setAuthor($message->getAuthor());
+            $comment->setAuthor($this->getUser());
             $comment->setMessage($message);
             
             $entityManager->persist($comment);
