@@ -81,7 +81,7 @@ class MapController extends AbstractController
                 'name' => $equipm->getName(),
                 'text' => $equipm->getText(),
 
-                'img' => $img
+                'img' => $equipm->getOneImg()
             ];
         }
 

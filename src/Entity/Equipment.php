@@ -176,4 +176,10 @@ class Equipment
     {
         return $this->name;
     }
+
+    
+    public function getOneImg()
+    {
+        return $this->imgObjects[0]->getImg()->getPath();
+    }
 }
