@@ -37,27 +37,25 @@ const SfReactMap = () => {
   // used for loading during the fetch of the modal
   const [loading, setLoading] = useState(false);
 
-  // const [error, setError] = useState(null);
-
   /***** Callback to ModalShowArticle *****/
   /****************************************/
   const modalIsClosed = () => {
-
     // Check if the modal is open then close it 
     (openModal ? setOpenModal(false) : '');
+
   }
   
   // onClick backArrow
   const backArrowHandler = () => {
-
     // change the URI of the fetch to return to the original data
     setDataURI(`/dataCountry/${clickedCountry}/${checkedYear}`);
+
   }
 
   const getDetailsSection = (id) => {
-
     // change the URI of the fetch to return to the original data
     setDataURI(`/dataCountry/section/${id}`);
+
   }
   
   /***** Callback to Timeline *****/
@@ -101,16 +99,14 @@ const SfReactMap = () => {
 
       // if the given data were valid
       if (data) {
-
         // set the content of data
         setFetchedData(data);
 
       } else {
-
         // there was a mistake and the data is null
-        setFetchedData(null)
-        console.error('No country selected (Can mean that the fetchData returned an error)');
-
+        setFetchedData(null);
+        console.error('MANUAL ERRROR: Invalid data');
+        setLoading(false); // loading is set to false to avoid infinite loading 
       }
     }
 
@@ -138,6 +134,7 @@ const SfReactMap = () => {
     
   }, [fetchedData]) // re-run everytime data is fetched
 
+  // everytime the content modal state is changed the loading is set to false and the loading component is removed
   useEffect(() => setLoading(false), [contentModal]);
 
   return (<>
@@ -152,7 +149,6 @@ const SfReactMap = () => {
       handleReturn={backArrowHandler}
     >
       {loading ? <Loading /> : contentModal}
-      {/* {contentModal} */}
     </Modal>
 
     <div id="timeline">
