@@ -202,7 +202,6 @@ class ForumController extends AbstractController
         EntityManagerInterface $entityManager
     ): Response
     {
-
         $message = new Message();
 
         $responses = $messageRepository->findMessages($id);
@@ -226,33 +225,12 @@ class ForumController extends AbstractController
         }
 
         $comment = new Comment();
-        // $formsComment = [];
-
-        // foreach ($responses as $response) {
-        //     $formComment = $this->createForm(CommentFormType::class, $comment, ['attr' => ['class' => 'form-create'], "responses" => $responses]);
-        //     $formsComment[$response->getId()] = $formComment->createView();
-        // }
-        // $formComment = $this->createForm(CommentFormType::class, null, ['attr' => ['class' => 'form-create'], "responses" => $responses]);
-
-        // if($formComment->isSubmitted() && $formComment->isValid()) {
-        //     $dateNow = new \DateTime('now');
-
-        //     $message->setCreationDate($dateNow);
-        //     $message->setAuthor($topic->getAuthor());
-        //     $message->setTopic($topic);
-
-        //     $entityManager->persist($message);
-        //     $entityManager->flush();
-
-        //     return $this->redirectToRoute('show_topic', ['id' => $id]);
-        // }
 
 
         return $this->render('forum/show.html.twig', [
             'topic' => $topic,
             'responses' => $responses,
             'createMessageForm' => $formMessage->createView(),
-            // 'formsComment' => $formComment->createView()
         ]);
     }   
 
