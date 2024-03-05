@@ -87,4 +87,9 @@ class SubCategory
 
         return $this;
     }
+
+    public function subAndCat()
+    {
+        return $this->Category->getLabel().' - '. $this->label;
+    } 
 }
