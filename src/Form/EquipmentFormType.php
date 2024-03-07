@@ -45,6 +45,7 @@ class EquipmentFormType extends AbstractType
                     'class' => 'form-input-text',
                     'data_class' => Img::class,
                 ],
+                'label' => 'Picture'
 
             ])
         ;
