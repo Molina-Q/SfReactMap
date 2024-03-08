@@ -140,18 +140,6 @@ class EquipmentController extends AbstractController
                 $img->setPath($newFilename);
             }
 
-
-            // $entityManager->persist($img);
-            // $entityManager->flush();
-
-            // $imgObject->setEquipment($equipment);
-            // $imgObject->setImg($img);
-
-            // $entityManager->persist($imgObject);
-            // $entityManager->flush();
-
-
-            // $this->addFlash('success', 'The Topic '.$topic->getTitle().' was successfully created');
             return $this->redirectToRoute('app_equipment');
         }
 
