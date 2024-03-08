@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create a topic{% endblock %}
+{% block metadesc %}Form to create a topic{% endblock %}
+
+{% block pageWrapper %}map{% endblock %}
+
+{% block body %}
+
+<h1>Create a topic</h1>
+
+{# read and display all flash messages #}
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="flash-{{ label }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+{% endfor %}
+
+{{ form_start(createArticleForm) }}
+    {{ form_errors(createArticleForm) }}
+    
+    {{ form_row(createArticleForm.title) }}
+
+    {{ form_row(createArticleForm.summary) }}
+    {{ form_row(createArticleForm.Century) }}
+    {{ form_row(createArticleForm.Country) }}
+
+    
+    <button type="submit" class="form-btn-submit">Submit</button>
+{{ form_end(createArticleForm) }}
+
+{% endblock %}
