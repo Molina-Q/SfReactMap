@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 
 import LeafletMap from './LeafletMap';
 import Timeline from './timeline/Timeline';
 import Modal from './modal/Modal';
 import ShowArticle from './modal/ShowArticle';
-import Loading from './animation/Loading';
+import Loading from './UI/animation/Loading';
 
 import { fetchAnything } from "../../../tools/Fetchs";
 import ShowSection from './modal/ShowSection';
+import LinkBtnTwoParams from './UI/button/LinkBtnTwoParams';
 
 const SfReactMap = () => {
 
@@ -105,21 +106,32 @@ const SfReactMap = () => {
       } else {
         // there was a mistake and the data is null
         setFetchedData(null);
-        console.error('MANUAL ERRROR: Invalid data');
         setLoading(false); // loading is set to false to avoid infinite loading 
+        console.error('MANUAL ERRROR: Invalid data');
       }
     }
 
     // immediatly calls himself
     fetchData(dataURI);
-  
+
   }, [dataURI]); // will re-run only when one of those variables changes (using Object.js comparison)
 
   // set the component shown by the modal
   useEffect(() => {
 
+    // function dataFunc() {
     if (!fetchedData) {
-      return setContentModal(<h2 className='article-none'>Sorry this country doesn't have an Article for this period.</h2>);
+
+      return setContentModal(
+        <div>
+          <h2 className='article-none'>Sorry this country doesn't have an Article for this period.</h2>
+
+          <LinkBtnTwoParams URI={`map/create/article/${clickedCountry}/${checkedYear}`}> 
+            Create an article
+          </LinkBtnTwoParams>
+        </div>
+      );
+
     }
 
     if (typeof fetchedData.section == 'undefined') {
@@ -132,7 +144,7 @@ const SfReactMap = () => {
 
     }
     
-  }, [fetchedData]) // re-run everytime data is fetched
+  }, [fetchedData, clickedCountry]) // re-run everytime data is fetched
 
   // everytime the content modal state is changed the loading is set to false and the loading component is removed
   useEffect(() => setLoading(false), [contentModal]);
@@ -147,9 +159,10 @@ const SfReactMap = () => {
       isOpen={openModal}
       onClose={modalIsClosed}
       handleReturn={backArrowHandler}
-    >
-      {loading ? <Loading /> : contentModal}
-    </Modal>
+      children={loading ? <Loading /> : contentModal}
+    />
+      {/* {loading ? <Loading /> : contentModal}
+    </Modal> */}
 
     <div id="timeline">
       <Timeline 
