@@ -33,15 +33,10 @@ body {
 
 #wrapperBody {
     min-height: 100svh;
-
     position: relative;
-
     display: flex;
     flex-direction: column;
-
-    font-family: 'Encode Sans';
-
-
+    font-family: 'Encode Sans', 'Colibri';
     background: var(--linear-gradient-dark);
 }
 
@@ -195,15 +190,17 @@ header nav {
 /* Modal <dialog> container */
 #myDialog { 
     position: relative;
+
     width: 80vw;
     height: 70vh;
     padding: 2rem 4rem;
 
-    margin: 10%;
+    margin: 7em 10%;
     border: 0;
     border-radius: 0.5rem;
     box-shadow: 0 0 0.5rem 0.25rem hsl(0 0% 0% / 10%);
     opacity: 0.9;
+    
 }
 
 #myDialog article {
@@ -249,8 +246,9 @@ header nav {
 
 /* the background when the modal open */
 #myDialog::backdrop { 
-    background: hsl(0 0% 0% / 50%);
-    /* filter: blur(150px); */
+    background: hsl(0 0% 0% / 60%);
+    backdrop-filter: blur(2px);
+    transition: 0.3s;
 }
 
 .section-gallery-container {
