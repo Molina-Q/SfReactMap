@@ -183,4 +183,21 @@ class MapController extends AbstractController
             'createArticleForm' => $form->createView(),
         ]);
     }
+
+    #[Route('/map/delete/article/{id}', name: 'delete_article')]
+    public function deleteArticle(
+        Request $request,
+        ArticleRepository $articleRepository,
+        EntityManagerInterface $entityManager,
+        int $id
+    ):Response
+    {
+ 
+        $article = $articleRepository->findOneById($id);
+
+        $entityManager->remove($article);
+        $entityManager->flush();
+        
+        return $this->redirectToRoute('app_map');
+    }
 }
