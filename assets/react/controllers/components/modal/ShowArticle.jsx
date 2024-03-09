@@ -11,6 +11,10 @@ function ShowArticle({article, showDetails}) {
           Edit
         </LinkBtnTwoParams>
 
+        <LinkBtnTwoParams URI={`map/delete/article/${article.id}`} className={'delete-btn'}>
+          Delete
+        </LinkBtnTwoParams>
+
         <h1>{article.title}</h1> 
 
         <p>{article.summary}</p> 
