@@ -99,6 +99,7 @@ class MapController extends AbstractController
 
         // object witht the structure of Article
         $object = [
+            "id" => $article->getId(),
             "title" => $article->getTitle(),
             "summary" => $article->getSummary(),
             "creation_date" => $article->getCreationDate(),
@@ -140,6 +141,35 @@ class MapController extends AbstractController
 
             $article->setCreationDate($dateNow);
             $article->setAuthor($user);
+
+            $entityManager->persist($article);
+            $entityManager->flush();
+
+            // $this->addFlash('success', 'The Topic '.$topic->getTitle().' was successfully updated');
+
+            return $this->redirectToRoute('app_map');
+        }
+
+        return $this->render('map/createArticle.html.twig', [
+            'createArticleForm' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/map/edit/article/{id}', name: 'edit_article')]
+    public function editArticle(
+        Request $request,
+        ArticleRepository $articleRepository,
+        EntityManagerInterface $entityManager,
+        int $id
+    ):Response
+    {
+ 
+        $article = $articleRepository->findOneById($id);
+
+        $form = $this->createForm(ArticleFormType::class, $article, ['attr' => ['class' => 'form-create']]);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
 
             $entityManager->persist($article);
             $entityManager->flush();
