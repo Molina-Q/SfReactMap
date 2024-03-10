@@ -36,7 +36,7 @@ class Article
     #[ORM\JoinColumn(nullable: false)]
     private ?Country $Country = null;
 
-    #[ORM\OneToMany(mappedBy: 'Article', targetEntity: Section::class)]
+    #[ORM\OneToMany(mappedBy: 'Article', targetEntity: Section::class, cascade: ['persist'])]
     private Collection $sections;
 
     #[ORM\OneToMany(mappedBy: 'Article', targetEntity: Topic::class)]
