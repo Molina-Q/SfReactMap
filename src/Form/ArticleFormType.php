@@ -2,14 +2,16 @@
 
 namespace App\Form;
 
+use App\Entity\User;
 use App\Entity\Article;
 use App\Entity\Century;
 use App\Entity\Country;
-use App\Entity\User;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Form\SectionFormType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class ArticleFormType extends AbstractType
 {
@@ -26,7 +28,16 @@ class ArticleFormType extends AbstractType
             ->add('Country', EntityType::class, [
                 'class' => Country::class,
                 'choice_label' => 'name',
-                'disabled' => true,
+                // 'disabled' => true,
+            ])
+
+            ->add('sections', CollectionType::class, [
+                'entry_type' => SectionFormType::class,
+                'entry_options' => ['label' => 'Section'],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'delete_empty' => true,
+                'by_reference' => false,
             ])
         ;
     }
