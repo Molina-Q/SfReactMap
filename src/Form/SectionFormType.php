@@ -4,10 +4,11 @@ namespace App\Form;
 
 use App\Entity\Article;
 use App\Entity\Section;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class SectionFormType extends AbstractType
 {
@@ -20,8 +21,10 @@ class SectionFormType extends AbstractType
             ->add('Article', EntityType::class, [
                 'class' => Article::class,
                 'choice_label' => 'articleTag',
-                'disabled' => 'true'
+                // 'disabled' => 'true'
             ])
+
+
         ;
     }
 
