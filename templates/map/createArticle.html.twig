@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Create a topic{% endblock %}
-{% block metadesc %}Form to create a topic{% endblock %}
+{% block title %}Create an article{% endblock %}
+{% block metadesc %}Form to create an article{% endblock %}
 
-{% block pageWrapper %}map{% endblock %}
+{% block pageWrapper %}forum{% endblock %}
 
 {% block body %}
 
-<h1>Create a topic</h1>
+<h1>Create an article</h1>
 
 {# read and display all flash messages #}
 {% for label, messages in app.flashes %}
@@ -28,8 +28,47 @@
     {{ form_row(createArticleForm.Century) }}
     {{ form_row(createArticleForm.Country) }}
 
+    {# {{ form_row(createArticleForm.sections) }} #}
+    <ul class="sections"
+        data-index="{{ createArticleForm.sections|length > 0 ? createArticleForm.sections|last.vars.name + 1 : 0 }}"
+        data-prototype="{{ form_widget(createArticleForm.sections.vars.prototype)|e('html_attr') }}">
+
+        {% for sectionField in createArticleForm.sections %}
+            <li>
+                {{ form_errors(sectionField) }}
+                {{ form_row(sectionField) }}
+            </li>
+        {% endfor %}
+
+        <button type="button" class="add_item_link" data-collection-holder-class="sections">Add a section</button>
+    </ul>
     
     <button type="submit" class="form-btn-submit">Submit</button>
 {{ form_end(createArticleForm) }}
 
+<script>
+    function addFormToCollection(e) {
+        const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
+      
+        const item = document.createElement('li');
+      
+        item.innerHTML = collectionHolder
+          .dataset
+          .prototype
+          .replace(
+            /__name__/g,
+            collectionHolder.dataset.index
+          );
+      
+        collectionHolder.appendChild(item);
+      
+        collectionHolder.dataset.index++;
+    };
+
+    document
+    .querySelectorAll('.add_item_link')
+    .forEach(btn => {
+        btn.addEventListener("click", addFormToCollection)
+  });
+</script>
 {% endblock %}
