@@ -85,10 +85,8 @@ const SfReactMap = () => {
   useEffect(() => {
     
     // async function that fetch articles data for the country during the selected century from the MapController
+    // await for data at the given URI (Uniform Resource Identifier)
     async function fetchData(URI = `/dataCountry/${clickedCountry}/${checkedYear}`) {
-    // async function fetchData() {
-
-      // await for data at the given URI (Uniform Resource Identifier)
       setLoading(true);
 
       console.log("-- Fetch - called --");
@@ -144,7 +142,7 @@ const SfReactMap = () => {
 
     }
     
-  }, [fetchedData, clickedCountry]) // re-run everytime data is fetched
+  }, [fetchedData]) // re-run everytime data is fetched
 
   // everytime the content modal state is changed the loading is set to false and the loading component is removed
   useEffect(() => setLoading(false), [contentModal]);
@@ -159,10 +157,10 @@ const SfReactMap = () => {
       isOpen={openModal}
       onClose={modalIsClosed}
       handleReturn={backArrowHandler}
-      children={loading ? <Loading /> : contentModal}
-    />
-      {/* {loading ? <Loading /> : contentModal}
-    </Modal> */}
+      // children={loading ? <Loading /> : contentModal}
+    >
+      {loading ? <Loading /> : contentModal}
+    </Modal>
 
     <div id="timeline">
       <Timeline 
