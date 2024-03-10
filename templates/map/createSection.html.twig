@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Create a topic{% endblock %}
-{% block metadesc %}Form to create a topic{% endblock %}
+{% block title %}Create a section{% endblock %}
+{% block metadesc %}Form to create a section{% endblock %}
 
-{% block pageWrapper %}map{% endblock %}
+{% block pageWrapper %}forum{% endblock %}
 
 {% block body %}
 
-<h1>Create a topic</h1>
+<h1>Create a section</h1>
 
 {# read and display all flash messages #}
 {% for label, messages in app.flashes %}
@@ -28,8 +28,6 @@
 
     {{ form_row(createSectionForm.summary) }}
 
-
-    
     <button type="submit" class="form-btn-submit">Submit</button>
 {{ form_end(createSectionForm) }}
 
