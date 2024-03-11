@@ -86,7 +86,7 @@ const SfReactMap = () => {
     
     // async function that fetch articles data for the country during the selected century from the MapController
     // await for data at the given URI (Uniform Resource Identifier)
-    async function fetchData(URI = `/dataCountry/${clickedCountry}/${checkedYear}`) {
+    async function fetchData(URI) {
       setLoading(true);
 
       console.log("-- Fetch - called --");
@@ -103,9 +103,20 @@ const SfReactMap = () => {
 
       } else {
         // there was a mistake and the data is null
+        
         setFetchedData(null);
         setLoading(false); // loading is set to false to avoid infinite loading 
         console.error('MANUAL ERRROR: Invalid data');
+
+        return setContentModal(
+          <div>
+            <h2 className='article-none'>Sorry this country doesn't have an Article for this period.</h2>
+  
+            <LinkBtnTwoParams URI={`map/create/article/${clickedCountry}/${checkedYear}`}> 
+              Create an article
+            </LinkBtnTwoParams>
+          </div>
+        );
       }
     }
 
@@ -120,15 +131,7 @@ const SfReactMap = () => {
     // function dataFunc() {
     if (!fetchedData) {
 
-      return setContentModal(
-        <div>
-          <h2 className='article-none'>Sorry this country doesn't have an Article for this period.</h2>
-
-          <LinkBtnTwoParams URI={`map/create/article/${clickedCountry}/${checkedYear}`}> 
-            Create an article
-          </LinkBtnTwoParams>
-        </div>
-      );
+      return ;
 
     }
 
