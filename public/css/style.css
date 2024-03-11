@@ -60,6 +60,17 @@ body {
     }
 }
 
+.button-main {
+    background: var(--linear-gradient-colour);
+    border: none;
+    border-radius: 5px;
+    
+    padding: 0.5em;
+    font: inherit;
+    line-height: 1;
+    cursor: pointer;
+}
+
 .wrap-equip, .wrap-forum {
     gap: 2em;
 }
@@ -107,7 +118,6 @@ header {
     z-index: 650;
 
     outline: 2px solid var(--primary-color);
-
 
     position: initial;
 }
@@ -199,8 +209,8 @@ header nav {
     border: 0;
     border-radius: 0.5rem;
     box-shadow: 0 0 0.5rem 0.25rem hsl(0 0% 0% / 10%);
+
     opacity: 0.9;
-    
 }
 
 #myDialog article {
@@ -578,7 +588,6 @@ header nav {
 .wrap-home {
     min-height: 100svh;
 
-
     gap: 25px;
 
     background-image: var(--linear-gradient-dark);
@@ -618,57 +627,6 @@ header nav {
             color: #c0c0c0;
             /* width: 50%; */
         }
-
-        a {
-            background-color: #11496b;
-            border: solid transparent;
-            border-radius: 16px;
-            border-width: 0 0 4px;
-
-            color: #FFFFFF;
-            cursor: pointer;
-            /* display: inline-block; */
-            font-size: 1.7em;
-            margin: 0;
-            outline: none;
-            overflow: visible;
-            padding: 13px 16px;
-            text-align: center;
-            /* touch-action: manipulation; */
-            transform: translateZ(0);
-            transition: filter .2s;
-            /* user-select: none; */
-            /* -webkit-user-select: none; */
-            /* vertical-align: middle; */
-            white-space: nowrap;
-            width: fit-content;
-
-            &:after {
-                background-clip: padding-box;
-                background-color: var(--primary-color);
-                border: solid transparent;
-                border-radius: 16px;
-                border-width: 0 0 4px;
-                bottom: -4px;
-                content: "";
-                left: 0;
-                position: absolute;
-                right: 0;
-                top: 0;
-                z-index: -1;
-            }
-    
-            &:hover {
-                filter: brightness(1.1);
-                -webkit-filter: brightness(1.1);
-            }
-    
-            &:active {
-                border-width: 4px 0 0;
-                background: none;
-            }
-        }
- 
         
         figure {
             border-radius: 10px;
