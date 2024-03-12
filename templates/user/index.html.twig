@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User profile{% endblock %}
+{% block metadesc %}Profile of a user{% endblock %}
+{% block pageWrapper %}user{% endblock %}
+
+
+{% block body %}
+<ul>
+    <li>username: {{ user.username }}</li>
+    <li>email: {{ user.email }}</li>
+</ul>
+{% endblock %}
