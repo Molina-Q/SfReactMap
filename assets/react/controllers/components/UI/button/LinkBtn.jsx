@@ -1,6 +1,6 @@
 import React from 'react'
 
-function LinkBtnTwoParams(props) {
+function LinkBtn(props) {
 
   return (
     <a href={props.URI}>
@@ -11,4 +11,4 @@ function LinkBtnTwoParams(props) {
   )
 }
 
-export default LinkBtnTwoParams
+export default LinkBtn

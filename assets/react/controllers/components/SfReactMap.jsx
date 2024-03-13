@@ -8,7 +8,7 @@ import Loading from './UI/animation/Loading';
 
 import { fetchAnything } from "../../../tools/Fetchs";
 import ShowSection from './modal/ShowSection';
-import LinkBtnTwoParams from './UI/button/LinkBtnTwoParams';
+import LinkBtn from './UI/button/LinkBtn';
 
 const SfReactMap = () => {
 
@@ -112,9 +112,9 @@ const SfReactMap = () => {
           <div>
             <h2 className='article-none'>Sorry this country doesn't have an Article for this period.</h2>
   
-            <LinkBtnTwoParams URI={`map/create/article/${clickedCountry}/${checkedYear}`}> 
+            <LinkBtn URI={`map/create/article/${clickedCountry}/${checkedYear}`}> 
               Create an article
-            </LinkBtnTwoParams>
+            </LinkBtn>
           </div>
         );
       }

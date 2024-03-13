@@ -1,14 +1,14 @@
 import React from 'react'
 import Gallery from '../gallery/Gallery'
-import LinkBtnTwoParams from '../UI/button/LinkBtnTwoParams'
+import LinkBtn from '../UI/button/LinkBtn'
 
 function ShowSection({section}) {
   return (
     <article>
 
-      <LinkBtnTwoParams URI={`section/edit/${section.id}`} className={'delete-btn'}>
+      <LinkBtn URI={`section/edit/${section.id}`} className={'delete-btn'}>
         Edit
-      </LinkBtnTwoParams>
+      </LinkBtn>
 
       <h1>{section.title}</h1>
 

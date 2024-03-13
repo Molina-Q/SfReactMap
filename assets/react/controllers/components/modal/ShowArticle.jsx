@@ -1,6 +1,6 @@
 import React from 'react'
 import SingleSectionInArticle from './SingleSectionInArticle'
-import LinkBtnTwoParams from '../UI/button/LinkBtnTwoParams'
+import LinkBtn from '../UI/button/LinkBtn'
 
 function ShowArticle({article, showDetails}) {
  
@@ -8,13 +8,13 @@ function ShowArticle({article, showDetails}) {
     <article>
         <h2>{article.Country.name} - {article.Century.year}</h2>
 
-        <LinkBtnTwoParams URI={`map/edit/article/${article.id}`}>
+        <LinkBtn URI={`map/edit/article/${article.id}`}>
           Edit
-        </LinkBtnTwoParams>
+        </LinkBtn>
 
-        <LinkBtnTwoParams URI={`map/delete/article/${article.id}`}>
+        <LinkBtn URI={`map/delete/article/${article.id}`}>
           Delete
-        </LinkBtnTwoParams>
+        </LinkBtn>
 
         <h1>{article.title}</h1> 
 
@@ -28,9 +28,9 @@ function ShowArticle({article, showDetails}) {
 
         </section>
 
-        <LinkBtnTwoParams URI={`section/create/${article.id}`}>
+        <LinkBtn URI={`section/create/${article.id}`}>
           Add Section
-        </LinkBtnTwoParams>
+        </LinkBtn>
     </article> 
   )
 }
