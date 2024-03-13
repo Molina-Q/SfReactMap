@@ -40,6 +40,7 @@ class ForumController extends AbstractController
         ]);
     }
 
+    // create forum route
     #[Route('/forum/create', name: 'create_topic')]
     public function create(
         TopicRepository $topicRepository,
