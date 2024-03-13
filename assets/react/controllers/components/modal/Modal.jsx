@@ -18,7 +18,7 @@ const Modal = ({ isOpen, onClose, handleReturn, children }) => {
             if (isModalOpen) {
                 setTimeout(() => {
                     modalElement.showModal();
-                }, 250);
+                }, 250); // make it so the modal take 250 ms to open 
             } else {
                 modalElement.close();
             }
