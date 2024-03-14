@@ -30,12 +30,13 @@ const LeafletMap = ({ checkedValue, handleClickOnCountry }) => {
   // const [data, setData] = useState(null);
 
   useEffect(() => {
+    myGeoJsons[checkedValue] ? setGeoJsonFeatures(myGeoJsons[checkedValue].features) : setGeoJsonFeatures(myGeoJson1900.features);
 
-    if (myGeoJsons[checkedValue]) {
-      setGeoJsonFeatures(myGeoJsons[checkedValue].features);
-    } else {
-      setGeoJsonFeatures(myGeoJson1900.features);
-    }
+    // if (myGeoJsons[checkedValue]) {
+    //   setGeoJsonFeatures(myGeoJsons[checkedValue].features);
+    // } else {
+    //   setGeoJsonFeatures(myGeoJson1900.features);
+    // }
 
   }, [checkedValue]) // this make it so useEffect will take effect only when checkedValue is changed
 
