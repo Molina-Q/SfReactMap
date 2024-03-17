@@ -2,13 +2,14 @@
 
 namespace App\Form;
 
+use App\Entity\Section;
 use App\Entity\Equipment;
 use App\Entity\EquipmentSection;
-use App\Entity\Section;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class AddEquipFormType extends AbstractType
 {
@@ -23,6 +24,7 @@ class AddEquipFormType extends AbstractType
             ->add('Equipment', EntityType::class, [
                 'class' => Equipment::class,
                 'choice_label' => 'name',
+                // 'label' => 'Equip',
             ])
         ;
     }
