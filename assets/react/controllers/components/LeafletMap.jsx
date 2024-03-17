@@ -95,6 +95,7 @@ const LeafletMap = ({ checkedValue, handleClickOnCountry }) => {
             key={feature.properties.ADMIN} // their names are used as key
             pathOptions={options[feature.properties.ISO_A3]} // change the style variable depending on the country
             eventHandlers={handlers}
+            smoothFactor={4}
           />
         );
       }
