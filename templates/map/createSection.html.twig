@@ -24,11 +24,50 @@
     
     {{ form_row(createSectionForm.title) }}
     {{ form_row(createSectionForm.text) }}
-    {{ form_row(createSectionForm.Article) }}
-
+    
     {{ form_row(createSectionForm.summary) }}
 
+    <ul class="equipSections"
+        data-index="{{ createSectionForm.equipmentSections|length > 0 ? createSectionForm.equipmentSections|last.vars.name + 1 : 0 }}"
+        data-prototype="{{ form_widget(createSectionForm.equipmentSections.vars.prototype)|e('html_attr') }}">
+
+        {% for equipField in createSectionForm.equipmentSections %}
+            <li>
+                {{ form_errors(equipField) }}
+                {{ form_row(equipField) }}
+            </li>
+
+        {% endfor %}
+
+        <button type="button" class="add_item_link" data-collection-holder-class="equipSections">Add stuff</button>
+    </ul>
+    
+    {{ form_row(createSectionForm.Article) }}
     <button type="submit" class="form-btn-submit">Submit</button>
 {{ form_end(createSectionForm) }}
+<script>
+    function addFormToCollection(e) {
+        const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
+      
+        const item = document.createElement('li');
+      
+        item.innerHTML = collectionHolder
+          .dataset
+          .prototype
+          .replace(
+            /__name__/g,
+            collectionHolder.dataset.index
+          );
+      
+        collectionHolder.appendChild(item);
+      
+        collectionHolder.dataset.index++;
+    };
 
+    document
+    .querySelectorAll('.add_item_link')
+    .forEach(btn => {
+        btn.addEventListener("click", addFormToCollection)
+  });
+</script>
 {% endblock %}
