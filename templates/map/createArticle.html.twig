@@ -28,7 +28,10 @@
     {{ form_row(createArticleForm.Century) }}
     {{ form_row(createArticleForm.Country) }}
 
-    {# {{ form_row(createArticleForm.sections) }} #}
+    {{ form_label(createArticleForm.sections) }}
+    {{ form_errors(createArticleForm.sections) }}
+
+
     <ul class="sections"
         data-index="{{ createArticleForm.sections|length > 0 ? createArticleForm.sections|last.vars.name + 1 : 0 }}"
         data-prototype="{{ form_widget(createArticleForm.sections.vars.prototype)|e('html_attr') }}">
@@ -36,12 +39,30 @@
         {% for sectionField in createArticleForm.sections %}
             <li>
                 {{ form_errors(sectionField) }}
-                {{ form_row(sectionField) }}
+                {{ form_widget(sectionField) }}
             </li>
+
         {% endfor %}
 
         <button type="button" class="add_item_link" data-collection-holder-class="sections">Add a section</button>
     </ul>
+
+    
+    {# {% for sectionField in createArticleForm.sections %}
+        <ul class="equipmentSections"
+            data-index="{{ sectionField.equipmentSections|length > 0 ? sectionField.equipmentSections|last.vars.name + 1 : 0 }}"
+            data-prototype="{{ form_widget(sectionField.equipmentSections.vars.prototype)|e('html_attr') }}">
+
+        {% for equipField in sectionField.equipmentSections %}
+            <li>
+                {{ form_errors(equipField) }}
+                {{ form_row(equipField) }}
+            </li>
+        {% endfor %}
+        
+            <button type="button" class="add_item_link" data-collection-holder-class="equipmentSections">Add stuff</button>
+        </ul>
+    {% endfor %} #}
     
     <button type="submit" class="form-btn-submit">Submit</button>
 {{ form_end(createArticleForm) }}
