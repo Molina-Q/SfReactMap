@@ -25,7 +25,7 @@ class Section
     #[ORM\Column(length: 255)]
     private ?string $summary = null;
 
-    #[ORM\OneToMany(mappedBy: 'Section', targetEntity: EquipmentSection::class)]
+    #[ORM\OneToMany(mappedBy: 'Section', targetEntity: EquipmentSection::class, cascade: ['persist'])]
     private Collection $equipmentSections;
 
     #[ORM\ManyToOne(inversedBy: 'sections')]
