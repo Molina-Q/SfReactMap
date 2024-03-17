@@ -903,4 +903,20 @@ div input[type=checkbox] {
         }
 
     }
+
+    .collectionType {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 15px;
+        li {
+            border: 1px solid var(--primary-color);
+            margin: 10px 0;
+            padding: 10px 10px;
+            list-style: none;
+        }
+    }
 }
