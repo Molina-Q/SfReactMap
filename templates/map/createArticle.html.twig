@@ -30,11 +30,12 @@
 
     {{ form_label(createArticleForm.sections) }}
     {{ form_errors(createArticleForm.sections) }}
-
-
-    <ul class="sections"
-        data-index="{{ createArticleForm.sections|length > 0 ? createArticleForm.sections|last.vars.name + 1 : 0 }}"
-        data-prototype="{{ form_widget(createArticleForm.sections.vars.prototype)|e('html_attr') }}">
+    
+    
+    <ul class="sections collectionType"
+    data-index="{{ createArticleForm.sections|length > 0 ? createArticleForm.sections|last.vars.name + 1 : 0 }}"
+    data-prototype="{{ form_widget(createArticleForm.sections.vars.prototype)|e('html_attr') }}">
+    
 
         {% for sectionField in createArticleForm.sections %}
             <li>
