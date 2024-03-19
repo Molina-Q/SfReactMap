@@ -31,7 +31,6 @@
 
     {{ form_label(createSectionForm.equipmentSections) }}
     {{ form_errors(createSectionForm.equipmentSections) }}
-    {# {{ form_row(createSectionForm.equipmentSections) }} #}
 
     <ul class="equipSections collectionType"
         data-index="{{ createSectionForm.equipmentSections|length > 0 ? createSectionForm.equipmentSections|last.vars.name + 1 : 0 }}"
