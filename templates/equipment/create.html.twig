@@ -21,14 +21,11 @@
 
 {{ form_start(createEquipForm) }}
     {{ form_errors(createEquipForm) }}
-    
-    {# {{ form_row(createEquipForm.title) }} #}
 
     {{ form_row(createEquipForm.name) }}
     {{ form_row(createEquipForm.text) }}
     {{ form_row(createEquipForm.sub_category) }}
     {{ form_row(createEquipForm.path) }}
-
     
     <button type="submit" class="form-btn-submit">Submit</button>
 {{ form_end(createEquipForm) }}
