@@ -41,7 +41,9 @@ body {
 }
 
 .wrap-equip #wrapperMain,
-.wrap-forum #wrapperMain {
+.wrap-forum #wrapperMain,
+.wrap-register #wrapperMain,
+.wrap-login #wrapperMain {
     display: flex;
     flex-direction: column;
 
