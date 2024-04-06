@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class EquipmentController extends AbstractController
@@ -94,6 +95,28 @@ class EquipmentController extends AbstractController
         ]);
     }
 
+    #[Route('/equipment/api', name: 'get_equipment')]
+    public function getEquip(
+        EquipmentRepository $equipmentRepository,
+        ): Response
+    {
+        $equipments = $equipmentRepository->findAll();
+        $equipment = [];
+
+        foreach ($equipments as $equip) {
+            $equipment[] = [
+                'id' =>$equip->getId(),
+                'name' => $equip->getName(),
+                'text' => $equip->getText(),
+                'img' => $equip->getOneImg(),
+            ];
+        }
+
+        return new JsonResponse([ 
+            'equipment' => $equipment
+        ]);
+    }
+
     #[Route('/equipment/update/{id}', name: 'update_equipment')]
     public function update(
         EquipmentRepository $equipmentRepository,
@@ -164,4 +187,6 @@ class EquipmentController extends AbstractController
 
         return $this->redirectToRoute('app_equipment');
     }
+
+
 }
