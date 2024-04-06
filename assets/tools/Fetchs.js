@@ -1,4 +1,3 @@
-
 // fonction principale qui permet de faire un fetch
 exports.fetchAnything = async function fetchAnything(uri) {
 
