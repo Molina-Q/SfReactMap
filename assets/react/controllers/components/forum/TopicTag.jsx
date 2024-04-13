@@ -1,19 +1,16 @@
-import React from 'react'
+import React from "react";
 
 function TopicTag(props) {
   return (
     <>
-        <strong className="topic-tag">{props.category}</strong>
+      <strong className="topic-tag">{props.category}</strong>
 
-        <p>
-          by&nbsp;
-
-          <a href="">
-            {props.author}
-          </a>
-        </p>
+      <p>
+        by&nbsp;
+        <a href="">{props.author}</a>
+      </p>
     </>
-  )
+  );
 }
 
-export default TopicTag
+export default TopicTag;
