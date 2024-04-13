@@ -32,7 +32,6 @@ function EquipItems() {
     fetchData(dataURI);
   }, []); // will re-run only when one of those variables changes (using Object.js comparison)
 
-
   return (
     <div>
       <section className="section-gallery-container">

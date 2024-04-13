@@ -1,7 +1,5 @@
-import React from 'react'
+import React from "react";
 
 export default function Equipment() {
-  return (
-    <div>Equipment</div>
-  )
+  return <div>Equipment</div>;
 }
