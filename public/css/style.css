@@ -3,19 +3,19 @@
 :root {
     --primary-color: #1D87C3;
     --secondary-color: #04948B;
-    
+
     --background-gray: #575D69;
     --background-gray-dark: #282A2E;
     --background-gray-light: #A8A8A8;
     --background-gray-lighter: #D9D9D9;
 
     --background-colour-light: #33d2e1;
-    
-    --font-color-light:#fff;
+
+    --font-color-light: #fff;
     --font-color-dark: #2C2C2C;
-    
-    --linear-gradient-dark: linear-gradient(#2D2F33 ,#202124 );
-    --linear-gradient-colour: linear-gradient(0.25turn, #1D87C3 ,#04948B );
+
+    --linear-gradient-dark: linear-gradient(#2D2F33, #202124);
+    --linear-gradient-colour: linear-gradient(0.25turn, #1D87C3, #04948B);
 }
 
 /*******************************************************************************************************/
@@ -27,9 +27,7 @@
     box-sizing: border-box;
 }
 
-body {
-    
-}
+body {}
 
 #wrapperBody {
     min-height: 100svh;
@@ -47,14 +45,14 @@ body {
     display: flex;
     flex-direction: column;
 
-    gap: 25px ;
+    gap: 25px;
     padding: 0 8%;
 
     button {
         background: var(--linear-gradient-colour);
         border: none;
         border-radius: 5px;
-        
+
         padding: 0.5em;
         font: inherit;
         line-height: 1;
@@ -66,14 +64,15 @@ body {
     background: var(--linear-gradient-colour);
     border: none;
     border-radius: 5px;
-    
+
     padding: 0.5em;
     font: inherit;
     line-height: 1;
     cursor: pointer;
 }
 
-.wrap-equip, .wrap-forum {
+.wrap-equip,
+.wrap-forum {
     gap: 2em;
 }
 
@@ -85,12 +84,13 @@ body {
 a {
     text-decoration: none;
     color: var(--font-color-light);
+
     button {
         display: flex;
         justify-content: center;
-    
+
         background: var(--linear-gradient-colour);
-    
+
         border: none;
         border-radius: 5px;
     }
@@ -99,11 +99,13 @@ a {
 /****************************************************************************************************/
 /*********************************************** Font ***********************************************/
 /****************************************************************************************************/
-h1, h2 {
+h1,
+h2 {
     font-weight: 600;
 }
 
-h3, h4 {
+h3,
+h4 {
     font-weight: 500;
 }
 
@@ -142,7 +144,7 @@ header nav {
     div {
         display: flex;
         gap: 25px;
-     
+
         .nav-items {
             height: 2.5rem;
 
@@ -154,14 +156,14 @@ header nav {
             a {
                 height: 100%;
                 padding: 0 10px;
-            
+
                 font-size: 18px;
-            
+
                 display: flex;
                 flex-direction: row;
                 align-items: center;
                 justify-content: center;
-            
+
                 color: var(--font-color-light);
                 text-decoration: none;
 
@@ -200,7 +202,7 @@ header nav {
 /************************************* Modal *************************************/
 /*********************************************************************************/
 /* Modal <dialog> container */
-#myDialog { 
+#myDialog {
     position: relative;
 
     width: 80vw;
@@ -237,9 +239,9 @@ header nav {
     .section-container {
         display: flex;
         flex-direction: column;
-        
+
         gap: 1rem;
-   
+
         h3 {
             width: fit-content;
             color: var(--secondary-color);
@@ -257,7 +259,7 @@ header nav {
 }
 
 /* the background when the modal open */
-#myDialog::backdrop { 
+#myDialog::backdrop {
     background: hsl(0 0% 0% / 60%);
     backdrop-filter: blur(2px);
     transition: 0.3s;
@@ -304,8 +306,13 @@ header nav {
 }
 
 @keyframes rotate {
-    from {transform: rotate(0deg);}
-    to {transform: rotate(360deg);}
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 /********** Absolute btn **********/
@@ -326,7 +333,7 @@ header nav {
     align-items: center;
 
     transition: 0.1s;
-    
+
     &:hover {
         border: 0px solid red;
         transform: translateY(1px);
@@ -399,7 +406,7 @@ header nav {
 
     border-top: 2px solid var(--primary-color);
     background-color: var(--background-gray-dark);
-    padding: 10px 0 ;
+    padding: 10px 0;
 }
 
 #timeline div {
@@ -439,12 +446,12 @@ header nav {
     border-radius: 50%;
 
     transform: scale(0);
-    transition: 0.3s ease-in-out;  
-    box-shadow: inset 1em 1em var(--primary-color); 
+    transition: 0.3s ease-in-out;
+    box-shadow: inset 1em 1em var(--primary-color);
 
     background-color: var(--primary-color);
 }
-    
+
 #timeline input[type="radio"]:checked::before {
     transform: scale(1.2);
 }
@@ -459,23 +466,35 @@ header nav {
 /* Encompasses all the content specific to the page */
 /****************************************************/
 #equip-menu-container {
- 
-}
 
-/* title */
-#equip-menu-container h1 { 
-    width: fit-content;
+    .cat-weapon,
+    .cat-armour,
+    .cat-tool {
+        width: fit-content;
+        font-size: 1.2em;
 
-    padding: 0 1rem;
-    margin: 0 1rem;
+        padding: 0 1rem;
+        margin: 0 1rem;
 
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    background-color: var(--background-gray);
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+
+    .cat-weapon {
+        background-color: var(--background-gray);
+    }
+
+    .cat-armour {
+        background-color: var(--primary-color);
+    }
+
+    .cat-tool {
+        background-color: var(--secondary-color);
+    }
 }
 
 /******** Section - Encompasses Article and Aside ********/
-/*********************************************************/  
+/*********************************************************/
 .equip-menu {
     width: auto;
     height: 500px;
@@ -491,11 +510,11 @@ header nav {
 /***** Article - Equipment's Gallery  *****/
 /******************************************/
 .equip-gallery {
-    width: 55% ;
-    padding: 1em 0; 
+    width: 55%;
+    padding: 1em 0;
     display: grid;
 
-    grid-template-columns:  repeat(auto-fit, minmax(min(100px, 100%), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100px, 100%), 1fr));
     justify-items: center;
     flex-wrap: wrap;
     gap: 10px;
@@ -534,7 +553,7 @@ header nav {
     height: 90%;
 
     padding: 15px;
-    margin: 10px 0 ;
+    margin: 10px 0;
 
     background-color: var(--background-gray-dark);
 
@@ -543,33 +562,32 @@ header nav {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    
-    gap: 15px;
-}
-
-.equip-description h2 {
-
-}
-
-.equip-description figure {
-    min-height: 100px;
-    max-height: 200px;
-    height: 40%;
 
     gap: 15px;
 
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
+    figure {
+        min-width: 100px;
+        max-width: 200px;
 
-}
+        min-height: 100px;
+        max-height: 200px;
 
-.equip-description figure img {
-    max-height: inherit;
-    min-height: inherit;
-    height: 100%;
+        width: 40%;
+        height: 40%;
 
-    border-radius: 8px;
+        gap: 15px;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+
+        img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+    }
 }
 
 .equip-description figure figcaption ul {
@@ -594,6 +612,7 @@ header nav {
 
     background-image: var(--linear-gradient-dark);
 }
+
 .wrap-home #wrapperMain:first-child {
     gap: 5em;
 }
@@ -616,7 +635,9 @@ header nav {
         align-items: center;
         gap: 15px;
 
-        h2, h3, h4 {
+        h2,
+        h3,
+        h4 {
             font-size: 3.5em;
             /* word-break: break-all;
             hyphens: auto; */
@@ -629,7 +650,7 @@ header nav {
             color: #c0c0c0;
             /* width: 50%; */
         }
-        
+
         figure {
             border-radius: 10px;
             background-image: var(--linear-gradient-colour);
@@ -659,7 +680,7 @@ header nav {
     padding: 10px 25px;
 
     border: 5px solid var(--primary-color);
-    border-radius: 3px;   
+    border-radius: 3px;
 
     display: grid;
     /* grid-template-columns: auto;
@@ -686,12 +707,14 @@ header nav {
     /* height: 35px; */
     font-size: 17px;
 
-    padding: 0 10px ;
+    padding: 0 10px;
 }
 
-.form-create div { /* affect all div that doesn't have a date input */
+.form-create div {
+    /* affect all div that doesn't have a date input */
     grid-column: 1 / 5;
 }
+
 /* 
 div input[type=checkbox] {
     width: 25px;
@@ -729,7 +752,7 @@ div input[type=checkbox] {
     a:hover {
         color: var(--background-colour-light);
         transition: 0.1s;
-    }  
+    }
 
     .topics-category {
         display: flex;
@@ -778,7 +801,7 @@ div input[type=checkbox] {
                 /* background-color: var(--background-gray-dark); */
             }
         }
-       
+
     }
 
     /**** showTopic ****/
@@ -796,7 +819,7 @@ div input[type=checkbox] {
             padding: 3px 7px;
             color: var(--font-color-dark);
             border-radius: 3px;
-        } 
+        }
     }
 
     #details-topic-header {
@@ -805,7 +828,8 @@ div input[type=checkbox] {
         background-color: var(--background-gray);
         border-radius: 3px;
 
-        .topic-header-wrapper { /* la div vide ICONS cause la gap au dessus du tag du topic */
+        .topic-header-wrapper {
+            /* la div vide ICONS cause la gap au dessus du tag du topic */
             background-color: var(--background-gray-dark);
             display: flex;
             flex-direction: column;
@@ -817,16 +841,16 @@ div input[type=checkbox] {
 
             .param-btn-container {
                 display: grid;
-                
-                grid-template-columns:  repeat(auto-fit, minmax(min(100px, 100%), 1fr));
+
+                grid-template-columns: repeat(auto-fit, minmax(min(100px, 100%), 1fr));
 
                 align-items: center;
 
                 gap: 15px;
 
-                .details-topic-info {  
+                .details-topic-info {
                     grid-column: 1;
-            
+
                 }
 
                 a {
@@ -868,18 +892,18 @@ div input[type=checkbox] {
 
                 .form-create {
 
-                    button { 
+                    button {
                         width: 1.2em;
                         height: 1.2em;
                         padding: 0 10px;
-                    
+
                         font-size: 18px;
-                    
+
                         display: flex;
                         flex-direction: row;
                         align-items: center;
                         justify-content: center;
-                    
+
                         color: var(--font-color-light);
                         text-decoration: none;
 
@@ -914,6 +938,7 @@ div input[type=checkbox] {
         align-items: flex-start;
         justify-content: space-between;
         gap: 15px;
+
         li {
             border: 1px solid var(--primary-color);
             margin: 10px 0;
