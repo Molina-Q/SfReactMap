@@ -95,48 +95,6 @@ class EquipmentController extends AbstractController
         ]);
     }
 
-    #[Route('/equipment/api', name: 'get_equipment')]
-    public function getEquip(
-        EquipmentRepository $equipmentRepository,
-        ): Response
-    {
-        $equipments = $equipmentRepository->findAll();
-        $equipment = [];
-
-        foreach ($equipments as $equip) {
-            $equipment[] = [
-                'id' =>$equip->getId(),
-                'name' => $equip->getName(),
-                'text' => $equip->getText(),
-                'img' => $equip->getOneImg(),
-            ];
-        }
-
-        return new JsonResponse([ 
-            'equipment' => $equipment
-        ]);
-    }
-
-    #[Route('/equipment/api/{id}', name: 'get_one_equipment')]
-    public function getSingleEquip(
-        EquipmentRepository $equipmentRepository,
-        int $id
-        ): Response
-    {
-        $equipObject = $equipmentRepository->findOneById($id);
-
-        $equipment = [
-            'id' =>$equipObject->getId(),
-            'name' => $equipObject->getName(),
-            'text' => $equipObject->getText(),
-            'img' => $equipObject->getOneImg(),
-        ];
-        
-        return new JsonResponse([ 
-            'equipment' => $equipment
-        ]);
-    }
-
     #[Route('/equipment/update/{id}', name: 'update_equipment')]
     public function update(
         EquipmentRepository $equipmentRepository,
