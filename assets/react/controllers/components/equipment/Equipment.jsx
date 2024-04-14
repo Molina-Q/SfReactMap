@@ -53,7 +53,7 @@ export default function Equipment() {
     fetchData(`/api/equipment/type/${categoryType}`, setData, setLoading);
   }, [categoryType]); // will re-run only when one of those variables changes (using Object.js comparison)
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     fetchData(`/api/equipment/types`, setCategories);
   }, []); // will re-run only when one of those variables changes (using Object.js comparison)
 
@@ -64,11 +64,12 @@ export default function Equipment() {
       e.target.getAttribute("data-id") == 3
     ) {
       setCategoryType(e.target.getAttribute("data-id"));
+      setLoading(true);
     }
   };
 
-  if(categories.categories) {
-    console.log('data type = ',categories.categories);
+  if (data) {
+    console.log("data type = ", data["equipments"].length);
   }
 
   return (
@@ -84,20 +85,13 @@ export default function Equipment() {
             {catType.label}
           </strong>
         ))}
-      {/* <strong onClick={handleClick} className="cat-weapon">
-        Weapon
-      </strong>
-      <strong onClick={handleClick} className="cat-armour">
-        Armour
-      </strong>
-      <strong onClick={handleClick} className="cat-tool">
-        Tool
-      </strong> */}
 
       <article className="equip-menu">
         <article className="equip-gallery">
           {loading ? (
             <Loading />
+          ) : data["equipments"].length === 0 ? (
+            <h2>There is no items here yet sorry for the inconvenience !</h2>
           ) : (
             <Gallery
               items={data["equipments"]}
@@ -106,6 +100,7 @@ export default function Equipment() {
             />
           )}
         </article>
+
         <aside className="equip-description">
           {clickedItem.equipment ? (
             <DetailsItem
