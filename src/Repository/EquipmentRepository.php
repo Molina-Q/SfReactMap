@@ -45,4 +45,21 @@ class EquipmentRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+public function findByCategory($id)
+{
+    $em = $this->getEntityManager();
+    $sub = $em->createQueryBuilder();
+
+    $qb = $sub; 
+
+    $qb->select('e')
+        ->from('App\Entity\Equipment', 'e')
+        ->leftJoin('e.sub_category', 'sb')
+        ->where('sb.Category = :id')
+        ->setParameter('id', $id);
+
+    $query = $qb->getQuery();
+    return $query->getResult();
+}
 }
