@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useLayoutEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import LeafletMap from "./LeafletMap";
 import Timeline from "./timeline/Timeline";
@@ -9,6 +9,7 @@ import Loading from "./UI/animation/Loading";
 import { fetchAnything } from "../../../tools/Fetchs";
 import ShowSection from "./modal/ShowSection";
 import LinkBtn from "./UI/button/LinkBtn";
+import { getUrlParam, setUrlParam } from "../../../tools/UrlParam";
 
 const SfReactMap = () => {
   // ce composant devient le composant principal, qui va se comporter comme un Controller
@@ -20,7 +21,7 @@ const SfReactMap = () => {
   const [fetchedData, setFetchedData] = useState(null);
 
   // variable with state of dialog and open or setOpen
-  const [openModal, setOpenModal] = useState(false);
+  const [openModal, setOpenModal] = useState((getUrlParam('box') == 'false') ? false : true);
 
   // current checked year in the timeline
   const [checkedYear, setCheckedYear] = useState("1900");
@@ -30,6 +31,13 @@ const SfReactMap = () => {
 
   // array of elements the modal will show
   const [contentModal, setContentModal] = useState(null);
+
+  // data in the url
+  const [urlData, setUrlData] = useState({
+    year: getUrlParam('year') || "1900",
+    country: getUrlParam('country') || "France",
+    box: getUrlParam('box') ?? false,
+  })
 
   // URI of the content of the modal
   const [dataURI, setDataURI] = useState(
@@ -44,6 +52,12 @@ const SfReactMap = () => {
   const modalIsClosed = () => {
     // Check if the modal is open then close it
     openModal ? setOpenModal(false) : "";
+    setUrlParam('box', false);
+
+    setUrlData({
+      ...urlData,
+      box: false,
+    })
   };
 
   // onClick backArrow
@@ -63,6 +77,12 @@ const SfReactMap = () => {
     // change it to the currently checked year
     setCheckedYear(stringYear);
 
+    // change url
+    setUrlParam('year', stringYear);
+    setUrlData({   
+      ...urlData,
+      year: stringYear
+    });
     // change the URI to match the checked year
     setDataURI(`/dataCountry/${clickedCountry}/${stringYear}`);
   };
@@ -75,6 +95,18 @@ const SfReactMap = () => {
 
     // change the URI to match the clicked country
     setDataURI(`/dataCountry/${countryName}/${checkedYear}`);
+    setUrlData({   
+      ...urlData,
+      country: countryName
+    });
+    // change url
+    setUrlParam('country', countryName);
+    setUrlParam('box', true);
+
+    setUrlData({
+      ...urlData,
+      box: true,
+    })
 
     // open the modal
     setOpenModal(true);
@@ -122,7 +154,7 @@ const SfReactMap = () => {
 
     // immediatly calls himself
     fetchData(dataURI);
-  }, [dataURI]); // will re-run only when one of those variables changes (using Object.js comparison)
+  }, [urlData]); // will re-run only when one of those variables changes (using Object.js comparison)
 
   // set the component shown by the modal
   useEffect(() => {
