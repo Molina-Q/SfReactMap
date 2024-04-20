@@ -13,12 +13,13 @@ export default function Equipment() {
 	// category data
 	const [categories, setCategories] = useState({});
 
-  // current active category type
-  const [currentCategory, setCurrentCategory] = useState(null)
+	// current active category type
+	const [currentCategory, setCurrentCategory] = useState(null);
 
 	// states for the details page data
 	const [clickedItemData, setClickedItemData] = useState({});
 	const [loadingDetails, setLoadingDetails] = useState(false);
+
 
 	const [urlData, setUrlData] = useState({
 		type: getUrlParam("type") || 1,
@@ -32,8 +33,8 @@ export default function Equipment() {
 		setUrlData({ ...urlData, item: id });
 	};
 
-  // onClick function for the categories
-  const handleClickCategory = (e) => {
+	// onClick function for the categories
+	const handleClickCategory = (e) => {
 		if (
 			e.target.getAttribute("data-id") == 1 ||
 			e.target.getAttribute("data-id") == 2 ||
@@ -43,7 +44,7 @@ export default function Equipment() {
 
 			setUrlData({ ...urlData, type: e.target.getAttribute("data-id") });
 
-      setCurrentCategory(e.target.getAttribute("data-id"));
+			setCurrentCategory(e.target.getAttribute("data-id"));
 
 			setLoading(true);
 		}
@@ -51,9 +52,7 @@ export default function Equipment() {
 
 	async function fetchData(URI, dataState, loadingState) {
 		console.log("-- Fetch - called --");
-
 		const dataFetch = await fetchAnything(URI);
-
 		console.log("-- Fetch - received --");
 
 		if (dataFetch) {
@@ -66,13 +65,17 @@ export default function Equipment() {
 		}
 	}
 
-  	// call fetchData when page is loading then when category type is updated
+	// call fetchData when page is loading then when category type is updated
 	useEffect(() => {
-    // if ((!currentCategory) || (currentCategory)) {
-      fetchData(`/api/equipment/type/${urlData.type}`, setData, setLoading);
-    // }
+		// if ((!currentCategory) || (currentCategory)) {
+		fetchData(`/api/equipment/type/${urlData.type}`, setData, setLoading);
+		// }
 
-		if ((urlData.item && !clickedItemData.equipment) || (clickedItemData.equipment && urlData.item != clickedItemData.equipment.id) ) {
+		if (
+			(urlData.item && !clickedItemData.equipment) ||
+			(clickedItemData.equipment &&
+				urlData.item != clickedItemData.equipment.id)
+		) {
 			setLoadingDetails(true);
 			fetchData(
 				`/api/equipment/${urlData.item}`,
@@ -85,7 +88,6 @@ export default function Equipment() {
 	useEffect(() => {
 		fetchData(`/api/equipment/types`, setCategories);
 	}, []); // will re-run only when one of those variables changes (using Object.js comparison)
-
 
 	if (data) {
 		console.log("data type = ", data["equipments"].length);
