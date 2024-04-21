@@ -67,10 +67,7 @@ export default function Equipment() {
 
 	// call fetchData when page is loading then when category type is updated
 	useEffect(() => {
-		// if ((!currentCategory) || (currentCategory)) {
 		fetchData(`/api/equipment/type/${urlData.type}`, setData, setLoading);
-		// }
-
 		if (
 			(urlData.item && !clickedItemData.equipment) ||
 			(clickedItemData.equipment &&
