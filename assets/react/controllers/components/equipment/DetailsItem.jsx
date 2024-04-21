@@ -1,4 +1,5 @@
 import React from "react";
+import LinkBtn from "../UI/button/LinkBtn";
 
 function DetailsItem(props) {
   const imgUrl = `/img/upload/${props.img}`;
@@ -13,6 +14,15 @@ function DetailsItem(props) {
 
           <div>
             <p>{props.text}</p>
+          </div>
+
+          <div>
+            <LinkBtn URI={`/equipment/update/${props.id}`}>
+              Edit
+            </LinkBtn>
+            <LinkBtn URI={`/equipment/delete/${props.id}`}>
+              Delete
+            </LinkBtn>
           </div>
         </>
       )}
