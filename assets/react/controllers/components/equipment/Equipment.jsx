@@ -130,6 +130,7 @@ export default function Equipment() {
 							name={clickedItemData.equipment.name}
 							img={clickedItemData.equipment.img}
 							text={clickedItemData.equipment.text}
+							id={clickedItemData.equipment.id}
 						/>
 					) : (
 						<DetailsItem />
