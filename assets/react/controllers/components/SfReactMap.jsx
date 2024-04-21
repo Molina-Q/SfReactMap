@@ -154,7 +154,7 @@ const SfReactMap = () => {
 
     // immediatly calls himself
     fetchData(dataURI);
-  }, [urlData]); // will re-run only when one of those variables changes (using Object.js comparison)
+  }, [dataURI]); // will re-run only when one of those variables changes (using Object.js comparison)
 
   // set the component shown by the modal
   useEffect(() => {
