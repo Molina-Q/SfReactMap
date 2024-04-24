@@ -30,10 +30,10 @@ timeline provides a historical overview, allowing users to observe changes in mi
     ```bash
     make first-install
     ```
-    This one install everything, the database, the depedency, everything.
+    This one install everything, the database and the dependency.
    
    ```bash
-    make install-full
+   make install-full
     ```
    This one execute composer install, npm install then npm run watch.
 
@@ -43,6 +43,6 @@ timeline provides a historical overview, allowing users to observe changes in mi
     ```
    
    ```bash
-    npm install --force
+   npm install --force
    ```
    
