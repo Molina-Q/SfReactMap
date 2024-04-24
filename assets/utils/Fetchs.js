@@ -1,6 +1,5 @@
 // fonction principale qui permet de faire un fetch
-exports.fetchAnything = async function fetchAnything(uri) {
-
+export const fetchAnything = async (uri) => {
     try {
         const response = await fetch(uri);
 

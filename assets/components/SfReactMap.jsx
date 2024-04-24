@@ -6,10 +6,10 @@ import Modal from "./modal/Modal";
 import ShowArticle from "./modal/ShowArticle";
 import Loading from "./UI/animation/Loading";
 
-import { fetchAnything } from "../../../tools/Fetchs";
+import { fetchAnything } from "../utils/Fetchs";
+import { getUrlParam, setUrlParam } from "../utils/UrlParam";
 import ShowSection from "./modal/ShowSection";
 import LinkBtn from "./UI/button/LinkBtn";
-import { getUrlParam, setUrlParam } from "../../../tools/UrlParam";
 
 const SfReactMap = () => {
   // ce composant devient le composant principal, qui va se comporter comme un Controller
