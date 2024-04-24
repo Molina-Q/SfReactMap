@@ -605,19 +605,21 @@ header nav {
             border-radius: 8px;
         }
     }
+
+    div {
+        height: fit-content;
+        
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
 }
 
 .equip-description figure figcaption ul {
     list-style: none;
 }
 
-.equip-description div {
-    height: fit-content;
 
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-}
 
 /********************************************************************************************************/
 /*********************************************** HomePage ***********************************************/
