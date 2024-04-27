@@ -1,11 +1,16 @@
-import React, { StrictMode } from "react";
-import SfReactMap from "./components/SfReactMap";
+import React from "react";
+import SfReactMap from "./pages/SfReactMap";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Equipment from "./pages/Equipment";
 
 const App = () => {
   return (
-    <StrictMode>
-      <SfReactMap />
-    </StrictMode>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/map" element={<SfReactMap />} />
+        <Route path="/equipment" element={<Equipment />} />
+      </Routes>
+    </BrowserRouter>
   );
 };
 
