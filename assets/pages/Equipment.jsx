@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { fetchAnything } from "../../../../tools/Fetchs";
-import Gallery from "../gallery/Gallery";
-import Loading from "../UI/animation/Loading";
-import DetailsItem from "./DetailsItem";
-import { setUrlParam, getUrlParam } from "../../../../tools/UrlParam";
+import { fetchAnything } from "../utils/Fetchs";
+import Gallery from "../components/gallery/Gallery";
+import Loading from "../components/UI/animation/Loading";
+import DetailsItem from "../components/equipment/DetailsItem";
+import { getUrlParam, setUrlParam } from "../utils/UrlParam";
 
 export default function Equipment() {
 	// states for the gallery data
@@ -91,7 +91,7 @@ export default function Equipment() {
 	}
 
 	return (
-		<>
+		<section id="equip-menu-container">
 			{categories.categories &&
 				categories.categories.map((catType) => (
 					<strong
@@ -134,6 +134,6 @@ export default function Equipment() {
 					)}
 				</aside>
 			</article>
-		</>
+		</section>
 	);
 }

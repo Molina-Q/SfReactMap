@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class EquipmentController extends AbstractController
 {
@@ -23,9 +24,11 @@ class EquipmentController extends AbstractController
     {
         $equipments = $equipmentRepository->findAll();
 
-        return $this->render('equipment/index.html.twig', [
-            'equipments' => $equipments,
-        ]);
+        // return $this->render('equipment/index.html.twig', [
+        //     'equipments' => $equipments,
+        // ]);
+        
+        return $this->render('equipment/index.html.twig');
     }
 
     #[Route('/equipment/create', name: 'create_equipment')]

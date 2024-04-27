@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 
-import LeafletMap from "./LeafletMap";
-import Timeline from "./timeline/Timeline";
-import Modal from "./modal/Modal";
-import ShowArticle from "./modal/ShowArticle";
-import Loading from "./UI/animation/Loading";
+import LeafletMap from "../components/LeafletMap";
+import Timeline from "../components/timeline/Timeline";
+import Modal from "../components/modal/Modal";
+import ShowArticle from "../components/modal/ShowArticle";
+import Loading from "../components/UI/animation/Loading";
 
-import { fetchAnything } from "../../../tools/Fetchs";
-import ShowSection from "./modal/ShowSection";
-import LinkBtn from "./UI/button/LinkBtn";
-import { getUrlParam, setUrlParam } from "../../../tools/UrlParam";
+import { fetchAnything } from "../utils/Fetchs";
+import { getUrlParam, setUrlParam } from "../utils/UrlParam";
+import ShowSection from "../components/modal/ShowSection";
+import LinkBtn from "../components/UI/button/LinkBtn";
 
 const SfReactMap = () => {
   // ce composant devient le composant principal, qui va se comporter comme un Controller

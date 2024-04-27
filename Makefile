@@ -172,7 +172,7 @@ first-install: composer-install init-db sf-start sf-open ## First install.
 install-all: composer-install npm-install ## install all npm and composer dependency.
 .PHONY: install-all
 
-start: sf-cc sf-start sf-open npm-watch ## Start project.
+start: sf-cc sf-start sf-open npm-dev ## Start project.
 .PHONY: start
 
 stop: sf-stop ## Stop project.

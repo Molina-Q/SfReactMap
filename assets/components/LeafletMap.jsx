@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { MapContainer, TileLayer, useMap, GeoJSON } from "react-leaflet";
-import myGeoJson1400 from "../../../../public/geojson/1400countries.json";
-import myGeoJson1500 from "../../../../public/geojson/1500countries.json";
-import myGeoJson1600 from "../../../../public/geojson/1600countries.json";
-import myGeoJson1700 from "../../../../public/geojson/1700countries.json";
-import myGeoJson1800 from "../../../../public/geojson/1800countries.json";
-import myGeoJson1900 from "../../../../public/geojson/1900countries.json";
+import myGeoJson1400 from "../geojson/1400countries.json";
+import myGeoJson1500 from "../geojson/1500countries.json";
+import myGeoJson1600 from "../geojson/1600countries.json";
+import myGeoJson1700 from "../geojson/1700countries.json";
+import myGeoJson1800 from "../geojson/1800countries.json";
+import myGeoJson1900 from "../geojson/1900countries.json";
 
 // all possible value for geoJSonFeatures
 const myGeoJsons = {
@@ -112,7 +112,7 @@ const LeafletMap = ({ checkedValue, handleClickOnCountry }) => {
   }
 
   return (
-    <>
+    <div id="leafletMap">
       <MapContainer
         className="map"
         center={position}
@@ -131,7 +131,7 @@ const LeafletMap = ({ checkedValue, handleClickOnCountry }) => {
         {/* Country polygon */}
         <GeoJsonGeometry jsonFeatures={geoJsonFeatures} />
       </MapContainer>
-    </>
+    </div>
   );
 };
 
