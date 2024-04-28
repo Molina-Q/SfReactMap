@@ -7,10 +7,11 @@ import Navbar from "./components/Navbar";
 const App = () => {
   return (
     <BrowserRouter>
-    {/* <Navbar /> */}
+    <Navbar />
       <Routes>
         <Route path="/map" element={<SfReactMap />} />
         <Route path="/equipment" element={<Equipment />} />
+        <Route path="/equipment/create" element={<Equipment />} />
       </Routes>
     </BrowserRouter>
   );
