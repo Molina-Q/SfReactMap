@@ -4,6 +4,7 @@ import Gallery from "../components/gallery/Gallery";
 import Loading from "../components/UI/animation/Loading";
 import DetailsItem from "../components/equipment/DetailsItem";
 import { getUrlParam, setUrlParam } from "../utils/UrlParam";
+import { Link } from "react-router-dom";
 
 export default function Equipment() {
 	// states for the gallery data
@@ -19,7 +20,6 @@ export default function Equipment() {
 	// states for the details page data
 	const [clickedItemData, setClickedItemData] = useState({});
 	const [loadingDetails, setLoadingDetails] = useState(false);
-
 
 	const [urlData, setUrlData] = useState({
 		type: getUrlParam("type") || 1,
@@ -91,49 +91,64 @@ export default function Equipment() {
 	}
 
 	return (
-		<section id="equip-menu-container">
-			{categories.categories &&
-				categories.categories.map((catType) => (
-					<strong
-						key={catType.id}
-						data-id={catType.id}
-						onClick={handleClickCategory}
-						className={"cat-" + catType.label.toLowerCase()}
+		<div id="wrapperMain">
+			<Link to="equipment/create">
+				<button>
+					New item
+					<svg
+						class="icon icon-plus"
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 448 512"
 					>
-						{catType.label}
-					</strong>
-				))}
+						<path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" />
+					</svg>
+				</button>
+			</Link>
 
-			<article className="equip-menu">
-				<article className="equip-gallery">
-					{loading ? (
-						<Loading />
-					) : data["equipments"].length === 0 ? (
-						<h2>There is no items here yet sorry for the inconvenience !</h2>
-					) : (
-						<Gallery
-							items={data["equipments"]}
-							className={"equip-items"}
-							clickEvent={handleClickImage}
-						/>
-					)}
+			<section id="equip-menu-container">
+				{categories.categories &&
+					categories.categories.map((catType) => (
+						<strong
+							key={catType.id}
+							data-id={catType.id}
+							onClick={handleClickCategory}
+							className={"cat-" + catType.label.toLowerCase()}
+						>
+							{catType.label}
+						</strong>
+					))}
+
+				<article className="equip-menu">
+					<article className="equip-gallery">
+						{loading ? (
+							<Loading />
+						) : data["equipments"].length === 0 ? (
+							<h2>There is no items here yet sorry for the inconvenience !</h2>
+						) : (
+							<Gallery
+								items={data["equipments"]}
+								className={"equip-items"}
+								clickEvent={handleClickImage}
+							/>
+						)}
+					</article>
+
+					<aside className="equip-description">
+						{loadingDetails ? (
+							<Loading />
+						) : clickedItemData.equipment ? (
+							<DetailsItem
+								name={clickedItemData.equipment.name}
+								img={clickedItemData.equipment.img}
+								text={clickedItemData.equipment.text}
+								id={clickedItemData.equipment.id}
+							/>
+						) : (
+							<DetailsItem />
+						)}
+					</aside>
 				</article>
-
-				<aside className="equip-description">
-					{loadingDetails ? (
-						<Loading />
-					) : clickedItemData.equipment ? (
-						<DetailsItem
-							name={clickedItemData.equipment.name}
-							img={clickedItemData.equipment.img}
-							text={clickedItemData.equipment.text}
-							id={clickedItemData.equipment.id}
-						/>
-					) : (
-						<DetailsItem />
-					)}
-				</aside>
-			</article>
-		</section>
+			</section>
+		</div>
 	);
 }
