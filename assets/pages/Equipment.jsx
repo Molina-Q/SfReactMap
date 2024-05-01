@@ -68,12 +68,14 @@ export default function Equipment() {
 	// call fetchData when page is loading then when category type is updated
 	useEffect(() => {
 		fetchData(`/api/equipment/type/${urlData.type}`, setData, setLoading);
+
 		if (
 			(urlData.item && !clickedItemData.equipment) ||
 			(clickedItemData.equipment &&
 				urlData.item != clickedItemData.equipment.id)
 		) {
 			setLoadingDetails(true);
+
 			fetchData(
 				`/api/equipment/${urlData.item}`,
 				setClickedItemData,
@@ -91,7 +93,7 @@ export default function Equipment() {
 	}
 
 	return (
-		<div id="wrapperMain">
+		<main id="wrapperMain" className="wrap-equip">
 			<Link to="equipment/create">
 				<button>
 					New item
@@ -149,6 +151,6 @@ export default function Equipment() {
 					</aside>
 				</article>
 			</section>
-		</div>
+		</main>
 	);
 }
