@@ -51,10 +51,11 @@ class ApiController extends AbstractController
         return new JsonResponse([
             'equipment' => $equipment
         ]);
+
     }
 
     // get every equipment from the specified category
-    #[Route('/api/equipment/type/{id}', name: 'get_equipment')]
+    #[Route('/api/equipment/type/{id}', name: 'get_equipment', methods:['GET'])]
     public function getEquip(
         EquipmentRepository $equipmentRepository,
         int $id
@@ -70,10 +71,12 @@ class ApiController extends AbstractController
                 'img' => $equip->getOneImg(),
             ];
         }
-
+        // dd($equipmentsObject);
         return new JsonResponse([
-            'equipments' => $equipments
+            'equipments' => $equipments,
         ]);
+           
+        // return $this->json($equipmentsObject, 200, [],  ['equipments' => 'equipment.name']);
     }
 
     // modal showSection
