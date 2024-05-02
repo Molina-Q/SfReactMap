@@ -50,6 +50,15 @@ export default function SignUp() {
 				<div className="flex-1">
 					<form className="flex flex-col gap-4" onSubmit={handleSubmit}>
 						<div>
+							<label htmlFor="username" value="Your username" />
+							<input
+								type="text"
+								placeholder="username"
+								id="username"
+								onChange={handleChange}
+							/>
+						</div>
+						<div>
 							<label htmlFor="email" value="Your email" />
 							<input
 								type="email"
@@ -84,9 +93,9 @@ export default function SignUp() {
 						{/* <OAuth /> */}
 					</form>
 					<div className="flex gap-2 text-sm mt-5">
-						<span>Dont have an account ?</span>
-						<Link to="/register" className="text-blue-500">
-							Sign Up
+						<span>Already have an account ?</span>
+						<Link to="/login" className="text-blue-500">
+							login
 						</Link>
 					</div>
 					{errorMessage && (
