@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 
 export default function Home() {
 	return (
-		<>
+		<main className="wrap-home">
 			<section id="home-welcome">
-				<h2 class="primary-title">Welcome to our map</h2>
+				<h2 className="primary-title">Welcome to our map</h2>
 				<p>Learn how to use it</p>
 
-				<Link to="/map" class="button-main">
+				<Link to="/map" className="button-main">
 					<span>Get to the map</span>
 				</Link>
 			</section>
@@ -38,7 +38,7 @@ export default function Home() {
 					<img src="" alt="" />
 				</figure>
 
-                <Link to={'/equipment'} class="button-main">
+                <Link to={'/equipment'} className="button-main">
 					<span>Equipment</span>
                 </Link>
 			</section>
@@ -54,10 +54,10 @@ export default function Home() {
 					<img src="" alt="" />
 				</figure>
 
-				<Link to="/forum" class="button-main">
+				<Link to="/forum" className="button-main">
                     <span>Forum</span>
                 </Link>
 			</section>
-		</>
+		</main>
 	);
 }
