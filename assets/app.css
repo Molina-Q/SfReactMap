@@ -31,7 +31,7 @@ body {}
 
 #wrapperBody {
   min-height: 100svh;
-  position: relative;
+  /* position: relative; */
   display: flex;
   flex-direction: column;
   font-family: 'Encode Sans', 'Colibri';
@@ -123,11 +123,7 @@ header {
 
   outline: 2px solid var(--primary-color);
 
-  position: initial;
-}
-
-.wrap-map header {
-  position: absolute;
+  /* position: initial; */
 }
 
 header nav {
@@ -701,7 +697,8 @@ header nav {
   border: 5px solid var(--primary-color);
   border-radius: 3px;
 
-  display: grid;
+  display: flex;
+  flex-direction: column;
   /* grid-template-columns: auto;
     grid-template-rows: auto; */
 
