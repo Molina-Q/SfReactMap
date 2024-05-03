@@ -98,7 +98,7 @@ export default function Equipment() {
 				<button>
 					New item
 					<svg
-						class="icon icon-plus"
+						className="icon icon-plus"
 						xmlns="http://www.w3.org/2000/svg"
 						viewBox="0 0 448 512"
 					>
