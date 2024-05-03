@@ -5,7 +5,8 @@ import Equipment from "./pages/Equipment";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Forum from "./pages/Forum";
-import SignUp from "./pages/SignUp";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 const App = () => {
   return (
@@ -17,7 +18,8 @@ const App = () => {
         <Route path="/home" element={<Home />} />
         <Route path="/forum" element={<Forum />} />
         <Route path="/equipment/create" element={<Equipment />} />
-        <Route path="/register" element={<SignUp />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </BrowserRouter>
   );
