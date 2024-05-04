@@ -31,11 +31,7 @@ class RegistrationController extends AbstractController
         $this->emailVerifier = $emailVerifier;
     }
 
-    #[Route('/register', name: 'app_show_register', methods: ['GET'])]
-    public function showRegister(): Response
-    {
-        return $this->render('map/index.html.twig');
-    }
+
 
     #[Route('/api/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, ValidatorInterface $validator): Response
