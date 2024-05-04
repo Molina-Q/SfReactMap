@@ -28,15 +28,21 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
 
     public function authenticate(Request $request): Passport
     {
-        $email = $request->request->get('email', '');
-
+        $data = json_decode($request->getContent(), true);
+    
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \Exception('Invalid JSON.');
+        }
+    
+        $email = $data['email'] ?? '';
+    
         $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $email);
-
+    
         return new Passport(
             new UserBadge($email),
-            new PasswordCredentials($request->request->get('password', '')),
+            new PasswordCredentials($data['password']),
             [
-                new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
+                new CsrfTokenBadge('authenticate', $data['_csrf_token']),
                 new RememberMeBadge(),
             ]
         );
@@ -49,7 +55,7 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
         }
 
         // For example:
-        return new RedirectResponse($this->urlGenerator->generate('app_forum'));
+        return new RedirectResponse($this->urlGenerator->generate('app_home'));
         throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 
