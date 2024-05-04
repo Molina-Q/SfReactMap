@@ -19,13 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class MapController extends AbstractController
 {
-    // the index 
-    #[Route('/map', name: 'app_map')]
-    public function index(): Response
-    {
-        return $this->render('map/index.html.twig', [
-        ]);
-    }
+
 
     #[Route('/map/create/article/{countryStr}/{centuryStr}', name: 'create_article')]
     public function createArticle(
