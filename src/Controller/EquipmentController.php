@@ -19,17 +19,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class EquipmentController extends AbstractController
 {
-    #[Route('/equipment', name: 'app_equipment')]
-    public function index(EquipmentRepository $equipmentRepository): Response
-    {
-        $equipments = $equipmentRepository->findAll();
 
-        // return $this->render('equipment/index.html.twig', [
-        //     'equipments' => $equipments,
-        // ]);
-        
-        return $this->render('equipment/index.html.twig');
-    }
 
     #[Route('/equipment/create', name: 'create_equipment')]
     public function create(
