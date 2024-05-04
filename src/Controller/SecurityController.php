@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -24,36 +23,61 @@ class SecurityController extends AbstractController
         $this->csrfTokenManager = $csrfTokenManager;
     }
 
-    #[Route(path: '/login', name: 'app_login')]
-    public function loginPage(): Response
-    {    
-        return $this->render('security/index.html.twig');
+    #[Route(path: '/logout', name: 'app_logout')]
+    public function logout(): void
+    {
+        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 
-    #[Route(path: '/api/login', name: 'app_login_post', methods: ['POST'])]
+    #[Route(path: '/api/login', name: 'app_login')]
     public function loginPost(Request $request, UserPasswordHasherInterface $passwordHasher, UserRepository $userRepository, CsrfTokenManagerInterface $csrfTokenManager, AuthenticationUtils $authenticationUtils): Response
     {
         $data = json_decode($request->getContent(), true);
 
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            // JSON decoding error
+            return new JsonResponse(['error' => true, 'message' => 'Invalid JSON.'], Response::HTTP_BAD_REQUEST);
+        }
+    
+        if (!isset($data['email']) || !is_string($data['email'])) {
+            // Email field is missing or not a string
+            return new JsonResponse(['error' => true, 'message' => 'The "email" field must be a string.'], Response::HTTP_BAD_REQUEST);
+        }
+
         $email = $data['email'];
         $password = $data['password'];
         $csrfToken = $data['_csrf_token'];
-
+       
         // Validate CSRF token
         if (!$csrfTokenManager->isTokenValid(new CsrfToken('authenticate', $csrfToken))) {
-            return new JsonResponse(['error' => 'Invalid CSRF token.'], Response::HTTP_FORBIDDEN);
+            return new JsonResponse(['error' => true, 'message' => 'Invalid CSRF token.'], Response::HTTP_FORBIDDEN);
         }
     
         // Load the user
-        $user = $userRepository->findOneBy(['email' => $email]);
+        $user = $userRepository->findOneByEmail($email);
     
         if (!$user || !$passwordHasher->isPasswordValid($user, $password)) {
             // Invalid email or password
-            return new JsonResponse(['error' => 'Invalid email or password.'], Response::HTTP_UNAUTHORIZED);
+            return new JsonResponse(['error' => true, 'message' => 'Invalid email or password.'], Response::HTTP_UNAUTHORIZED);
         }
     
+        return new JsonResponse(['username' => $user->getUsername(), 'email' => $user->getEmail()], Response::HTTP_OK);
+    } 
+
+    #[Route("/api/user/getuser", name: 'get_user')]
+    public function getConnectedUser(): JsonResponse
+    {
+        $user = $this->getUser();
+   
+        if ($user) {
+            return $this->json([
+              'user' => $user,
+            ]);
+        }
     
-        return new JsonResponse(['status' => 'ok'], Response::HTTP_OK);
+        return $this->json([
+            'error' => true, 'message' => 'No user session found',
+        ], 404);
     }
 
     #[Route(path: '/api/login/show', name: 'app__get_login', methods: ['GET'])]
@@ -76,9 +100,5 @@ class SecurityController extends AbstractController
 
    
 
-    #[Route(path: '/logout', name: 'app_logout')]
-    public function logout(): void
-    {
-        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
-    }
+
 }
