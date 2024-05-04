@@ -3,10 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import Alert from "../components/UI/Alert";
 import Loading from "../components/UI/animation/Loading";
 import { fetchAnything } from "../utils/Fetchs";
+import { useDispatch } from "react-redux";
+import { setUser } from "../redux/user/userSlice";
+import { getUserSession } from "../utils/getUserSession";
 
 export default function Login() {
 	const navigate = useNavigate();
-	// const dispatch = useDispatch();
+	const dispatch = useDispatch();
 	// const { loading, error: errorMessage } = useSelector((state) => state.user);
 	const [loading, setLoading] = useState(false);
 	const [errorMessage, setErrorMessage] = useState(null);
@@ -22,9 +25,11 @@ export default function Login() {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+
 		if (!loginData.email || !loginData.password) {
 			return setErrorMessage("Please fill out all fields!");
 		}
+
 		try {
 			// dispatch(signInStart());
 			console.log(JSON.stringify({...loginData}));
@@ -33,15 +38,29 @@ export default function Login() {
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({...loginData}),
 			});
-			const data = await res.json();
-			if (data.success === false) {
-				// dispatch(signInFailure(data.message));
-			}
+
+			// console.log("Before data");
+			// console.log(await res.json())
+
+			// const data = await res.json();
+	
+			// console.log("data = ", data);
+
 			if (res.ok) {
-				// dispatch(signInSuccess(data));
+
+				const session = await getUserSession();
+
+				console.log("Session:", session);
+
+				dispatch(setUser(session));
+
+				console.log("dispatch");
+
 				navigate("/home");
 			}
+
 		} catch (error) {
+			console.log("Login error", error);
 			return setErrorMessage(error.message);
 			// dispatch(signInFailure(error));
 		}
