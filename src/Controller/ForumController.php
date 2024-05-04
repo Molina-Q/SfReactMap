@@ -24,21 +24,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ForumController extends AbstractController
 {
 
-    #[Route('/forum', name: 'app_forum')]
-    public function index(
-        TopicRepository $topicRepository,
-        CategoryRepository $categoryRepository
+    // #[Route('/fauxrum', name: 'app_forum')]
+    // public function index(
+    //     TopicRepository $topicRepository,
+    //     CategoryRepository $categoryRepository
         
-    ): Response
-    {
-        $topics = $topicRepository->findBy([], ['title' => 'ASC']);
-        $equipCateg = $categoryRepository->findAll();
+    // ): Response
+    // {
+    //     $topics = $topicRepository->findBy([], ['title' => 'ASC']);
+    //     $equipCateg = $categoryRepository->findAll();
 
-        return $this->render('forum/index.html.twig', [
-            'topics' => $topics,
-            'equipCateg' => $equipCateg
-        ]);
-    }
+    //     return $this->render('forum/index.html.twig', [
+    //         'topics' => $topics,
+    //         'equipCateg' => $equipCateg
+    //     ]);
+    // }
 
     // create forum route
     #[Route('/forum/create', name: 'create_topic')]
