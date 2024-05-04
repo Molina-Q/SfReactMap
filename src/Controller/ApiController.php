@@ -9,6 +9,7 @@ use App\Repository\EquipmentRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ApiController extends AbstractController
@@ -32,6 +33,7 @@ class ApiController extends AbstractController
             'categories' => $categories
         ]);
     }
+
 
     // get a single equipment item
     #[Route('/api/equipment/{id}', name: 'get_one_equipment')]
