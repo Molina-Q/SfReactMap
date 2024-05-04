@@ -19,16 +19,10 @@
     </head>
 
     <body>
-        <div id="wrapperBody" class="wrap-{% block pageWrapper %}{% endblock %}">
-
-            {# <main> #}
-                {# <div id="wrapperMain"> #}
-                {% block body %}{% endblock %}
-                {# </div> #}
-            {# </main> #}
-            
-            <footer></footer>
-            
+        <div id="wrapperBody">  
+            {% block body %}
+                <div id="root"></div>
+            {% endblock %}
         </div>
         <script src="{{ asset('js/script.js') }}"></script>
     </body>
