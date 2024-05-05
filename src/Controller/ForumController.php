@@ -24,21 +24,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ForumController extends AbstractController
 {
 
-    // #[Route('/fauxrum', name: 'app_forum')]
-    // public function index(
-    //     TopicRepository $topicRepository,
-    //     CategoryRepository $categoryRepository
-        
-    // ): Response
-    // {
-    //     $topics = $topicRepository->findBy([], ['title' => 'ASC']);
-    //     $equipCateg = $categoryRepository->findAll();
+    #[Route('/fauxrum', name: 'app_forum')]
+    public function index(
+        TopicRepository $topicRepository,
+        CategoryRepository $categoryRepository
 
-    //     return $this->render('forum/index.html.twig', [
-    //         'topics' => $topics,
-    //         'equipCateg' => $equipCateg
-    //     ]);
-    // }
+    ): Response {
+        $topics = $topicRepository->findBy([], ['title' => 'ASC']);
+        $equipCateg = $categoryRepository->findAll();
+
+        return $this->render('forum/index.html.twig', [
+            'topics' => $topics,
+            'equipCateg' => $equipCateg
+        ]);
+    }
 
     // create forum route
     #[Route('/forum/create', name: 'create_topic')]
@@ -47,9 +46,8 @@ class ForumController extends AbstractController
         UserRepository $userRepository,
         Request $request,
         EntityManagerInterface $entityManager
-        
-    ): Response
-    {
+
+    ): Response {
         $topic = new Topic();
         $message = new Message();
 
@@ -58,7 +56,7 @@ class ForumController extends AbstractController
         $form = $this->createForm(TopicFormType::class, null, ['attr' => ['class' => 'form-create']]);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $dateNow = new \DateTime('now');
 
             // first set topic's fields
@@ -67,7 +65,7 @@ class ForumController extends AbstractController
             $topic->setEquipment($form->get('Equipment')->getData());
             $topic->setArticle($form->get('Article')->getData());
             $topic->setCreationDate($dateNow);
-            
+
             $entityManager->persist($topic);
             $entityManager->flush();
 
@@ -76,11 +74,11 @@ class ForumController extends AbstractController
             $message->setTopic($topic);
             $message->setCreationDate($dateNow);
             $message->setText($form->get('msgAuthor')->getData());
-        
+
             $entityManager->persist($message);
             $entityManager->flush();
 
-            $this->addFlash('success', 'The Topic '.$topic->getTitle().' was successfully created');
+            $this->addFlash('success', 'The Topic ' . $topic->getTitle() . ' was successfully created');
 
             return $this->redirectToRoute('app_forum');
         }
@@ -97,16 +95,15 @@ class ForumController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         int $id
-        
-    ): Response
-    {
+
+    ): Response {
         $topic = $topicRepository->findOneById($id);
         $message = $messageRepository->findOneByTopic($id);
 
         $form = $this->createForm(TopicFormType::class, $topic, ['attr' => ['class' => 'form-create']]);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $message->setText($form->get('msgAuthor')->getData());
 
@@ -116,7 +113,7 @@ class ForumController extends AbstractController
             $entityManager->persist($message);
             $entityManager->flush();
 
-            $this->addFlash('success', 'The Topic '.$topic->getTitle().' was successfully updated');
+            $this->addFlash('success', 'The Topic ' . $topic->getTitle() . ' was successfully updated');
 
             return $this->redirectToRoute('app_forum');
         }
@@ -133,9 +130,8 @@ class ForumController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         int $id
-        
-    ): Response
-    {
+
+    ): Response {
         $topic = $topicRepository->findOneById($id);
 
         $entityManager->remove($topic);
@@ -150,100 +146,104 @@ class ForumController extends AbstractController
     public function createComment(
         MessageRepository $messageRepository,
         EntityManagerInterface $entityManager
-    ): Response
-    {
+    ): Response {
 
         $comment = new Comment();
         $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $text = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-        
+
         $message = $messageRepository->findOneById($id);
 
         $errorCheck = false;
 
-        if(!$message) {
+        if (!$message) {
             $errorCheck = true;
             $this->redirectToRoute('app_forum');
         }
 
-        if(empty($id)) {
+        if (empty($id)) {
             $errorCheck = true;
             $this->addFlash('error', 'The session was successfully deleted');
         }
 
-        if(empty($text)) {
+        if (empty($text)) {
             $errorCheck = true;
             $this->addFlash('error', 'Text cannot be empty');
         }
 
-        if(!$errorCheck) {
+        if (!$errorCheck) {
             $dateNow = new \DateTime('now');
 
             $comment->setText($text);
             $comment->setCreationDate($dateNow);
             $comment->setAuthor($this->getUser());
             $comment->setMessage($message);
-            
+
             $entityManager->persist($comment);
             $entityManager->flush();
         }
-     
+
         $idTopic = $message->getTopic()->getId();
 
         return $this->redirectToRoute('show_topic', ['id' => $idTopic]);
-    }   
+    }
 
-    #[Route('/forum/topic/{id}', name: 'show_topic')]
+    #[Route('/forum/topic/{id}', name: 'get_topic', methods: ['GET'])]
+    public function getTopic(): Response
+    {
+        return $this->render('base.html.twig');
+    }
+
+    #[Route('/api/forum/topic/{id}', name: 'show_topic', methods: ['GET'])]
     public function showTopic(
         int $id,
         TopicRepository $topicRepository,
         MessageRepository $messageRepository,
         Request $request,
         EntityManagerInterface $entityManager
-    ): Response
-    {
+    ): Response {
         $message = new Message();
 
-        $responses = $messageRepository->findMessages($id);
+        $responsesObject = $messageRepository->findMessages($id);
 
-        $topic = $topicRepository->findOneById($id);
+        $topicObject = $topicRepository->findOneById($id);
 
-        $formMessage = $this->createForm(MessageFormType::class, $message, ['attr' => ['class' => 'form-create']]);
-        $formMessage->handleRequest($request);
+        $topic = [
+            'id' => $topicObject->getId(),
+            'title' => $topicObject->getTitle(),
+            'creationDate' => $topicObject->getCreationDate(),
+            'author' => $topicObject->getAuthor()->getUsername(),
+            'message' => $topicObject->msgAuthor(),
+            'cat' => $topicObject->showCategory(),
+        ];
 
-        if($formMessage->isSubmitted() && $formMessage->isValid()) {
-            $dateNow = new \DateTime('now');
+        $responses = [];
 
-            $message->setCreationDate($dateNow);
-            $message->setAuthor($topic->getAuthor());
-            $message->setTopic($topic);
-
-            $entityManager->persist($message);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('show_topic', ['id' => $id]);
+        foreach ($responsesObject as $response) {
+            $responses[] = [
+                'id' => $response->getId(),
+                'text' => $response->getText(),
+                'creationDate' => $response->getCreationDate(),
+                'author' => $response->getAuthor()->getUsername(),
+                // 'comment' => $response->getComments()->getTitle(),
+            ];
         }
 
-        $comment = new Comment();
+        $data = ['responses' => $responses, 'topic' => $topic];
 
+        return $this->json(
+            $data
+        );
+    }
 
-        return $this->render('forum/show.html.twig', [
-            'topic' => $topic,
-            'responses' => $responses,
-            'createMessageForm' => $formMessage->createView(),
-        ]);
-    }   
-
- 
 
     #[Route('/forum/topic/list/{sortBy}/{id?}', name: 'list_topic', defaults: ['id' => null])]
     public function listTopics(
         string $sortBy,
         int $id = null,
         TopicRepository $topicRepository,
-    ): Response
-    {
+    ): Response {
         $topics = '';
         switch ($sortBy) {
             case 'equip':
@@ -272,21 +272,20 @@ class ForumController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         int $id
-        
-    ): Response
-    {
+
+    ): Response {
         $message = $messageRepository->findOneById($id);
         $topic = $message->getTopic();
 
         $form = $this->createForm(MessageFormType::class, $message, ['attr' => ['class' => 'form-create']]);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $entityManager->persist($message);
             $entityManager->flush();
-         
-           return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
+
+            return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
         }
 
         return $this->render('forum/message.html.twig', [
@@ -301,9 +300,8 @@ class ForumController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         int $id
-        
-    ): Response
-    {
+
+    ): Response {
         $message = $messageRepository->findOneById($id);
         $topic = $message->getTopic();
 
@@ -311,7 +309,7 @@ class ForumController extends AbstractController
         $entityManager->flush();
 
         $this->addFlash('success', 'The session was successfully deleted');
-        
+
         return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
     }
 
@@ -323,16 +321,15 @@ class ForumController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         int $id
-        
-    ): Response
-    {
+
+    ): Response {
         $comment = $commentRepository->findOneById($id);
         $topic = $comment->getMessage()->getTopic();
 
         $form = $this->createForm(CommentFormType::class, $comment, ['attr' => ['class' => 'form-create']]);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $entityManager->persist($comment);
             $entityManager->flush();
@@ -353,9 +350,8 @@ class ForumController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         int $id
-        
-    ): Response
-    {
+
+    ): Response {
         $comment = $commentRepository->findOneById($id);
         $topic = $comment->getMessage()->getTopic();
 
