@@ -10,7 +10,7 @@ function TopicTag(props) {
         <a href="">{props.author}</a>
       </p>
     </>
-  );
+  ); 
 }
 
 export default TopicTag;
