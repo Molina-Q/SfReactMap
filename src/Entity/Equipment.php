@@ -177,6 +177,11 @@ class Equipment
         return $this->name;
     }
 
+    public function equipTag()
+    {
+        return $this->name . ' - ' . $this->sub_category->getLabel();
+    }
+
     
     public function getOneImg()
     {
