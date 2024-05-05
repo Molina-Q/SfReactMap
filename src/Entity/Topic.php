@@ -151,9 +151,9 @@ class Topic
     public function showCategory() 
     {
         if(empty($this->Article)) {
-            return $this->Equipment;
+            return $this->Equipment->equipTag();
         } else {
-            return $this->Article;
+            return $this->Article->articleTag();
         }
     }
 
@@ -168,7 +168,7 @@ class Topic
 
     public function categories()
     {
-        $cat = ['Century', 'Country', 'Ceapon', 'Armour', 'Tool']; 
+        $cat = ['Century', 'Country', 'Weapon', 'Armour', 'Tool']; 
         return $cat;
     }
 
@@ -189,7 +189,7 @@ class Topic
 
     public function showMessages()
     {
-        $massages = $this->messages;
+        $messages = $this->messages;
         // needs to return array with all messages except the one in the header
         return $this;
     }
