@@ -6,6 +6,7 @@ use App\Repository\ArticleRepository;
 use App\Repository\SectionRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\EquipmentRepository;
+use App\Repository\TopicRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -34,6 +35,26 @@ class ApiController extends AbstractController
         ]);
     }
 
+    #[Route('/api/forum/popularposts', name: 'get_posts')]
+    public function getPosts(
+        TopicRepository $topicRepository,
+    ): Response {
+        $topicsObject = $topicRepository->findBy([], ['title' => 'ASC'], 5);
+        $topics = [];
+
+        foreach ($topicsObject as $topic) {
+            $topics[] = [
+                'id' => $topic->getId(),
+                'title' => $topic->getTitle(),
+                'date' => $topic->getCreationDate(),
+                'user' => $topic->getAuthor()->getUsername()
+            ];
+        }
+
+        return new JsonResponse([
+            'topics' => $topics
+        ]);
+    }
 
     // get a single equipment item
     #[Route('/api/equipment/{id}', name: 'get_one_equipment')]
