@@ -1,38 +1,42 @@
-import React from 'react'
-import SingleSectionInArticle from './SingleSectionInArticle'
-import LinkBtn from '../UI/button/LinkBtn'
+import React from "react";
+import SingleSectionInArticle from "./SingleSectionInArticle";
+import LinkBtn from "../UI/button/LinkBtn";
 
-function ShowArticle({article, showDetails}) {
- 
-  return (
-    <article>
-        <h2>{article.Country.name} - {article.Century.year}</h2>
+function ShowArticle({ article, showDetails }) {
+	return (
+		<article>
+			<h2>
+				{article.Country.name} - {article.Century.year}
+			</h2>
 
-        <LinkBtn URI={`map/edit/article/${article.id}`}>
+			{/* <LinkBtn URI={`map/edit/article/${article.id}`}>
           Edit
         </LinkBtn>
 
-        <LinkBtn URI={`map/delete/article/${article.id}`}>
+        <LinkBtn  URI={`map/delete/article/${article.id}`}> 
           Delete
-        </LinkBtn>
+        </LinkBtn> */}
 
-        <h1>{article.title}</h1> 
+			<h1>{article.title}</h1>
 
-        <p>{article.summary}</p> 
+			<p>{article.summary}</p>
 
-        <section className='section-container'>
-          
-          {article.sections.map((section) =>
-            <SingleSectionInArticle key={section.id} section={section} showDetails={showDetails} />
-          )}
+			<section className="section-container">
+				{article.sections.map((section) => (
+					<SingleSectionInArticle
+						key={section.id}
+						section={section}
+						showDetails={showDetails}
+					/>
+				))}
+			</section>
 
-        </section>
+			{/* {article.sections.length < 3 && (
+				<LinkBtn URI={`section/create/${article.id}`}>Add Section</LinkBtn>
+			)} */}
 
-        <LinkBtn URI={`section/create/${article.id}`}>
-          Add Section
-        </LinkBtn>
-    </article> 
-  )
+		</article>
+	);
 }
 
-export default ShowArticle
+export default ShowArticle;
