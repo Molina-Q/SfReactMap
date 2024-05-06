@@ -28,13 +28,6 @@
   box-sizing: border-box;
 }
 
-body {}
-
-/*
-575D69
-282A2E
-*/
-
 #wrapperBody {
   min-height: 100svh;
   position: relative;
