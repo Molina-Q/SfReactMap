@@ -2,16 +2,24 @@
 
 namespace App\Controller;
 
+use App\Entity\Img;
+use App\Entity\Equipment;
+use App\Entity\ImgObject;
+use App\Repository\ImgRepository;
+use App\Repository\TopicRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\SectionRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\EquipmentRepository;
-use App\Repository\TopicRepository;
+use App\Repository\ImgObjectRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class ApiController extends AbstractController
 {
@@ -35,6 +43,7 @@ class ApiController extends AbstractController
         ]);
     }
 
+    // get the 5 most popular posts
     #[Route('/api/forum/popularposts', name: 'get_posts')]
     public function getPosts(
         TopicRepository $topicRepository,
@@ -55,6 +64,70 @@ class ApiController extends AbstractController
             'topics' => $topics
         ]);
     }
+
+    // create an Equipment
+    #[Route('/api/equipment/create-entity', name: 'create_equipment', methods:['POST'])]
+    public function create(
+        EquipmentRepository $equipmentRepository,
+        ImgRepository $imgRepository,
+        ImgObjectRepository $imgObjectRepository,
+        Request $request,
+        EntityManagerInterface $entityManager
+        ): Response
+    {
+        $equipment = new Equipment();
+        $img = new Img();
+        $imgObject = new ImgObject();
+    
+        $user = $this->getUser(); // get the user currently logged in
+    
+        // Get form data from the request
+        $data = $request->request->all();
+    
+        if ($data) {
+            $dateNow = new \DateTime('now');
+    
+            $equipment->setName($data['name']);
+            $equipment->setText($data['text']);
+            $equipment->setSubCategory($data['sub_category']);
+    
+            $entityManager->persist($equipment);
+            $entityManager->flush();
+    
+            // Handle file upload
+            $uploadedFile = $request->files->get('image');
+    
+            if ($uploadedFile) {
+                $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFilename = $originalFilename.'-'.uniqid().'.'.$uploadedFile->guessExtension();
+    
+                // Move the file to the directory where brochures are stored
+                try {
+                    $uploadedFile->move(
+                        'img/upload',
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // Handle exception
+                }
+    
+                $img->setPath($newFilename);
+            }
+    
+            $entityManager->persist($img);
+            $entityManager->flush();
+    
+            $imgObject->setEquipment($equipment);
+            $imgObject->setImg($img);
+    
+            $entityManager->persist($imgObject);
+            $entityManager->flush();
+    
+            return new JsonResponse(['status' => 'Equipment created!'], Response::HTTP_CREATED);
+        }
+    
+        return new JsonResponse(['status' => 'Error: Invalid data'], Response::HTTP_BAD_REQUEST);
+    }    
 
     // get a single equipment item
     #[Route('/api/equipment/{id}', name: 'get_one_equipment')]
@@ -102,7 +175,7 @@ class ApiController extends AbstractController
         // return $this->json($equipmentsObject, 200, [],  ['equipments' => 'equipment.name']);
     }
 
-    // modal showSection
+    // The section Modal from the map
     #[Route('/dataCountry/section/{id}', name: 'show_section', methods: ['GET'])]
     public function showSection(
         int $id,
