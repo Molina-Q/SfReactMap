@@ -4,7 +4,7 @@ import Alert from "../components/UI/Alert";
 import Loading from "../components/UI/animation/Loading";
 
 export default function Register() {
-	const [user, setUser] = useState({}); // Initialize user state
+	const [userData, setUserData] = useState({}); // Initialize user state
 	const [dataMessage, setDataMessage] = useState(null); // Initialize dataMessage state
 	const handleChange = (e) => {
 		setUser({
@@ -13,27 +13,25 @@ export default function Register() {
 		});
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 
 		setDataMessage(null);
 
-		fetch("/api/register", {
-			// Replace with your Symfony endpoint
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(user),
-		})
-			.then((response) => response.json())
-			.then((data) => {
-				// Handle response data...
-				setDataMessage(data);
-			})
-			.catch((error) => {
-				setDataMessage(error);
+		try {
+			const response = await fetch("/api/register", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(userData),
 			});
+
+			const data = await response.json();
+			setDataMessage(data);
+		} catch (error) {
+			setDataMessage(error);
+		}
 	};
 
 	return (
