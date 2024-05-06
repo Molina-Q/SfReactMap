@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Img;
 use App\Entity\Equipment;
 use App\Entity\SubCategory;
 use Symfony\Component\Form\AbstractType;
@@ -25,15 +26,6 @@ class EquipmentFormType extends AbstractType
                 'class' => SubCategory::class,
                 'choice_label' => 'subAndCat',
             ])
-
-            // ->add('sub_category', CollectionType::class, [
-            //       // each entry in the array will be an "email" field
-            //     'entry_type' => TextType::class,
-            //     // these options are passed to each "email" type
-            //     'entry_options' => [
-            //         'attr' => ['class' => 'email-box'],
-            //     ],
-            // ])
 
             ->add('path', FileType::class, [
 
