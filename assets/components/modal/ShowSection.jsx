@@ -5,9 +5,9 @@ import LinkBtn from "../UI/button/LinkBtn";
 function ShowSection({ section }) {
   return (
     <article>
-      <LinkBtn URI={`section/edit/${section.id}`} className={"delete-btn"}>
+      {/* <LinkBtn URI={`section/edit/${section.id}`} className={"delete-btn"}>
         Edit
-      </LinkBtn>
+      </LinkBtn> */}
 
       <h1>{section.title}</h1>
 
