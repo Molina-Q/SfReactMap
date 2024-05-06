@@ -19,6 +19,7 @@ export default function Equipment() {
 
 	// states for the details page data
 	const [clickedItemData, setClickedItemData] = useState({});
+	const [clickedItemId, setClickedItemId] = useState(null);
 	const [loadingDetails, setLoadingDetails] = useState(false);
 
 	const [urlData, setUrlData] = useState({
@@ -28,6 +29,10 @@ export default function Equipment() {
 
 	// onClick function for the images of the gallery
 	const handleClickImage = (id) => {
+
+		if (clickedItemId === id) return;
+
+		setClickedItemId(id)
 		setLoadingDetails(true);
 		setUrlParam("item", id);
 		setUrlData({ ...urlData, item: id });
@@ -35,6 +40,8 @@ export default function Equipment() {
 
 	// onClick function for the categories
 	const handleClickCategory = (e) => {
+		if(e.target.getAttribute("data-id") == currentCategory) return;
+
 		if (
 			e.target.getAttribute("data-id") == 1 ||
 			e.target.getAttribute("data-id") == 2 ||
@@ -94,7 +101,7 @@ export default function Equipment() {
 
 	return (
 		<main id="wrapperMain" className="wrap-equip">
-			<Link to="equipment/create">
+			<Link to="/equipment/create">
 				<button>
 					New item
 					<svg
