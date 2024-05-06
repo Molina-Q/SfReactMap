@@ -12,6 +12,7 @@ class RouterController extends AbstractController
     #[Route('/home', name: 'app_home', methods: ['GET'])]
     #[Route('/equipment', name: 'app_equipment', methods: ['GET'])]
     #[Route('/equipment/create', name: 'show_create_equipment', methods: ['GET'])]
+    #[Route('/article/create', name: 'show_create_article', methods: ['GET'])]
     #[Route('/map', name: 'app_map', methods: ['GET'])]
     #[Route('/forum', name: 'app_forum', methods: ['GET'])]
     public function index(): Response
