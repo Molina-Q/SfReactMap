@@ -8,6 +8,7 @@ import Forum from "./pages/Forum";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ShowTopic from "./pages/ShowTopic";
+import CreateEquipment from "./pages/CreateEquipment";
 
 const App = () => {
   return (
@@ -19,7 +20,7 @@ const App = () => {
         <Route path="/home" element={<Home />} />
         <Route path="/forum" element={<Forum />} />
         <Route path="/forum/topic/:topicId" element={<ShowTopic />} />
-        <Route path="/equipment/create" element={<Equipment />} />
+        <Route path="/equipment/create" element={<CreateEquipment />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
