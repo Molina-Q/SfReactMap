@@ -10,6 +10,7 @@ import Register from "./pages/Register";
 import ShowTopic from "./pages/ShowTopic";
 import CreateEquipment from "./pages/CreateEquipment";
 import CreateArticle from "./pages/CreateArticle";
+import CreateTopic from "./pages/CreateTopic";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
         <Route path="/forum/topic/:topicId" element={<ShowTopic />} />
         <Route path="/equipment/create" element={<CreateEquipment />} />
         <Route path="/article/create" element={<CreateArticle />} />
+        <Route path="/topic/create" element={<CreateTopic />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
