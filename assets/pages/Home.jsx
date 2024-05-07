@@ -19,7 +19,10 @@ export default function Home() {
 			</section>
 
 			<article id="home-colour">
-				<h3 ref={scrollRef}>Click on the colored countries</h3>
+				<h3 ref={scrollRef}>
+					Click on the colored countries to learn more about a country's
+					equipments
+				</h3>
 				{/* <p>learn more about their Weapons, Armours or tools</p> */}
 				<p>
 					An article will appear with different section containing information
@@ -58,7 +61,9 @@ export default function Home() {
 				</figure>
 
 				<Link to="/equipment" className="button-main">
-					<span>Equipment <IoCaretForwardOutline /></span>
+					<span>
+						Equipment <IoCaretForwardOutline />
+					</span>
 				</Link>
 			</section>
 
