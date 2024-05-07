@@ -15,7 +15,8 @@
   --font-color-light: #fff;
   --font-color-dark: #2C2C2C;
 
-  --linear-gradient-dark: linear-gradient(#2D2F33, #202124);
+  /* --linear-gradient-dark: linear-gradient(#2D2F33, #202124); */
+  --linear-gradient-dark: linear-gradient( var(--background-gray-glass), #272829);
   --linear-gradient-colour: linear-gradient(0.25turn, #1D87C3, #04948B);
 }
 
@@ -26,6 +27,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+#root {
+  position: relative;
 }
 
 #wrapperBody {
@@ -137,8 +142,6 @@ header {
   z-index: 650;
 
   outline: 2px solid var(--primary-color);
-
-  /* position: initial; */
 }
 
 header nav {
@@ -201,26 +204,25 @@ header nav {
 
 #leafletMap {
   position: relative;
-  /* height: 100%; */
 }
 
 .map {
-  /* min-height: 100svh;
-  max-height: 100vh; */
-  height: 90svh;
+  height: 93svh;
   width: 100%;
 }
 
 /*********************************************************************************/
 /************************************* Modal *************************************/
 /*********************************************************************************/
-/* Modal <dialog> container */
 #myDialog {
-  position: relative;
+  position: absolute;
 
   width: 80vw;
   height: 70vh;
   padding: 2rem 4rem;
+
+  top: 0;
+  left: 0;
 
   margin: 7em 10%;
   border: 0;
@@ -228,6 +230,8 @@ header nav {
   box-shadow: 0 0 0.5rem 0.25rem hsl(0 0% 0% / 10%);
 
   opacity: 0.9;
+
+  z-index: 1000;
 }
 
 #myDialog article {
@@ -252,7 +256,6 @@ header nav {
   .section-container {
     display: flex;
     flex-direction: column;
-
     gap: 1rem;
 
     h3 {
@@ -268,7 +271,6 @@ header nav {
       font-size: 1.2em;
     }
   }
-
 }
 
 /* the background when the modal open */
@@ -311,8 +313,6 @@ header nav {
 
   svg {
     width: 100px;
-
-
     fill: white;
     animation: 1s linear infinite rotate;
   }
@@ -477,7 +477,9 @@ header nav {
 /***************** Equip  Container *****************/
 /* Encompasses all the content specific to the page */
 /****************************************************/
-#equip-menu-container {
+#equip-menu-container .categories {
+  display: flex;
+  flex-direction: row;
 
   .cat-weapon,
   .cat-armour,
@@ -485,8 +487,8 @@ header nav {
     width: fit-content;
     font-size: 1.2em;
 
-    padding: 0 1rem;
-    margin: 0 1rem;
+    padding: 0.2rem 1.2rem;
+    margin: 0 1.2rem;
 
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
@@ -494,16 +496,13 @@ header nav {
     cursor: pointer;
   }
 
-  .cat-weapon {
+  .active {
     background-color: var(--primary-color);
   }
 
-  .cat-armour {
-    background-color: var(--primary-color);
-  }
-
-  .cat-tool {
-    background-color: var(--secondary-color);
+  .inactive {
+    background-color: var(--background-gray);
+    opacity: 0.7;
   }
 }
 
@@ -524,6 +523,8 @@ header nav {
   align-items: center;
 }
 
+
+
 /***** Article - Equipment's Gallery  *****/
 /******************************************/
 .equip-gallery {
@@ -541,12 +542,24 @@ header nav {
 
   /**** Figure ****/
   .equip-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+
     width: 100px;
+    height: 150px;
     cursor: pointer;
+
+    padding: 10px 10px;
+
+    border-radius: 10px;
+
+    background-image: var(--linear-gradient-dark);
 
     img {
       width: 100%;
-      height: 100px;
+      aspect-ratio: 1 / 1;
       border-radius: 15px;
       object-fit: cover;
       transition: 0.2s ease-in-out;
@@ -555,16 +568,20 @@ header nav {
       &:hover {
         /* border-radius: 10px; */
         transform: scale(1.1) translateY(-3px);
+
         /* transform: translateY(-5px); */
 
         transition: 0.2s ease-in-out;
       }
     }
+
+    figcaption {
+     flex: 0;
+    }
   }
 
   figcaption {
     text-align: center;
-
 
     a {
       overflow: hidden;
@@ -572,7 +589,6 @@ header nav {
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 2;
     }
-
   }
 }
 
@@ -598,14 +614,11 @@ header nav {
   gap: 15px;
 
   figure {
-    min-width: 100px;
-    max-width: 200px;
-
-    min-height: 100px;
-    max-height: 200px;
-
+ 
     width: 40%;
-    height: 40%;
+    min-width: 150px;
+    aspect-ratio: 1 / 1;
+    /* This will maintain a square aspect ratio */
 
     gap: 15px;
 
@@ -614,8 +627,8 @@ header nav {
     justify-content: flex-start;
 
     img {
-      height: 100%;
       width: 100%;
+      height: 100%;
       object-fit: cover;
       border-radius: 8px;
     }
@@ -627,6 +640,11 @@ header nav {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+
+    p {
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
   }
 }
 
@@ -651,6 +669,10 @@ header nav {
   min-height: 100svh;
 
   text-align: center;
+
+  .home-arrow {
+    cursor: pointer;
+  }
 
   section,
   article {
@@ -680,11 +702,22 @@ header nav {
     .home-figure-map,
     .home-figure-article,
     .home-figure-section {
-
       height: 425px;
-      
+
       img {
         height: 100%;
+        border-radius: 10px;
+        object-fit: contain;
+        border: 1px solid var(--background-gray-dark);
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+      }
+    }
+
+    .home-figure-timeline {
+      width: 60vw;
+
+      img {
+        width: 100%;
         border-radius: 10px;
         object-fit: contain;
         border: 1px solid var(--background-gray-dark);
@@ -741,22 +774,13 @@ header nav {
 }
 
 [class*="form-input"] {
-  /* height: 35px; */
   font-size: 17px;
-
   padding: 0 10px;
 }
 
 .form-create div {
-  /* affect all div that doesn't have a date input */
   grid-column: 1 / 5;
 }
-
-/* 
-div input[type=checkbox] {
-    width: 25px;
-    margin-left: 15px;
-} */
 
 .form-btn-submit {
   height: 35px;
