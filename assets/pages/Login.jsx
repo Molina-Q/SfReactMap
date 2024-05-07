@@ -132,7 +132,7 @@ export default function Login() {
 					type="submit"
 					onClick={handleSubmit}
 				>
-					Sign in
+					Submit
 				</button>
 			</form>
 			<button type="button" className="google">
