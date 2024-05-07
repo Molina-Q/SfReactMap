@@ -70,7 +70,7 @@ export default function Register() {
 				</div>
 				{/* Add other fields as necessary */}
 				<button className="form-btn-submit" onClick={handleSubmit}>
-					Register
+					Submit
 				</button>
 			</form>
 			{dataMessage && <p>{dataMessage}</p>}
