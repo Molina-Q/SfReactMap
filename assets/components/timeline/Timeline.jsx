@@ -15,12 +15,8 @@ const Timeline = ({ defaultYear = "1900", returnChecked }) => {
 	// called when a new radio is clicked
 	const handleChange = (e) => {
 		setCheckedRadio(e.target.value);
+		returnChecked(e.target.value);
 	};
-
-	// callback used by parent sfReactMap to get the value of the clicked radio
-	useEffect(() => {
-		returnChecked(checkedRadio);
-	}, [checkedRadio]);
 
 	return (
 		<>
