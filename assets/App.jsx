@@ -12,7 +12,7 @@ import CreateEquipment from "./pages/CreateEquipment";
 import CreateArticle from "./pages/CreateArticle";
 import CreateTopic from "./pages/CreateTopic";
 
-const App = () => {
+export default function App() {
   return (
     <BrowserRouter>
     <Navbar />
@@ -31,5 +31,3 @@ const App = () => {
     </BrowserRouter>
   );
 };
-
-export default App;
