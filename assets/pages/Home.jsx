@@ -27,11 +27,11 @@ export default function Home() {
 				<figure className="home-figure-map">
 					<img src="/img/map_screen.PNG" alt="map" />
 				</figure>
+				<p>You can then click on any of the highlighted sub-titles !</p>
 				<figure className="home-figure-article">
 					<img src="/img/article_screen.PNG" alt="an article of the map" />
 				</figure>
 
-				<p>You can then click on any sub-titles !</p>
 
 				<p>
 					The Section will give you more details about
@@ -46,8 +46,8 @@ export default function Home() {
 			<article id="home-timeline">
 				<h3>Click on the timeline</h3>
 				<p>Change the borders and the content of each country's article</p>
-				<figure>
-					<img src="" alt="timeline" />
+				<figure className="home-figure-timeline">
+					<img src="/img/timeline_screen.webp" alt="timeline" />
 				</figure>
 			</article>
 
@@ -55,8 +55,8 @@ export default function Home() {
 				<h4>The Equipment section</h4>
 				<p>You can check the weapons, armours and tools present in the map !</p>
 
-				<figure>
-					<img src="" alt="equipment" />
+				<figure className="home-figure-section">
+					<img src="/img/equip_screen.PNG" alt="equipment" />
 				</figure>
 
 				<Link to="/equipment" className="button-main">
