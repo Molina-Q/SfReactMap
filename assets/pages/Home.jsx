@@ -1,23 +1,25 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Link } from "react-router-dom";
 import { SlArrowDown } from "react-icons/sl";
+import { IoCaretForwardOutline } from "react-icons/io5";
 
 export default function Home() {
+	const scrollRef = useRef(null);
+	const handleClick = () => {
+		scrollRef.current.scrollIntoView({ behavior: "smooth" });
+	};
+
 	return (
 		<main className="wrap-home">
 			<section id="home-welcome">
 				<h2 className="primary-title">Welcome to our Map</h2>
 				<p>Learn how to use it</p>
 
-				{/* <Link to="#home-colour" className="button-main">
-					<span>Get to the explication</span>
-				</Link> */}
-
-				<SlArrowDown size="4em" />
+				<SlArrowDown onClick={handleClick} size="4em" className="home-arrow" />
 			</section>
 
 			<article id="home-colour">
-				<h3>Click on the colored countries</h3>
+				<h3 ref={scrollRef}>Click on the colored countries</h3>
 				{/* <p>learn more about their Weapons, Armours or tools</p> */}
 				<p>
 					An article will appear with different section containing information
@@ -32,11 +34,7 @@ export default function Home() {
 					<img src="/img/article_screen.PNG" alt="an article of the map" />
 				</figure>
 
-
-				<p>
-					The Section will give you more details about
-					the equipments!
-				</p>
+				<p>The Section will give you more details about the equipments!</p>
 
 				<figure className="home-figure-section">
 					<img src="/img/section_screen.PNG" alt="a section in an article" />
@@ -60,7 +58,7 @@ export default function Home() {
 				</figure>
 
 				<Link to="/equipment" className="button-main">
-					<span>Equipment</span>
+					<span>Equipment <IoCaretForwardOutline /></span>
 				</Link>
 			</section>
 
