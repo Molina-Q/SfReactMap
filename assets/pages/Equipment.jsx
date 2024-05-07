@@ -12,7 +12,7 @@ export default function Equipment() {
 	const [loading, setLoading] = useState(true);
 
 	// current active category type
-	const [currentCategory, setCurrentCategory] = useState(null);
+	const [currentCategory, setCurrentCategory] = useState(getUrlParam("type") ?? 1);
 
 	// states for the details page data
 	const [clickedItemData, setClickedItemData] = useState({});
@@ -111,7 +111,6 @@ export default function Equipment() {
 		<main id="wrapperMain" className="wrap-equip">
 			<Link to="/equipment/create">
 				<button>
-					New item
 					<svg
 						className="icon icon-plus"
 						xmlns="http://www.w3.org/2000/svg"
@@ -123,16 +122,20 @@ export default function Equipment() {
 			</Link>
 
 			<section id="equip-menu-container">
-				{categories.map((catType) => (
-					<strong
-						key={catType.id}
-						data-id={catType.id}
-						onClick={handleClickCategory}
-						className={"cat-" + catType.label.toLowerCase()}
-					>
-						{catType.label}
-					</strong>
-				))}
+				<div className="categories">
+					{categories.map((catType) => (
+						<p
+							key={catType.id}
+							data-id={catType.id}
+							onClick={handleClickCategory}
+							className={`cat-${catType.label.toLowerCase()} ${
+								currentCategory == catType.id ? "active" : "inactive"
+							}`}
+						>
+							{catType.label}
+						</p>
+					))}
+				</div>
 
 				<article className="equip-menu">
 					<article className="equip-gallery">
