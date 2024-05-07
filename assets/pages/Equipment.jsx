@@ -11,9 +11,6 @@ export default function Equipment() {
 	const [data, setData] = useState(null);
 	const [loading, setLoading] = useState(true);
 
-	// category data
-	const [categories, setCategories] = useState({});
-
 	// current active category type
 	const [currentCategory, setCurrentCategory] = useState(null);
 
@@ -22,6 +19,22 @@ export default function Equipment() {
 	const [clickedItemId, setClickedItemId] = useState(null);
 	const [loadingDetails, setLoadingDetails] = useState(false);
 
+	// categories data
+	const categories = [
+		{
+			label: "Weapon",
+			id: 1,
+		},
+		{
+			label: "Armour",
+			id: 2,
+		},
+		{
+			label: "Tool",
+			id: 3,
+		},
+	];
+
 	const [urlData, setUrlData] = useState({
 		type: getUrlParam("type") || 1,
 		item: getUrlParam("item") || "",
@@ -29,10 +42,9 @@ export default function Equipment() {
 
 	// onClick function for the images of the gallery
 	const handleClickImage = (id) => {
-
 		if (clickedItemId === id) return;
 
-		setClickedItemId(id)
+		setClickedItemId(id);
 		setLoadingDetails(true);
 		setUrlParam("item", id);
 		setUrlData({ ...urlData, item: id });
@@ -40,7 +52,7 @@ export default function Equipment() {
 
 	// onClick function for the categories
 	const handleClickCategory = (e) => {
-		if(e.target.getAttribute("data-id") == currentCategory) return;
+		if (e.target.getAttribute("data-id") == currentCategory) return;
 
 		if (
 			e.target.getAttribute("data-id") == 1 ||
@@ -91,10 +103,6 @@ export default function Equipment() {
 		}
 	}, [urlData]); // will re-run only when one of those variables changes (using Object.js comparison)
 
-	useEffect(() => {
-		fetchData(`/api/equipment/types`, setCategories);
-	}, []); // will re-run only when one of those variables changes (using Object.js comparison)
-
 	if (data) {
 		console.log("data type = ", data["equipments"].length);
 	}
@@ -115,17 +123,16 @@ export default function Equipment() {
 			</Link>
 
 			<section id="equip-menu-container">
-				{categories.categories &&
-					categories.categories.map((catType) => (
-						<strong
-							key={catType.id}
-							data-id={catType.id}
-							onClick={handleClickCategory}
-							className={"cat-" + catType.label.toLowerCase()}
-						>
-							{catType.label}
-						</strong>
-					))}
+				{categories.map((catType) => (
+					<strong
+						key={catType.id}
+						data-id={catType.id}
+						onClick={handleClickCategory}
+						className={"cat-" + catType.label.toLowerCase()}
+					>
+						{catType.label}
+					</strong>
+				))}
 
 				<article className="equip-menu">
 					<article className="equip-gallery">
