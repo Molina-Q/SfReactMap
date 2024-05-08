@@ -17,6 +17,17 @@ security:
             lazy: true
             provider: app_user_provider
             custom_authenticator: App\Security\AppCustomAuthenticator
+        api:
+            pattern:   ^/api
+            stateless: true
+            jwt: ~
+        login:
+            pattern: ^/api/login
+            stateless: true
+            json_login:
+                check_path: /api/login_check
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
             logout:
                 path: app_logout
                 # where to redirect after logout
