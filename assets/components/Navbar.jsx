@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { getUserSession } from "../utils/getUserSession";
-import { clearUser, setUser } from "../redux/user/userSlice";
+import { clearUser, loginSuccess } from "../redux/user/userSlice";
 
 export default function Navbar() {
 	const currentUser = useSelector((state) => state.user);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	console.log("User:", currentUser);
+
 	const handleSignOut = async (e) => {
 		e.preventDefault();
 		try {
