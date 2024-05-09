@@ -4,8 +4,8 @@ import Alert from "../components/UI/Alert";
 import Loading from "../components/UI/animation/Loading";
 import { fetchAnything } from "../utils/Fetchs";
 import { useDispatch } from "react-redux";
-import { setUser } from "../redux/user/userSlice";
-import { getUserSession } from "../utils/getUserSession";
+import { loginSuccess } from "../redux/user/userSlice";
+import { jwtDecode } from "jwt-decode";
 
 export default function Login() {
 	const navigate = useNavigate();
@@ -40,6 +40,22 @@ export default function Login() {
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ ...loginData }),
 			});
+
+			const data = await res.json();
+
+			if (res.ok) { 
+				console.log("Login success", data);
+
+				setErrorMessage(null);
+
+				const user = jwtDecode(data.token);
+
+				// dispatch(signInSuccess(data));
+
+				dispatch(loginSuccess(user));
+
+				navigate("/home");
+			}
 		} catch (error) {
 			console.log("Login error", error);
 			return setErrorMessage(error.message);
