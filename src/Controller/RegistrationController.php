@@ -37,7 +37,7 @@ class RegistrationController extends AbstractController
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, ValidatorInterface $validator): Response
     {
         $data = json_decode($request->getContent(), true);
-        dd($data);
+
         $constraints = new Collection([
             'username' => [
                 new Length(['min' => 4, 'max' => 50]),
