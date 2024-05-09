@@ -15,6 +15,7 @@ class RouterController extends AbstractController
     #[Route('/article/create', name: 'show_create_article', methods: ['GET'])]
     #[Route('/map', name: 'app_map', methods: ['GET'])]
     #[Route('/forum', name: 'app_forum', methods: ['GET'])]
+    #[Route('/profile', name: 'app_profile', methods: ['GET'])]
     public function index(): Response
     {
         return $this->render('base.html.twig');
