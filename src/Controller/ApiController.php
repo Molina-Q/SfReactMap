@@ -21,7 +21,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
-class ApiController extends AbstractController
+class ApiController extends AbstractController 
 {
     // get all equipment categories
     #[Route('/api/equipment/types', name: 'get_categories')]
