@@ -11,6 +11,7 @@ import ShowTopic from "./pages/ShowTopic";
 import CreateEquipment from "./pages/CreateEquipment";
 import CreateArticle from "./pages/CreateArticle";
 import CreateTopic from "./pages/CreateTopic";
+import Profile from "./pages/Profile";
 
 export default function App() {
   return (
@@ -27,6 +28,7 @@ export default function App() {
         <Route path="/topic/create" element={<CreateTopic />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
   );
