@@ -16,7 +16,6 @@ export default function Login() {
 	const [loginData, setLoginData] = useState({
 		email: "",
 		password: "",
-		_csrf_token: "",
 	});
 
 	const handleChange = (e) => {
@@ -36,61 +35,17 @@ export default function Login() {
 		try {
 			// dispatch(signInStart());
 			console.log(JSON.stringify({ ...loginData }));
-			const res = await fetch("/api/login", {
+			const res = await fetch("/api/login_check", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ ...loginData }),
 			});
-
-			// console.log("Before data");
-			// console.log(await res.json())
-
-			// const data = await res.json();
-
-			// console.log("data = ", data);
-
-			if (res.ok) {
-				const session = await getUserSession();
-
-				console.log("Session:", session);
-
-				dispatch(setUser(session));
-
-				console.log("dispatch");
-
-				navigate("/home");
-			}
 		} catch (error) {
 			console.log("Login error", error);
 			return setErrorMessage(error.message);
 			// dispatch(signInFailure(error));
 		}
 	};
-
-	useEffect(() => {
-		async function fetchLogin() {
-			// setLoading(true);
-
-			console.log("-- Fetch - called --");
-
-			const data = await fetchAnything("/api/login/show");
-
-			console.log("-- Fetch - received --");
-
-			// if the given data were valid
-			if (data) {
-				// set the content of data
-				setLoginData({ ...loginData, _csrf_token: data._csrf_token });
-			} else {
-				// there was a mistake and the data is null
-				// setLoading(false); // loading is set to false to avoid infinite loading
-				console.error("MANUAL ERRROR: Invalid data or Empty");
-				return;
-			}
-		}
-
-		fetchLogin();
-	}, []);
 
 	return (
 		<main className="wrapperMain wrap-login">
@@ -101,7 +56,7 @@ export default function Login() {
 					<div className="alert alert-danger">{errorMessage}</div>
 				)}
 				<div>
-					<label htmlFor="inputEmail">Email</label>
+					<label htmlFor="email">Email</label>
 					<input
 						type="email"
 						value={loginData.email}
@@ -113,7 +68,7 @@ export default function Login() {
 					/>
 				</div>
 				<div>
-					<label htmlFor="inputPassword">Password</label>
+					<label htmlFor="password">Password</label>
 					<input
 						type="password"
 						value={loginData.password}
@@ -124,8 +79,6 @@ export default function Login() {
 						required
 					/>
 				</div>
-
-				<input type="hidden" name="_csrf_token" value={loginData._csrf_token} />
 
 				<button
 					className="form-btn-submit"
@@ -139,5 +92,5 @@ export default function Login() {
 				Google Auth
 			</button>
 		</main>
-	);
+	); 
 }
