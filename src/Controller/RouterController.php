@@ -31,4 +31,10 @@ class RouterController extends AbstractController
         return $this->render('base.html.twig');
     }
 
+    #[Route('/profile/test', name: 'app_show', methods: ['GET'])]
+    public function truc(): Response
+    {
+        return $this->render('security/login.html.twig');
+    }
+
 }
