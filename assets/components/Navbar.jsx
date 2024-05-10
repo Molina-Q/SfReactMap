@@ -5,21 +5,21 @@ import { getUserSession } from "../utils/getUserSession";
 import { clearUser, loginSuccess } from "../redux/user/userSlice";
 
 export default function Navbar() {
-	const currentUser = useSelector((state) => state.user);
+	const {currentUser} = useSelector((state) => state.user);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	console.log("User:", currentUser);
+	// console.log("User:", currentUser);
 
 	const handleSignOut = async (e) => {
 		e.preventDefault();
 		try {
 			const res = await fetch("/api/logout");
 			const data = await res.json();
-			console.log('data after logout = ',data);
-			// dispatch(clearUser());
+			// console.log("data after logout = ", data);
+			dispatch(clearUser());
 			navigate("/home");
 		} catch (error) {
-			console.log('logout error: ',error);
+			console.log("logout error: ", error);
 		}
 	};
 
