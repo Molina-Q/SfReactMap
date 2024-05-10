@@ -28,9 +28,9 @@ security:
             stateless: true
             jwt: ~
             logout:
-                path: /api/logout
+                path: app_logout
                 # where to redirect after logout
-                # target: app_any_route
+                target: app_show_login
 
             remember_me:
                 secret: '%kernel.secret%'
