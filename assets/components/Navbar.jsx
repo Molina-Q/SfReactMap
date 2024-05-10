@@ -13,12 +13,13 @@ export default function Navbar() {
 	const handleSignOut = async (e) => {
 		e.preventDefault();
 		try {
-			const res = await fetch("/logout");
+			const res = await fetch("/api/logout");
 			const data = await res.json();
-			dispatch(clearUser());
+			console.log('data after logout = ',data);
+			// dispatch(clearUser());
 			navigate("/home");
 		} catch (error) {
-			console.log(error.message);
+			console.log('logout error: ',error);
 		}
 	};
 
