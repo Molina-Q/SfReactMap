@@ -31,32 +31,45 @@ class SecurityController extends AbstractController
     #[Route(path: '/api/logout', name: 'app_logout')]
     public function logout(Request $request, EventDispatcherInterface $eventDispatcher, TokenStorageInterface $tokenStorage): Response
     {
+        // the sent data
+        $data = ['message' => 'Logged out successfully',];
+
+        // Create a JsonResponse object the data
+        $response = new JsonResponse($data);
+
+        // Clear the BEARER cookie (the JWT authenticate token)
+        $response->headers->clearCookie('BEARER', '/', null, true, true, 'strict');
+
+        // Return the new header response that delete the cookie and the json data at the same time
+        return $response;
         // try { 
         //    $eventDispatcher->dispatch(new LogoutEvent($request, $tokenStorage->getToken()));
 
-           $response = new Response();
-           $response->headers->clearCookie('BEARER', '/', null, true, true, 'strict');
-        //    $request->cookies->get('BEARER');
-           return $response;
+        // $response = new Response();
+        // $response->headers->clearCookie('BEARER', '/', null, true, true, 'strict');
+        // //    $request->cookies->get('BEARER');
+        // return $this->render('base.html.twig', [], $response);
+        //    return $this->json('base.html.twig',[], $response);
         //    return new JsonResponse($response);
 
         // } catch (\Throwable $th) {
         //     return new JsonResponse($th);
         // } 
-        
+
         // dd($request->cookies->get('BEARER'));
-       
+
         // try {   
-            // $response = new Response();
-            // $response->headers->clearCookie('BEARER', '/', null, true, true, 'strict');
-            // dd($response);
-            // return $this->json( 'User has been logged out!', 200);
-           
+        // $response = new Response();
+        // $response->headers->clearCookie('BEARER', '/', null, true, true, 'strict');
+        // dd($response);
+        // return $this->json( 'User has been logged out!', 200, ['response' => $response]);
+        // return new JsonResponse('User has been logged out!', 200, ['response' => $response]);
+
         // } catch (\Throwable $th) {
         //     // dd($th);
         //     return $this->json('error', 500);
         // }
-    
+
         // $decodedJwtToken = $this->jwtManager->decode($this->tokenStorageInterface->getToken());
 
         // dd($decodedJwtToken);
@@ -66,7 +79,7 @@ class SecurityController extends AbstractController
 
         // return $this->json(['message' => 'User has been logged out!'], 200);
 
-        
+
         // throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 
