@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
 
 export default function Sidebar() {
 	const location = useLocation();
@@ -35,45 +35,49 @@ export default function Sidebar() {
 	};
 
 	return (
-		<div className="sidebar-container">
-			<div>
-				<ul className="sidebar-items-list">
-					<Link to="/profile?tab=profile">
-						<li
-                            className={`sidebar-item ${tab === "profile" ? "selected" : ""}`}
-							// label={currentUser.roles ? "Admin" : "User"}
-						>
-							Profile
-						</li>
-					</Link>
-					{currentUser && (
-						<>
-							<Link to="/profile?tab=posts">
-								<li
-                                className={`sidebar-item ${tab === "posts" ? "selected" : ""}`}
-								>
-									Posts
-								</li>
-							</Link>
-
-							<Link to="/profile?tab=users">
-								<li
-                                    className={`sidebar-item ${tab === "users" ? "selected" : ""}`}
-								>
-									Users
-								</li>
-							</Link>
-						</>
-					)}
-
+		<div>
+			<ul className="sidebar-items-list">
+				<Link to="/profile?tab=user">
 					<li
-						onClick={handleSignout}
-						className="cursor-pointer"
+						className={`sidebar-item ${tab === "user" ? "selected" : ""}`}
+						// label={currentUser.roles ? "Admin" : "User"}
 					>
-						Sign Out
+						User
 					</li>
-				</ul>
-			</div>
+				</Link>
+
+                <Link to="/profile?tab=articles">
+					<li
+						className={`sidebar-item ${tab === "articles" ? "selected" : ""}`}
+						// label={currentUser.roles ? "Admin" : "User"}
+					>
+						Articles
+					</li>
+				</Link>
+				{!currentUser && (
+					<>
+						<Link to="/profile?tab=posts">
+							<li
+								className={`sidebar-item ${tab === "posts" ? "selected" : ""}`}
+							>
+								Posts
+							</li>
+						</Link>
+
+						<Link to="/profile?tab=users">
+							<li
+								className={`sidebar-item ${tab === "users" ? "selected" : ""}`}
+							>
+								Users
+							</li>
+						</Link>
+					</>
+				)}
+
+				<li onClick={handleSignout} className='sidebar-item'>
+					Sign Out
+				</li>
+			</ul>
 		</div>
 	);
 }
