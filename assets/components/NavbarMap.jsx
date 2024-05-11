@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { getUserSession } from "../utils/getUserSession";
 import { clearUser, loginSuccess } from "../redux/user/userSlice";
+import { Dropdown, Nav } from "react-bootstrap";
 
-export default function Navbar() {
-	const {currentUser} = useSelector((state) => state.user);
+export default function NavbarMap() {
+	const { currentUser } = useSelector((state) => state.user);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	// console.log("User:", currentUser);
@@ -76,7 +77,7 @@ export default function Navbar() {
 									Profile
 								</Link>
 							</div>
-
+							
 							<div className="nav-items nav-right">
 								<Link to="#" onClick={handleSignOut}>
 									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
