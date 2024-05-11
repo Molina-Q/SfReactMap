@@ -4,15 +4,13 @@ import Alert from "../components/UI/Alert";
 import Loading from "../components/UI/animation/Loading";
 import { fetchAnything } from "../utils/Fetchs";
 import { useDispatch } from "react-redux";
-import { loginSuccess } from "../redux/user/userSlice";
+import { loginSuccess, loginError, loginStart } from "../redux/user/userSlice";
 import { jwtDecode } from "jwt-decode";
 
 export default function Login() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	// const { loading, error: errorMessage } = useSelector((state) => state.user);
-	const [loading, setLoading] = useState(false);
-	const [errorMessage, setErrorMessage] = useState(null);
+	const { loading, error: errorMessage } = useSelector((state) => state.user);
 	const [loginData, setLoginData] = useState({
 		email: "",
 		password: "",
@@ -27,13 +25,13 @@ export default function Login() {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-
+		dispatch(loginStart());
+		
 		if (!loginData.email || !loginData.password) {
-			return setErrorMessage("Please fill out all fields!");
+			return dispatch(loginError("Please fill out all fields!"));
 		}
 
 		try {
-			// dispatch(signInStart());
 			console.log(JSON.stringify({ ...loginData }));
 			const res = await fetch("/api/login_check", {
 				method: "POST",
@@ -46,11 +44,7 @@ export default function Login() {
 			if (res.ok) { 
 				console.log("Login success", data);
 
-				setErrorMessage(null);
-
 				const user = jwtDecode(data.token);
-
-				// dispatch(signInSuccess(data));
 
 				dispatch(loginSuccess(user));
 
@@ -58,8 +52,7 @@ export default function Login() {
 			}
 		} catch (error) {
 			console.log("Login error", error);
-			return setErrorMessage(error.message);
-			// dispatch(signInFailure(error));
+			return dispatch(loginError(error.message));
 		}
 	};
 
@@ -100,8 +93,9 @@ export default function Login() {
 					className="form-btn-submit"
 					type="submit"
 					onClick={handleSubmit}
+					disabled={loading}
 				>
-					Submit
+					{loading ? 'Loading...' : 'Submit'}
 				</button>
 			</form>
 			<button type="button" className="google">
