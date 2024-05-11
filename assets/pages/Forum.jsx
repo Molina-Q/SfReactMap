@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import TopicTag from "../components/forum/TopicTag";
 import { Link } from "react-router-dom";
 import { fetchAnything } from "../utils/Fetchs";
+import Loading from "../components/UI/animation/Loading";
+import { useSelector } from "react-redux";
 
 export default function Forum() {
 	const [topics, setTopics] = useState([]);
 	const [loading, setLoading] = useState(true);
+	const { currentUser } = useSelector((state) => state.user);
 
 	useEffect(() => {
 		// async function that fetch articles data for the country during the selected century from the MapController
@@ -24,7 +27,6 @@ export default function Forum() {
 				setTopics(data.topics);
 				setLoading(false);
 			} else {
-
 				setLoading(false); // loading is set to false to avoid infinite loading
 
 				console.error("MANUAL ERRROR: Invalid data");
@@ -36,24 +38,24 @@ export default function Forum() {
 
 	return (
 		<main id="wrapperMain">
-			<h2 className="primary-title">Welcome app.user!</h2>
+			<h2 className="primary-title">Welcome, {currentUser.username} !</h2>
 
-			<a href="{{ path('create_topic')}}">
+			<Link to="/topic/create">
 				<button>New topic</button>
-			</a>
+			</Link>
 
 			<div className="topics-category">
 				{/* {% for category in equipCateg %} */}
 
-				<a href="{{ path('list_topic', {id:category.id, sortBy:'equip'}) }}">
+				<Link to="{{ path('list_topic', {id:category.id, sortBy:'equip'}) }}">
 					<button>Topics by category.label</button>
-				</a>
+				</Link>
 
 				{/* {% endfor %} */}
 
-				<a href="{{ path('list_topic', {sortBy:'article'}) }}">
+				<Link to="{{ path('list_topic', {sortBy:'article'}) }}">
 					<button>Topics by Article</button>
-				</a>
+				</Link>
 			</div>
 
 			<section className="table-popular">
@@ -62,20 +64,21 @@ export default function Forum() {
 				</div>
 
 				<div className="table-body">
-					{topics &&
+					{loading ? (
+						<Loading />
+					) : (
 						topics.map((topic) => (
 							<div className="table-row">
 								<div>
-									<div className="details-topic-info">
-										{/* <TopicTag /> */}
-									</div>
+									<div className="details-topic-info">{/* <TopicTag /> */}</div>
 
 									<p>
 										<Link to={`/forum/topic/${topic.id}`}>{topic.title}</Link>
 									</p>
 								</div>
 							</div>
-						))}
+						))
+					)}
 				</div>
 			</section>
 		</main>
