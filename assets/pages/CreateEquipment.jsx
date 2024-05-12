@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function CreateEquipment() {
 	const [formData, setFormData] = useState({});
 	const [dataMessage, setDataMessage] = useState(null);
 	const [alertType, setAlertType] = useState("failure");
+	const [subCategories, setSubCategories] = useState([]);
+	const [selectLoading, setSelectLoading] = useState(true);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -31,20 +33,37 @@ export default function CreateEquipment() {
 		try {
 			const response = await fetch("/api/equipment/create-entity", {
 				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
 				body: data,
 			});
 
 			const responseData = await response.json();
 
 			setAlertType(response.ok ? "success" : "failure");
-			setDataMessage(responseData.status);
+			setDataMessage(responseData.message);
 		} catch (error) {
 			setDataMessage(error.message);
 		}
 	};
+
+	useEffect(() => {
+		async function fetchSubCategories() {
+			setSelectLoading(true);
+			// Fetch sub categories from the server
+			try {
+				const res = await fetch("/api/forum/getSubCat");
+				const data = await res.json();
+				setSubCategories(data.subCategories);
+				setSelectLoading(false);
+
+				// Process the responseData and set it to state or perform any other actions
+			} catch (error) {
+				setSelectLoading(false);
+				console.error(error);
+			}
+		}
+
+		fetchSubCategories();
+	}, []);
 
 	const handleFileChange = (e) => {
 		setFormData({ ...formData, image: e.target.files[0] });
@@ -86,12 +105,17 @@ export default function CreateEquipment() {
 
 				<div>
 					<label>Sub Category:</label>
-					<select id="sub_category" onChange={handleChange}>
-						{/* You would typically fetch these options from your server */}
-						<option value="">Select a sub category...</option>
-						<option value="1">Sword</option>
-						<option value="subCategory2">Sub Category 2</option>
-						{/* ... */}
+					<select
+						id="sub_category"
+						onChange={handleChange}
+						disabled={selectLoading}
+					>
+						{subCategories &&
+							subCategories.map((subCategory) => (
+								<option key={subCategory.id} value={subCategory.id}>
+									{subCategory.label}
+								</option>
+							))}
 					</select>
 				</div>
 
