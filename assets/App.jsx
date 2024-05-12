@@ -12,24 +12,31 @@ import CreateArticle from "./pages/CreateArticle";
 import CreateTopic from "./pages/CreateTopic";
 import Profile from "./pages/Profile";
 import NavbarMap from "./components/NavbarMap";
+import AdminRoute from "./components/AdminRoute";
+import AuthenticatedRoute from "./components/AuthenticatedRoute";
 
 export default function App() {
-  return (
-    <BrowserRouter>
-    <NavbarMap />
-      <Routes>
-        <Route path="/map" element={<SfReactMap />} />
-        <Route path="/equipment" element={<Equipment />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/forum" element={<Forum />} />
-        <Route path="/forum/topic/:topicId" element={<ShowTopic />} />
-        <Route path="/equipment/create" element={<CreateEquipment />} />
-        <Route path="/article/create" element={<CreateArticle />} />
-        <Route path="/topic/create" element={<CreateTopic />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/profile" element={<Profile />} />
-      </Routes>
-    </BrowserRouter>
-  );
-};
+	return (
+		<BrowserRouter>
+			<NavbarMap />
+			<Routes>
+				<Route path="/home" element={<Home />} />
+				<Route path="/map" element={<SfReactMap />} />
+				<Route path="/equipment" element={<Equipment />} />
+				<Route path="/forum" element={<Forum />} />
+				<Route path="/forum/topic/:topicId" element={<ShowTopic />} />
+				<Route path="/login" element={<Login />} />
+				<Route path="/register" element={<Register />} />
+				<Route element={<AuthenticatedRoute />}>
+				  <Route path="/profile" element={<Profile />} />
+					<Route path="/equipment/create" element={<CreateEquipment />} />
+					<Route path="/article/create" element={<CreateArticle />} />
+					<Route path="/topic/create" element={<CreateTopic />} />
+				</Route>
+				<Route element={<AdminRoute />}>
+
+        </Route>
+			</Routes>
+		</BrowserRouter>
+	);
+}
