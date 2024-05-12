@@ -38,7 +38,7 @@ export default function Forum() {
 
 	return (
 		<main id="wrapperMain">
-			<h2 className="primary-title">Welcome, {currentUser.username} !</h2>
+			<h2 className="primary-title">Forum</h2>
 
 			<Link to="/topic/create">
 				<button>New topic</button>
