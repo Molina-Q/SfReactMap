@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Alert from "../components/UI/Alert";
 import Loading from "../components/UI/animation/Loading";
 import { fetchAnything } from "../utils/Fetchs";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess, loginError, loginStart } from "../redux/user/userSlice";
 import { jwtDecode } from "jwt-decode";
 
@@ -49,6 +49,8 @@ export default function Login() {
 				dispatch(loginSuccess(user));
 
 				navigate("/home");
+			} else {
+				return dispatch(loginError('There was a problem logging in. Please try again.'));
 			}
 		} catch (error) {
 			console.log("Login error", error);
