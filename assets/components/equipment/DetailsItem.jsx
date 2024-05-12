@@ -5,6 +5,7 @@ function DetailsItem(props) {
   const imgUrl = `/img/upload/${props.img}`;
   return (
     <>
+      <p>{props.sub_cat}</p>
       <h2 id="equip-name">{props.name ? props.name : 'Click on an item !'}</h2>
       {props.img && props.text && props.name && (
         <>
