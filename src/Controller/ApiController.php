@@ -6,6 +6,7 @@ use App\Entity\Img;
 use App\Entity\Equipment;
 use App\Entity\ImgObject;
 use App\Repository\ImgRepository;
+use App\Repository\UserRepository;
 use App\Repository\TopicRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\SectionRepository;
@@ -13,6 +14,7 @@ use App\Repository\CategoryRepository;
 use App\Repository\EquipmentRepository;
 use App\Repository\ImgObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\SubCategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -65,12 +67,30 @@ class ApiController extends AbstractController
         ]);
     }
 
+    #[Route('/api/forum/getSubCat', name: 'get_SubCat')]
+    public function getSubCat(
+        SubCategoryRepository $subCategoryRepository,
+    ): Response {
+        $subCatObject = $subCategoryRepository->findBy([], ['label' => 'ASC']);
+        $subCategories = [];
+
+        foreach ($subCatObject as $subCat) {
+            $subCategories[] = [
+                'id' => $subCat->getId(),
+                'label' => $subCat->subAndCat(),
+            ];
+        }
+
+        return new JsonResponse([
+            'subCategories' => $subCategories
+        ]);
+    }
+
     // create an Equipment
     #[Route('/api/equipment/create-entity', name: 'create_equipment', methods:['POST'])]
     public function create(
-        EquipmentRepository $equipmentRepository,
-        ImgRepository $imgRepository,
-        ImgObjectRepository $imgObjectRepository,
+        UserRepository $userRepository,
+        SubCategoryRepository $subCategoryRepository,
         Request $request,
         EntityManagerInterface $entityManager
         ): Response
@@ -79,17 +99,19 @@ class ApiController extends AbstractController
         $img = new Img();
         $imgObject = new ImgObject();
     
-        $user = $this->getUser(); // get the user currently logged in
+        // $user = $userRepository->findOneById('1'); // get the user currently logged in
     
         // Get form data from the request
         $data = $request->request->all();
-    
+        // dd($data);  
         if ($data) {
             $dateNow = new \DateTime('now');
+
+            $subCategory = $subCategoryRepository->findOneById($data['sub_category']);
     
             $equipment->setName($data['name']);
             $equipment->setText($data['text']);
-            $equipment->setSubCategory($data['sub_category']);
+            $equipment->setSubCategory($subCategory);
     
             $entityManager->persist($equipment);
             $entityManager->flush();
@@ -123,11 +145,20 @@ class ApiController extends AbstractController
             $entityManager->persist($imgObject);
             $entityManager->flush();
     
-            return new JsonResponse(['status' => 'Equipment created!'], Response::HTTP_CREATED);
+            return new JsonResponse(['message' => 'Equipment created!'], Response::HTTP_CREATED);
         }
     
-        return new JsonResponse(['status' => 'Error: Invalid data'], Response::HTTP_BAD_REQUEST);
-    }    
+        return new JsonResponse(['message' => 'Error: Invalid data'], Response::HTTP_BAD_REQUEST);
+    }   
+    
+    #[Route('/api/upload', name: 'upload_file', methods: ['POST'])]
+    public function fileUpload(): Response {
+        $uploadedFile = $_FILES['file'];
+        $filename = $uploadedFile['name'];
+        $destination = 'img/upload/' . $filename;
+        move_uploaded_file($uploadedFile['tmp_name'], $destination);
+        return new JsonResponse(['status' => 'File uploaded!']);
+    }
 
     // get a single equipment item
     #[Route('/api/equipment/{id}', name: 'get_one_equipment')]
@@ -142,6 +173,7 @@ class ApiController extends AbstractController
             'name' => $equipObject->getName(),
             'text' => $equipObject->getText(),
             'img' => $equipObject->getOneImg(),
+            'sub_cat' => $equipObject->getSubCategory()->getLabel(),
         ];
 
         return new JsonResponse([
