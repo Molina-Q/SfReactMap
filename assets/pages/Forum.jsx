@@ -68,7 +68,7 @@ export default function Forum() {
 						<Loading />
 					) : (
 						topics.map((topic) => (
-							<div className="table-row">
+							<div className="table-row" key={topic.id}>
 								<div>
 									<div className="details-topic-info">{/* <TopicTag /> */}</div>
 
