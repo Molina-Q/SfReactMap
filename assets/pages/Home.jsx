@@ -13,14 +13,14 @@ export default function Home() {
 		<main className="wrap-home">
 			<section id="home-welcome">
 				<h2 className="primary-title">Welcome to our Map</h2>
-				<p>Learn how to use it</p>
+				<p>Here you will learn how to use the app and learn more about each countries military Equipment from 14th to the 20th century</p>
 
 				<SlArrowDown onClick={handleClick} size="4em" className="home-arrow" />
 			</section>
 
 			<article id="home-colour">
 				<h3 ref={scrollRef}>
-					Click on the colored countries to learn more about a country's
+					Click on the colored countries to learn more about the country's
 					equipments
 				</h3>
 				{/* <p>learn more about their Weapons, Armours or tools</p> */}
@@ -46,7 +46,7 @@ export default function Home() {
 
 			<article id="home-timeline">
 				<h3>Click on the timeline</h3>
-				<p>Change the borders and the content of each country's article</p>
+				<p>This will change the content of the Article and reflect the border of the country using the clicked year.</p>
 				<figure className="home-figure-timeline">
 					<img src="/img/timeline_screen.webp" alt="timeline" />
 				</figure>
