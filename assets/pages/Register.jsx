@@ -7,8 +7,8 @@ export default function Register() {
 	const [userData, setUserData] = useState({}); // Initialize user state
 	const [dataMessage, setDataMessage] = useState(null); // Initialize dataMessage state
 	const handleChange = (e) => {
-		setUser({
-			...user,
+		setUserData({
+			...userData,
 			[e.target.name]: e.target.value,
 		});
 	};
@@ -26,11 +26,11 @@ export default function Register() {
 				},
 				body: JSON.stringify(userData),
 			});
-
 			const data = await response.json();
-			setDataMessage(data);
+
+			setDataMessage(data.toString());
 		} catch (error) {
-			setDataMessage(error);
+			setDataMessage(error.message);
 		}
 	};
 
