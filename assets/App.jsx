@@ -14,28 +14,36 @@ import Profile from "./pages/Profile";
 import NavbarMap from "./components/NavbarMap";
 import AdminRoute from "./components/AdminRoute";
 import AuthenticatedRoute from "./components/AuthenticatedRoute";
+import UnauthenticatedRoute from "./components/UnauthenticatedRoute";
 
 export default function App() {
 	return (
 		<BrowserRouter>
 			<NavbarMap />
 			<Routes>
+				{/* Route with no limitation */}
 				<Route path="/home" element={<Home />} />
 				<Route path="/map" element={<SfReactMap />} />
 				<Route path="/equipment" element={<Equipment />} />
 				<Route path="/forum" element={<Forum />} />
 				<Route path="/forum/topic/:topicId" element={<ShowTopic />} />
-				<Route path="/login" element={<Login />} />
-				<Route path="/register" element={<Register />} />
+
+				{/* Route for non logged user */}
+				<Route element={<UnauthenticatedRoute />}>
+					<Route path="/login" element={<Login />} />
+					<Route path="/register" element={<Register />} />
+				</Route>
+				
+				{/* Route for logged user Only */}
 				<Route element={<AuthenticatedRoute />}>
-				  <Route path="/profile" element={<Profile />} />
+					<Route path="/profile" element={<Profile />} />
 					<Route path="/equipment/create" element={<CreateEquipment />} />
 					<Route path="/article/create" element={<CreateArticle />} />
 					<Route path="/topic/create" element={<CreateTopic />} />
 				</Route>
-				<Route element={<AdminRoute />}>
 
-        </Route>
+				{/* Route for Admin Only */}
+				<Route element={<AdminRoute />}></Route>
 			</Routes>
 		</BrowserRouter>
 	);
