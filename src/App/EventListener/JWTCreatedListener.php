@@ -4,10 +4,22 @@ namespace App\EventListener;
 
 use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
 
+use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Security\Http\Authentication\AuthenticationSuccessHandler;
+
 class JWTCreatedListener
 {
-    public function __construct()
-    {}
+    private TokenStorageInterface $tokenStorageInterface;
+    private JWTEncoderInterface $jwtEncoder;
+
+    public function __construct(TokenStorageInterface $tokenStorageInterface, JWTEncoderInterface $jwtEncoder)
+    {
+        $this->tokenStorageInterface = $tokenStorageInterface;
+        $this->jwtEncoder = $jwtEncoder;
+    }
 
     /**
      * @param JWTCreatedEvent $event
@@ -27,5 +39,17 @@ class JWTCreatedListener
         $header['cty'] = 'JWT';
 
         $event->setHeader($header);
+
+        // // Create a new JWT token
+        // $jwt = $this->jwtEncoder->encode($payload);
+
+        // // Create a new token object
+        // $token = new PreAuthenticatedToken(
+        //     $user,
+        //     'login', // This should be your firewall name
+        //     $user->getRoles()
+        // );
+
+        // $this->tokenStorageInterface->setToken($token);
     }
 }
