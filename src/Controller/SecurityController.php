@@ -48,23 +48,36 @@ class SecurityController extends AbstractController
     #[Route("/api/user/getuser", name: 'get_user')]
     public function getConnectedUser(): JsonResponse
     {
+        $userObj = $this->getUser();
 
-        if ($this->getUser()) {
-            $userObj = $this->getUser();
-            $user = [
-                'username' => $userObj->getUsername(),
-                'email' => $userObj->getEmail(),
-                'roles' => $userObj->getRoles(),
-            ];
-
-            return $this->json(['error' => false, 'username' => $user]);
+        $token = $this->tokenStorageInterface->getToken();
+        
+        // Add this check to ensure that a token exists
+        if (!$token) {
+            return $this->json(['error' => true, 'message' => 'No token found']);
         }
-
-        return $this->json(
-            [
-                'error' => true,
-                'message' => 'No user session found',
-            ]
-        );
+        
+        $userObj = $this->jwtManager->decode($this->tokenStorageInterface->getToken());
+        
+        try {
+            if ($userObj) {
+                $user = [
+                    'username' => $userObj['username'],
+                    'id' => $userObj['userId'],
+                    // 'roles' => $userObj['roles'],
+                ];
+                return $this->json(['error' => false, 'message' => $user]);
+            } else {
+                // Add this return statement to handle the case where there's no authenticated user
+                return $this->json(['error' => true, 'message' => 'No authenticated user']);
+            }
+        } catch (\Throwable $th) {
+            return $this->json(
+                [
+                    'error' => true,
+                    'message' => $th,
+                ]
+            );
+        }
     }
 }
