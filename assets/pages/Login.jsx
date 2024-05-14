@@ -15,14 +15,14 @@ export default function Login() {
 		email: "",
 		password: "",
 	});
-
+	
 	const handleChange = (e) => {
 		setLoginData({
 			...loginData,
 			[e.target.id]: e.target.value.trim(),
 		});
 	};
-
+	
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		dispatch(loginStart());
@@ -46,14 +46,18 @@ export default function Login() {
 
 				const user = jwtDecode(data.token);
 
+				console.log("Token content : ", user);
+
 				dispatch(loginSuccess(user));
 
 				navigate("/home");
 			} else {
-				return dispatch(loginError('There was a problem logging in. Please try again.'));
+				console.log("Login error", data);
+				return dispatch(loginError(data.message));
 			}
+
 		} catch (error) {
-			console.log("Login error", error);
+			console.log("Login error", error.message.toString());
 			return dispatch(loginError(error.message));
 		}
 	};
@@ -64,7 +68,7 @@ export default function Login() {
 
 			<form method="post" className="form-create">
 				{errorMessage && (
-					<div className="alert alert-danger">{errorMessage}</div>
+					<div className="alert failure">{errorMessage}</div>
 				)}
 				<div>
 					<label htmlFor="email">Email</label>
