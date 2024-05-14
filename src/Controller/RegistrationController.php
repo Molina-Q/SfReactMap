@@ -63,7 +63,7 @@ class RegistrationController extends AbstractController
                 $errors[$violation->getPropertyPath()] = $violation->getMessage();
             }
     
-            return new JsonResponse(['errors' => $errors], 400);
+            return new JsonResponse(['message' => $errors], 400);
         }
     
         // If the data is valid, continue with your registration logic...
@@ -91,7 +91,7 @@ class RegistrationController extends AbstractController
         //         ->htmlTemplate('registration/confirmation_email.html.twig')
         // );
     
-        return new JsonResponse(['status' => 'User created'], 201);
+        return new JsonResponse(['message' => 'User created'], 201);
     }
 
     #[Route('/verify/email', name: 'app_verify_email')]
