@@ -28,6 +28,7 @@ class SecurityController extends AbstractController
         $this->jwtManager = $jwtManager;
     }
 
+
     #[Route(path: '/api/logout', name: 'app_logout')]
     public function logout(): Response
     {
@@ -38,7 +39,7 @@ class SecurityController extends AbstractController
         $response = new JsonResponse($data);
 
         // Clear the BEARER cookie (the JWT authenticate token)
-        $response->headers->clearCookie('BEARER', '/', null, true, true, 'strict');
+        $response->headers->clearCookie('BEARER', '/', true, true, 'strict');
 
         // Return the new header response that delete the cookie and the json data at the same time
         return $response;
@@ -47,16 +48,23 @@ class SecurityController extends AbstractController
     #[Route("/api/user/getuser", name: 'get_user')]
     public function getConnectedUser(): JsonResponse
     {
-        $user = $this->getUser();
 
-        if ($user) {
-            return $this->json([
-                'user' => $user,
-            ]);
+        if ($this->getUser()) {
+            $userObj = $this->getUser();
+            $user = [
+                'username' => $userObj->getUsername(),
+                'email' => $userObj->getEmail(),
+                'roles' => $userObj->getRoles(),
+            ];
+
+            return $this->json(['error' => false, 'username' => $user]);
         }
 
-        return $this->json([
-            'error' => true, 'message' => 'No user session found',
-        ], 404);
+        return $this->json(
+            [
+                'error' => true,
+                'message' => 'No user session found',
+            ]
+        );
     }
 }
