@@ -9,6 +9,12 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class RouterController extends AbstractController
 {
+    #[Route('/', name: 'app_index', methods: ['GET'])]
+    public function indexRedirect(): Response
+    {
+        return $this->redirectToRoute('app_home');
+    }
+
     #[Route('/home', name: 'app_home', methods: ['GET'])]
     #[Route('/equipment', name: 'app_equipment', methods: ['GET'])]
     #[Route('/equipment/create', name: 'show_create_equipment', methods: ['GET'])]
@@ -29,13 +35,7 @@ class RouterController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
-        return $this->render('base.html.twig');
-    }
-
-    #[Route('/profile/test', name: 'app_show', methods: ['GET'])]
-    public function truc(): Response
-    {
-        return $this->render('security/login.html.twig');
+        return $this->render('security/index.html.twig');
     }
 
 }
