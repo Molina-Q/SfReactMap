@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { getUserSession } from "../utils/getUserSession";
 import { clearUser, loginSuccess } from "../redux/user/userSlice";
-import { Dropdown, Nav } from "react-bootstrap";
 
 export default function NavbarMap() {
 	const { currentUser } = useSelector((state) => state.user);
