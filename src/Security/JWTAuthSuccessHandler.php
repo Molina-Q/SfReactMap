@@ -1,12 +1,19 @@
 <?php
 namespace App\Security;
 
-use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationSuccessEvent;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationSuccessEvent;
+
 
 class JWTAuthSuccessHandler implements EventSubscriberInterface
 {
+
+    public function __construct()
+    {
+
+    }
+
     public static function getSubscribedEvents()
     {
         return [
@@ -36,4 +43,5 @@ class JWTAuthSuccessHandler implements EventSubscriberInterface
 
         $event->setData($data);
     }
+
 }
