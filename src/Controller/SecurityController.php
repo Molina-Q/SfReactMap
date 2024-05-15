@@ -46,7 +46,7 @@ class SecurityController extends AbstractController
         $response = new JsonResponse($data);
 
         // Clear the BEARER cookie (the JWT authenticate token)
-        $response->headers->clearCookie('BEARER', '/', true, true, 'strict');
+        $response->headers->clearCookie('BEARER', '/', null, true, true, 'strict');
 
         // Return the new header response that delete the cookie and the json data at the same time
         return $response;
@@ -105,12 +105,12 @@ class SecurityController extends AbstractController
     #[Route("/api/user/getuser", name: 'get_user')]
     public function getConnectedUser(): JsonResponse
     {
-        // $userObj = $this->getUser();
-
-        // $token = $this->tokenStorageInterface->getToken();
+        // get the token from the client
         $token = $_COOKIE['BEARER'];
         try {
+            // Load the token as a token Object
             $jws = $this->jwsProvider->load($token);
+            // Decode the token to get the content
             $decodedToken = $jws->getPayload();
             if ($decodedToken) {
                 return $this->json(['error' => false, 'message' => $decodedToken]);
@@ -119,33 +119,6 @@ class SecurityController extends AbstractController
             }
         } catch (JWTDecodeFailureException $e) {
             return $this->json(['error' => true, 'message' => 'Invalid token']);
-        }
-        // Add this check to ensure that a token exists
-        // if (!$token) {
-        //     return $this->json(['error' => true, 'message' => 'No token found']);
-        // }
-
-        $userObj = $this->jwtManager->decode($_COOKIE['BEARER']);
-
-        try {
-            if ($userObj) {
-                $user = [
-                    'username' => $userObj['username'],
-                    'id' => $userObj['userId'],
-                    // 'roles' => $userObj['roles'],
-                ];
-                return $this->json(['error' => false, 'message' => $user]);
-            } else {
-                // Add this return statement to handle the case where there's no authenticated user
-                return $this->json(['error' => true, 'message' => 'No authenticated user']);
-            }
-        } catch (\Throwable $th) {
-            return $this->json(
-                [
-                    'error' => true,
-                    'message' => $th,
-                ]
-            );
         }
     }
 }
