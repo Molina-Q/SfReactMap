@@ -16,6 +16,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWSProvider\JWSProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 
@@ -24,11 +26,13 @@ class SecurityController extends AbstractController
 {
     private TokenStorageInterface $tokenStorageInterface;
     private JWTTokenManagerInterface $jwtManager;
+    private JWSProviderInterface $jwsProvider;
 
-    public function __construct(TokenStorageInterface $tokenStorageInterface, JWTTokenManagerInterface $jwtManager)
+    public function __construct(TokenStorageInterface $tokenStorageInterface, JWTTokenManagerInterface $jwtManager, JWSProviderInterface $jwsProvider)
     {
         $this->tokenStorageInterface = $tokenStorageInterface;
         $this->jwtManager = $jwtManager;
+        $this->jwsProvider = $jwsProvider;
     }
 
 
@@ -101,16 +105,27 @@ class SecurityController extends AbstractController
     #[Route("/api/user/getuser", name: 'get_user')]
     public function getConnectedUser(): JsonResponse
     {
-        $userObj = $this->getUser();
+        // $userObj = $this->getUser();
 
-        $token = $this->tokenStorageInterface->getToken();
-
-        // Add this check to ensure that a token exists
-        if (!$token) {
-            return $this->json(['error' => true, 'message' => 'No token found']);
+        // $token = $this->tokenStorageInterface->getToken();
+        $token = $_COOKIE['BEARER'];
+        try {
+            $jws = $this->jwsProvider->load($token);
+            $decodedToken = $jws->getPayload();
+            if ($decodedToken) {
+                return $this->json(['error' => false, 'message' => $decodedToken]);
+            } else {
+                return $this->json(['error' => true, 'message' => 'No cookie found']);
+            }
+        } catch (JWTDecodeFailureException $e) {
+            return $this->json(['error' => true, 'message' => 'Invalid token']);
         }
+        // Add this check to ensure that a token exists
+        // if (!$token) {
+        //     return $this->json(['error' => true, 'message' => 'No token found']);
+        // }
 
-        $userObj = $this->jwtManager->decode($this->tokenStorageInterface->getToken());
+        $userObj = $this->jwtManager->decode($_COOKIE['BEARER']);
 
         try {
             if ($userObj) {
