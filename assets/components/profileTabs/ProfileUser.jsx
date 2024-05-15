@@ -9,7 +9,7 @@ export default function ProfileUser() {
 	useEffect(() => {
 		async function fetchUser() {
 			try {
-				const res = await fetch("/api/user/getuser");
+				const res = await fetch("/api/user");
 				const data = await res.json();
 				if (res.ok || data.error === 'false') {
 					console.log(data);
