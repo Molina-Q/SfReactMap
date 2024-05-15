@@ -28,7 +28,7 @@ export default function Register() {
 			});
 			const data = await response.json();
 
-			setDataMessage(data.toString());
+			setDataMessage(data.message);
 		} catch (error) {
 			setDataMessage(error.message);
 		}
