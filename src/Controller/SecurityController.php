@@ -52,57 +52,7 @@ class SecurityController extends AbstractController
         return $response;
     }
 
-    #[Route(path: '/api/login', name: 'app_login_check')]
-    public function signin(
-        Request $request,
-        UserPasswordHasherInterface $passwordHasher,
-        UserRepository $userRepository,
-        JWTTokenManagerInterface $JWTManager,
-    ) {
-        $data = json_decode($request->getContent(), true);
-
-        $email = $data['email'];
-        $password = $data['password'];
-
-        $user = $userRepository->findByEmail($email);
-
-        if (!$user) {
-            throw new AuthenticationException('User not found!');
-        }
-
-        $isValid = $passwordHasher->isPasswordValid($user, $password);
-
-        if (!$isValid) {
-            throw new AuthenticationException('Wrong credentials!');
-        }
-
-        $token = $JWTManager->create($user);
-        return new JsonResponse(['token' => $JWTManager->create($user)]);
-        $response = new JsonResponse();
-        // $response->headers->set('Authorization', "Bearer $token");
-        $response->headers->setCookie(
-            new Cookie(
-                'BEARER',
-                $token,
-                new \DateTime('+1 day'),
-                '/',
-                null,
-                true,
-                true,
-                false,
-                'strict'
-            )
-        );
-        $response->setData([
-            'username' => $user->getUsername(),
-            'id' => $user->getId(),
-            // add more user data here
-        ]);
-
-        return $response;
-    }
-
-    #[Route("/api/user/getuser", name: 'get_user')]
+    #[Route("/api/user", name: 'show_connected_user')]
     public function getConnectedUser(): JsonResponse
     {
         // get the token from the client
