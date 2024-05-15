@@ -13,10 +13,10 @@ export default function ProfileUser() {
 				const data = await res.json();
 				if (res.ok || data.error === 'false') {
 					console.log(data);
-					setUser(data);
+					setUser(data.message);
 				}
 
-				if(data.error === true) {
+				if(data.error === 'true') {
 					setError(data.message);
 					setUser(null);
 				}
@@ -24,7 +24,7 @@ export default function ProfileUser() {
 				console.log('user : ', user);
 			} catch (error) {
 				console.log("Error fetching user : ", error.message);
-				setUser(false);
+				setUser(null);
 			}
 		}
 
@@ -40,8 +40,8 @@ export default function ProfileUser() {
 				<div>
 					<ul>
 						<li>{user.username}</li>
-						<li>{user.id}</li>
-						{/* <li>{user.roles.toString()}</li> */}
+						<li>{user.userId}</li>
+						<li>{user.roles.toString()}</li>
 					</ul>
 				</div>
 			)}
