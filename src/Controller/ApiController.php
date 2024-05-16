@@ -23,7 +23,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
-class ApiController extends AbstractController 
+class ApiController extends AbstractController
 {
     // get all equipment categories
     #[Route('/api/equipment/types', name: 'get_categories')]
@@ -87,20 +87,19 @@ class ApiController extends AbstractController
     }
 
     // create an Equipment
-    #[Route('/api/equipment/create-entity', name: 'create_equipment', methods:['POST'])]
+    #[Route('/api/equipment/create-entity', name: 'create_equipment', methods: ['POST'])]
     public function create(
         UserRepository $userRepository,
         SubCategoryRepository $subCategoryRepository,
         Request $request,
         EntityManagerInterface $entityManager
-        ): Response
-    {
+    ): Response {
         $equipment = new Equipment();
         $img = new Img();
         $imgObject = new ImgObject();
-    
+
         // $user = $userRepository->findOneById('1'); // get the user currently logged in
-    
+
         // Get form data from the request
         $data = $request->request->all();
         // dd($data);  
@@ -108,21 +107,21 @@ class ApiController extends AbstractController
             $dateNow = new \DateTime('now');
 
             $subCategory = $subCategoryRepository->findOneById($data['sub_category']);
-    
+
             $equipment->setName($data['name']);
             $equipment->setText($data['text']);
             $equipment->setSubCategory($subCategory);
-    
+
             $entityManager->persist($equipment);
             $entityManager->flush();
-    
+
             // Handle file upload
             $uploadedFile = $request->files->get('image');
-    
+
             if ($uploadedFile) {
                 $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $newFilename = $originalFilename.'-'.uniqid().'.'.$uploadedFile->guessExtension();
-    
+                $newFilename = $originalFilename . '-' . uniqid() . '.' . $uploadedFile->guessExtension();
+
                 // Move the file to the directory where brochures are stored
                 try {
                     $uploadedFile->move(
@@ -132,27 +131,28 @@ class ApiController extends AbstractController
                 } catch (FileException $e) {
                     // Handle exception
                 }
-    
+
                 $img->setPath($newFilename);
             }
-    
+
             $entityManager->persist($img);
             $entityManager->flush();
-    
+
             $imgObject->setEquipment($equipment);
             $imgObject->setImg($img);
-    
+
             $entityManager->persist($imgObject);
             $entityManager->flush();
-    
+
             return new JsonResponse(['message' => 'Equipment created!'], Response::HTTP_CREATED);
         }
-    
+
         return new JsonResponse(['message' => 'Error: Invalid data'], Response::HTTP_BAD_REQUEST);
-    }   
-    
+    }
+
     #[Route('/api/upload', name: 'upload_file', methods: ['POST'])]
-    public function fileUpload(): Response {
+    public function fileUpload(): Response
+    {
         $uploadedFile = $_FILES['file'];
         $filename = $uploadedFile['name'];
         $destination = 'img/upload/' . $filename;
@@ -173,17 +173,16 @@ class ApiController extends AbstractController
             'name' => $equipObject->getName(),
             'text' => $equipObject->getText(),
             'img' => $equipObject->getOneImg(),
-            'sub_cat' => $equipObject->getSubCategory()->getLabel(),
+            'sub_cat' => $equipObject->getSubCatLabel(),
         ];
 
         return new JsonResponse([
             'equipment' => $equipment
         ]);
-
     }
 
     // get every equipment from the specified category
-    #[Route('/api/equipment/type/{id}', name: 'get_equipment', methods:['GET'])]
+    #[Route('/api/equipment/type/{id}', name: 'get_equipment', methods: ['GET'])]
     public function getEquip(
         EquipmentRepository $equipmentRepository,
         int $id
@@ -203,9 +202,21 @@ class ApiController extends AbstractController
         return new JsonResponse([
             'equipments' => $equipments,
         ]);
-           
-        // return $this->json($equipmentsObject, 200, [],  ['equipments' => 'equipment.name']);
+
+        // return $this->json([
+        //     'equipments' => $equipments,
+        // ], 200, [],  []);
     }
+    // public function getEquip(
+    //     EquipmentRepository $equipmentRepository,
+    //     int $id
+    // ): Response {
+    //     $equipmentsObject = $equipmentRepository->findByCategory($id);
+
+    //     return $this->json([
+    //         'equipments' => $equipmentsObject,
+    //     ], 200, [], ['groups' => 'equipment']);
+    // }
 
     // The section Modal from the map
     #[Route('/dataCountry/section/{id}', name: 'show_section', methods: ['GET'])]
