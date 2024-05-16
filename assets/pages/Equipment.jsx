@@ -12,7 +12,7 @@ export default function Equipment() {
 	const [loading, setLoading] = useState(true);
 
 	// current active category type
-	const [currentCategory, setCurrentCategory] = useState(getUrlParam("type") ?? 1);
+	const [currentCategory, setCurrentCategory] = useState(1);
 
 	// states for the details page data
 	const [clickedItemData, setClickedItemData] = useState({});
@@ -86,7 +86,9 @@ export default function Equipment() {
 
 	// call fetchData when page is loading then when category type is updated
 	useEffect(() => {
-		fetchData(`/api/equipment/type/${urlData.type}`, setData, setLoading);
+
+		// fetchData(`/api/equipment/type/${urlData.type}`, setData, setLoading);
+		
 
 		if (
 			(urlData.item && !clickedItemData.equipment) ||
@@ -103,6 +105,10 @@ export default function Equipment() {
 		}
 	}, [urlData]); // will re-run only when one of those variables changes (using Object.js comparison)
 
+	useEffect(() => {
+		fetchData(`/api/equipment/type/${urlData.type}`, setData, setLoading);
+	}, [urlData.type]);
+	
 	if (data) {
 		console.log("data type = ", data["equipments"].length);
 	}
