@@ -13,7 +13,10 @@ export default function Home() {
 		<main className="wrap-home">
 			<section id="home-welcome">
 				<h2 className="primary-title">Welcome to our Map</h2>
-				<p>Here you will learn how to use the app and learn more about each country military equipment from the 14th to the 20th century</p>
+				<p>
+					Here you will learn how to use the app and learn more about each
+					country military equipment from the 14th to the 20th century
+				</p>
 
 				<SlArrowDown onClick={handleClick} size="4em" className="home-arrow" />
 			</section>
@@ -32,7 +35,9 @@ export default function Home() {
 				<figure className="home-figure-map">
 					<img src="/img/map_screen.PNG" alt="map" />
 				</figure>
-				<p>You can then click on any of the highlighted sub-titles to go deeper!</p>
+				<p>
+					You can then click on any of the highlighted sub-titles to go deeper!
+				</p>
 				<figure className="home-figure-article">
 					<img src="/img/article_screen.PNG" alt="an article of the map" />
 				</figure>
@@ -46,7 +51,10 @@ export default function Home() {
 
 			<article id="home-timeline">
 				<h3>Click on the timeline</h3>
-				<p>This will change the content of the Article and reflect the border of the country using the clicked year.</p>
+				<p>
+					This will change the content of the Article and reflect the border of
+					the country using the clicked year.
+				</p>
 				<figure className="home-figure-timeline">
 					<img src="/img/timeline_screen.webp" alt="timeline" />
 				</figure>
