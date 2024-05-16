@@ -32,7 +32,7 @@ export default function Home() {
 				<figure className="home-figure-map">
 					<img src="/img/map_screen.PNG" alt="map" />
 				</figure>
-				<p>You can then click on any of the highlighted sub-titles to go deeper !</p>
+				<p>You can then click on any of the highlighted sub-titles to go deeper!</p>
 				<figure className="home-figure-article">
 					<img src="/img/article_screen.PNG" alt="an article of the map" />
 				</figure>
