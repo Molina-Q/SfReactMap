@@ -2,23 +2,28 @@
 
 namespace App\Entity;
 
-use App\Repository\EquipmentRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\EquipmentRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 #[ORM\Entity(repositoryClass: EquipmentRepository::class)]
 class Equipment
 {
+    #[Groups('equipment')]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups('equipment')]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
-
+    
+    #[Groups('equipment')]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $text = null;
 
@@ -182,9 +187,16 @@ class Equipment
         return $this->name . ' - ' . $this->sub_category->getLabel();
     }
 
-    
+        
+    #[Groups('equipment')]    
+    #[SerializedName('img')]
     public function getOneImg()
     {
         return $this->imgObjects[0]->getImg()->getPath();
+    }
+
+    public function getSubCatLabel()
+    {
+        return $this->sub_category->getLabel();
     }
 }
