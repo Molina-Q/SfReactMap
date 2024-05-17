@@ -1,0 +1,43 @@
+version: '4.30'
+
+services:
+  backend:
+    image: php:8.3-apache
+    container_name: sfrMap-app
+    ports:
+      - 82:80
+    volumes:
+      - ./:/var/www/html
+    build:
+      context: .
+      dockerfile: Dockerfile-back
+    environment:
+      - DATABASE_URL=mysql://root@127.0.0.1:3306/sfreactmap
+
+  frontend:
+    image: node:22-alpine
+    container_name: sfrMap-vite
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/usr/src/app
+    build:
+      context: .
+      dockerfile: Dockerfile-front
+
+  db-mysql:
+    image: mysql:8.0
+    container_name: sfrMap-db
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  # mongodb:
+  #   image: mongo:latest
+  #   volumes:
+  #     - mongodb_data:/data/db
+
+volumes:
+  mysql_data:
+  # mongodb_data:
