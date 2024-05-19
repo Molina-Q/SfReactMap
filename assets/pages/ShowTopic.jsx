@@ -7,6 +7,9 @@ export default function ShowTopic() {
 	const [topic, setTopic] = useState(null);
 	const [responses, setResponses] = useState([]);
 
+	const [commentData, setCommentData] = useState({});
+	const [messageData, setMessageData] = useState({});
+
 	useEffect(() => {
 		async function fetchData() {
 			const topicId = window.location.pathname.split("/").pop();
@@ -25,6 +28,61 @@ export default function ShowTopic() {
 
 	if (!topic) {
 		return <div>Loading...</div>;
+	}
+
+	const handleChange = (e) => {
+		if(e.target.id === 'comment') {
+			setCommentData({ ...commentData, [e.target.id]: e.target.value });
+		}
+
+		if(e.target.id === 'message') {
+			setMessageData({ ...messageData, [e.target.id]: e.target.value });
+		}	
+	};
+
+	const handleMessageSubmit = async (e) => {
+		e.preventDefault();
+
+		const topicId = window.location.pathname.split("/").pop();
+		const message = e.target.message.value;
+
+		const data = await fetchAnything(`/api/forum/message/${topicId}/message`, {
+			method: "POST",
+			body: JSON.stringify({ message }),
+		});
+
+		if (data) {
+			setResponses([...responses, data]);
+		} else {
+			console.error("MANUAL ERROR: Invalid data");
+		}
+	
+	}
+
+	const handleCommentSubmit = async (e) => {
+		e.preventDefault();
+
+		const responseId = e.target.parentNode.parentNode.id;
+		const comment = e.target.comment.value;
+
+		const data = await fetchAnything(`/api/forum/response/${responseId}/comment`, {
+			method: "POST",
+			body: JSON.stringify({ comment }),
+		});
+
+		if (data) {
+			const updatedResponses = responses.map((response) => {
+				if (response.id === responseId) {
+					return { ...response, comments: [...response.comments, data] };
+				}
+
+				return response;
+			});
+
+			setResponses(updatedResponses);
+		} else {
+			console.error("MANUAL ERROR: Invalid data");
+		}
 	}
 
 	return (
@@ -50,13 +108,13 @@ export default function ShowTopic() {
 			</article>
 
 			{/* Replace this with your actual form component */}
-			<form className="form-create">
+			<form className="form-create" onSubmit={handleMessageSubmit}>
 				{/* Form fields go here */}
 				<div>
 					<label htmlFor="message">
-                        Want to write a comment ?
+                        Want to write a message ?
                     </label>
-					<textarea type="text" name="message" id="message" className="form-input-text" />
+					<textarea onChange={handleChange} name="text" id="text" className="form-input-text" />
 				</div>
 
 				<button type="submit" className="form-btn-submit">
@@ -77,9 +135,9 @@ export default function ShowTopic() {
 								</p>
 								<p>{response.text}</p>
 								{/* Replace this with your actual form component */}
-								<form action="/forum/topic/comment" method="post">
+								<form onSubmit={handleCommentSubmit} method="post">
 									{/* Form fields go here */}
-									<input type="text" name="text" className="form-input-text" />
+									<input type="text" id="comment" name="text" className="form-input-text" onChange={handleChange} />
 									<button type="submit" className="form-btn-submit">
 										Reply
 									</button>
@@ -100,7 +158,7 @@ export default function ShowTopic() {
 								response.comments.map((comment) => (
 									<div className="details-topic-comment" key={comment.id}>
 										<p>
-											{comment.Author} -{" "}
+											{comment.Author}-{" "}
 											<span>
 												{new Date(comment.creationDate).toLocaleString()}
 											</span>
