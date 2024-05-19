@@ -203,12 +203,10 @@ class ForumController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager
     ): Response {
-        $message = new Message();
-
+        $topicObject = $topicRepository->findOneById($id);
         $responsesObject = $messageRepository->findMessages($id);
 
-        $topicObject = $topicRepository->findOneById($id);
-
+        // Prepare the topic data
         $topic = [
             'id' => $topicObject->getId(),
             'title' => $topicObject->getTitle(),
@@ -218,20 +216,36 @@ class ForumController extends AbstractController
             'cat' => $topicObject->showCategory(),
         ];
 
+        // Prepare the responses data
         $responses = [];
-
         foreach ($responsesObject as $response) {
+            $comments = [];
+            foreach ($response->getComments() as $comment) {
+                $comments[] = [
+                    'id' => $comment->getId(),
+                    'Author' => $comment->getAuthor()->getUsername(),
+                    'text' => $comment->getText(),
+                    'creationDate' => $comment->getCreationDate()->format('Y-m-d'),
+                    // Add other comment fields as needed
+                ];
+            }
+
             $responses[] = [
                 'id' => $response->getId(),
                 'text' => $response->getText(),
-                'creationDate' => $response->getCreationDate(),
+                'creationDate' => $response->getCreationDate()->format('Y-m-d'),
                 'author' => $response->getAuthor()->getUsername(),
-                // 'comment' => $response->getComments()->getTitle(),
+                'comments' => $comments,
             ];
         }
 
-        $data = ['responses' => $responses, 'topic' => $topic];
+        // Prepare the final data
+        $data = [
+            'topic' => $topic,
+            'responses' => $responses,
+        ];
 
+        // Return the data as a JSON response
         return $this->json(
             $data
         );
