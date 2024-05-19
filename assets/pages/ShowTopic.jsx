@@ -72,7 +72,7 @@ export default function ShowTopic() {
 								<p>
 									{response.author} -{" "}
 									<span>
-										{new Date(response.creationDate).toLocaleString()}
+										{response.creationDate}
 									</span>
 								</p>
 								<p>{response.text}</p>
