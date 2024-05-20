@@ -67,16 +67,19 @@ export default function ShowTopic() {
 	const handleCommentSubmit = async (e) => {
 		e.preventDefault();
 
-		const messageId = e.target.parentNode.parentNode.id;
+		const messageId = e.target.getAttribute("data-id");
 
-		const data = await fetch(`/api/forum/create-comment/${messageId}`, {
+		const res = await fetch(`/api/forum/comment/create/${messageId}`, {
 			method: "POST",
 			body: JSON.stringify({ ...commentData }),
 		});
 
-		if (data) {
+		const dataComment = await res.json();
+
+		if (res.ok) {
+			const data = dataComment.object;
 			const updatedResponses = responses.map((response) => {
-				if (response.id === responseId) {
+				if (response.id == messageId) {
 					return { ...response, comments: [...response.comments, data] };
 				}
 
@@ -139,9 +142,9 @@ export default function ShowTopic() {
 								</p>
 								<p>{response.text}</p>
 								{/* Replace this with your actual form component */}
-								<form onSubmit={handleCommentSubmit} method="post">
+								<form onSubmit={handleCommentSubmit} data-id={response.id}>
 									{/* Form fields go here */}
-									<input type="text" id="comment" name="text" className="form-input-text" onChange={handleChange} data-id={response.id} />
+									<input type="text" id="comment" name="text" className="form-input-text" onChange={handleChange}  />
 									<button type="submit" className="form-btn-submit">
 										Reply
 									</button>
@@ -162,7 +165,7 @@ export default function ShowTopic() {
 								response.comments.map((comment) => (
 									<div className="details-topic-comment" key={comment.id}>
 										<p>
-											{comment.Author}-{" "}
+											{comment.author}-{" "}
 											<span>
 												{new Date(comment.creationDate).toLocaleString()}
 											</span>
