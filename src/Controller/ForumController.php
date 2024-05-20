@@ -158,52 +158,52 @@ class ForumController extends AbstractController
         return $this->redirectToRoute('app_forum');
     }
 
-    #[Route('/forum/topic/comment', name: 'create_comment')]
-    public function createComment(
-        MessageRepository $messageRepository,
-        EntityManagerInterface $entityManager
-    ): Response {
+    // #[Route('/forum/topic/comment', name: 'create_comment')]
+    // public function createComment(
+    //     MessageRepository $messageRepository,
+    //     EntityManagerInterface $entityManager
+    // ): Response {
 
-        $comment = new Comment();
-        $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $text = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    //     $comment = new Comment();
+    //     $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    //     $text = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
 
-        $message = $messageRepository->findOneById($id);
+    //     $message = $messageRepository->findOneById($id);
 
-        $errorCheck = false;
+    //     $errorCheck = false;
 
-        if (!$message) {
-            $errorCheck = true;
-            $this->redirectToRoute('app_forum');
-        }
+    //     if (!$message) {
+    //         $errorCheck = true;
+    //         $this->redirectToRoute('app_forum');
+    //     }
 
-        if (empty($id)) {
-            $errorCheck = true;
-            $this->addFlash('error', 'The session was successfully deleted');
-        }
+    //     if (empty($id)) {
+    //         $errorCheck = true;
+    //         $this->addFlash('error', 'The session was successfully deleted');
+    //     }
 
-        if (empty($text)) {
-            $errorCheck = true;
-            $this->addFlash('error', 'Text cannot be empty');
-        }
+    //     if (empty($text)) {
+    //         $errorCheck = true;
+    //         $this->addFlash('error', 'Text cannot be empty');
+    //     }
 
-        if (!$errorCheck) {
-            $dateNow = new \DateTime('now');
+    //     if (!$errorCheck) {
+    //         $dateNow = new \DateTime('now');
 
-            $comment->setText($text);
-            $comment->setCreationDate($dateNow);
-            $comment->setAuthor($this->getUser());
-            $comment->setMessage($message);
+    //         $comment->setText($text);
+    //         $comment->setCreationDate($dateNow);
+    //         $comment->setAuthor($this->getUser());
+    //         $comment->setMessage($message);
 
-            $entityManager->persist($comment);
-            $entityManager->flush();
-        }
+    //         $entityManager->persist($comment);
+    //         $entityManager->flush();
+    //     }
 
-        $idTopic = $message->getTopic()->getId();
+    //     $idTopic = $message->getTopic()->getId();
 
-        return $this->redirectToRoute('show_topic', ['id' => $idTopic]);
-    }
+    //     return $this->redirectToRoute('show_topic', ['id' => $idTopic]);
+    // }
 
     #[Route('/forum/topic/{id}', name: 'get_topic', methods: ['GET'])]
     public function getTopic(): Response
@@ -239,7 +239,7 @@ class ForumController extends AbstractController
             foreach ($response->getComments() as $comment) {
                 $comments[] = [
                     'id' => $comment->getId(),
-                    'Author' => $comment->getAuthor()->getUsername(),
+                    'author' => $comment->getAuthor()->getUsername(),
                     'text' => $comment->getText(),
                     'creationDate' => $comment->getCreationDate()->format('Y-m-d'),
                     // Add other comment fields as needed
@@ -316,6 +316,56 @@ class ForumController extends AbstractController
        
         return $this->json(
             ['error' => false, 'message' => 'Message created successfully', 'object' => $dataMessage], Response::HTTP_CREATED
+        );
+    }
+
+    #[Route('/api/forum/comment/create/{messageId}', name: 'create_comment', methods: ['POST'])]
+    public function createComment(
+        Request $request,
+        MessageRepository $messageRepository,
+        UserRepository $userRepository,
+        EntityManagerInterface $entityManager,
+        int $messageId,
+    ): Response {
+
+        $comment = new Comment();
+
+        $token = $_COOKIE['BEARER'];
+
+        $jws = $this->jwsProvider->load($token);
+        $decodedToken = $jws->getPayload();
+        $userId = $decodedToken['userId'];
+
+        $message = $messageRepository->findOneById($messageId);
+        $currentUser = $userRepository->findOneById($userId);
+
+        $requestData = json_decode($request->getContent(), true);
+
+        if(isset($requestData)) {
+            $comment->setText($requestData['text']);
+            $comment->setAuthor($currentUser);
+            $comment->setMessage($message);
+            $comment->setCreationDate(new DateTime('now'));
+
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            $dataComment = [
+                'author' => $comment->getAuthor()->getUsername(),
+                'creationDate' => $comment->getCreationDate(),
+                'id' => $comment->getId(),
+                'text' => $comment->getText(),
+            ];
+
+        } else {
+            return $this->json(
+                ['error' => true, 'message' => 'Comment not created'], Response::HTTP_BAD_REQUEST
+            );
+        }
+
+       
+        return $this->json(
+            ['error' => false, 'message' => 'Comment created successfully', 'object' => $dataComment], Response::HTTP_CREATED
         );
     }
 
