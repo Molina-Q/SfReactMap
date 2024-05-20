@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { fetchAnything } from "../utils/Fetchs";
 import TopicTag from "../components/forum/TopicTag";
+import { BsThreeDots } from "react-icons/bs";
+import { IoSendSharp } from "react-icons/io5";
 
 export default function ShowTopic() {
 	const [topic, setTopic] = useState(null);
@@ -11,7 +13,6 @@ export default function ShowTopic() {
 	const [messageData, setMessageData] = useState({});
 
 	const topicId = window.location.pathname.split("/").pop();
-
 
 	useEffect(() => {
 		async function fetchData() {
@@ -34,16 +35,15 @@ export default function ShowTopic() {
 
 	const handleChange = (e) => {
 		console.log(e.target.id);
-		if(e.target.id === 'comment') {
+		if (e.target.id === "comment") {
 			setCommentData({ ...commentData, [e.target.name]: e.target.value });
 		}
 
-		if(e.target.id === 'message') {
+		if (e.target.id === "message") {
 			setMessageData({ ...messageData, [e.target.name]: e.target.value });
-		}	
+		}
 
-	// console.log('comment: ', commentData, ' - message : ', messageData);
-
+		// console.log('comment: ', commentData, ' - message : ', messageData);
 	};
 
 	const handleMessageSubmit = async (e) => {
@@ -61,8 +61,7 @@ export default function ShowTopic() {
 		} else {
 			console.error("MANUAL ERROR: Invalid data");
 		}
-	
-	}
+	};
 
 	const handleCommentSubmit = async (e) => {
 		e.preventDefault();
@@ -90,7 +89,7 @@ export default function ShowTopic() {
 		} else {
 			console.error("MANUAL ERROR: Invalid data");
 		}
-	}
+	};
 
 	return (
 		<main id="wrapperMain" className="wrap-forum">
@@ -103,7 +102,6 @@ export default function ShowTopic() {
 						</div>
 
 						<button>EDIT</button>
-
 						<button className="delete-btn">DELETE</button>
 					</div>
 
@@ -118,14 +116,17 @@ export default function ShowTopic() {
 			<form className="form-create" onSubmit={handleMessageSubmit}>
 				{/* Form fields go here */}
 				<div>
-					<label htmlFor="message">
-                        Want to write a message ?
-                    </label>
-					<textarea onChange={handleChange} id="message" name="text"  className="form-input-text" />
+					<label htmlFor="message">Want to write a message ?</label>
+					<textarea
+						onChange={handleChange}
+						id="message"
+						name="text"
+						className="form-input-text"
+					/>
 				</div>
 
 				<button type="submit" className="form-btn-submit">
-					Send
+					Send <IoSendSharp/>
 				</button>
 			</form>
 
@@ -137,18 +138,25 @@ export default function ShowTopic() {
 								<p>
 									{response.author} -{" "}
 									<span>
-										{response.creationDate}
+										{new Date(response.creationDate).toLocaleString()}
 									</span>
 								</p>
 								<p>{response.text}</p>
 								{/* Replace this with your actual form component */}
 								<form onSubmit={handleCommentSubmit} data-id={response.id}>
 									{/* Form fields go here */}
-									<input type="text" id="comment" name="text" className="form-input-text" onChange={handleChange}  />
+									<input
+										type="text"
+										id="comment"
+										name="text"
+										className="form-input-text"
+										onChange={handleChange}
+									/>
 									<button type="submit" className="form-btn-submit">
 										Reply
 									</button>
-									<Link to={`/update_message/${response.id}`}>
+									<BsThreeDots />
+									{/* <Link to={`/update_message/${response.id}`}>
 										<strong>EDIT</strong>
 									</Link>
 									<Link
@@ -156,7 +164,7 @@ export default function ShowTopic() {
 										className="delete-btn"
 									>
 										<strong>DELETE</strong>
-									</Link>
+									</Link> */}
 								</form>
 							</div>
 							{response &&
@@ -165,13 +173,15 @@ export default function ShowTopic() {
 								response.comments.map((comment) => (
 									<div className="details-topic-comment" key={comment.id}>
 										<p>
-											{comment.author}-{" "}
+											{comment.author} -{" "}
 											<span>
 												{new Date(comment.creationDate).toLocaleString()}
 											</span>
 										</p>
 										<p>{comment.text}</p>
-										<Link to={`/update_comment/${comment.id}`}>
+										<BsThreeDots />
+
+										{/* <Link to={`/update_comment/${comment.id}`}>
 											<strong>EDIT</strong>
 										</Link>
 										<Link
@@ -179,7 +189,7 @@ export default function ShowTopic() {
 											className="delete-btn"
 										>
 											<strong>DELETE</strong>
-										</Link>
+										</Link> */}
 									</div>
 								))}
 						</div>
