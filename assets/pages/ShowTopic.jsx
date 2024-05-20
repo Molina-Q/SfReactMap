@@ -10,9 +10,11 @@ export default function ShowTopic() {
 	const [commentData, setCommentData] = useState({});
 	const [messageData, setMessageData] = useState({});
 
+	const topicId = window.location.pathname.split("/").pop();
+
+
 	useEffect(() => {
 		async function fetchData() {
-			const topicId = window.location.pathname.split("/").pop();
 			const topicData = await fetchAnything(`/api/forum/topic/${topicId}`);
 
 			if (topicData) {
@@ -31,28 +33,31 @@ export default function ShowTopic() {
 	}
 
 	const handleChange = (e) => {
+		console.log(e.target.id);
 		if(e.target.id === 'comment') {
-			setCommentData({ ...commentData, [e.target.id]: e.target.value });
+			setCommentData({ ...commentData, [e.target.name]: e.target.value });
 		}
 
 		if(e.target.id === 'message') {
-			setMessageData({ ...messageData, [e.target.id]: e.target.value });
+			setMessageData({ ...messageData, [e.target.name]: e.target.value });
 		}	
+
+	// console.log('comment: ', commentData, ' - message : ', messageData);
+
 	};
 
 	const handleMessageSubmit = async (e) => {
 		e.preventDefault();
 
-		const topicId = window.location.pathname.split("/").pop();
-		const message = e.target.message.value;
-
-		const data = await fetchAnything(`/api/forum/message/${topicId}/message`, {
+		const response = await fetch(`/api/forum/message/create/${topicId}`, {
 			method: "POST",
-			body: JSON.stringify({ message }),
+			body: JSON.stringify({ ...messageData }),
 		});
 
+		const data = await response.json();
+
 		if (data) {
-			setResponses([...responses, data]);
+			setResponses([...responses, data.object]);
 		} else {
 			console.error("MANUAL ERROR: Invalid data");
 		}
@@ -62,12 +67,11 @@ export default function ShowTopic() {
 	const handleCommentSubmit = async (e) => {
 		e.preventDefault();
 
-		const responseId = e.target.parentNode.parentNode.id;
-		const comment = e.target.comment.value;
+		const messageId = e.target.parentNode.parentNode.id;
 
-		const data = await fetchAnything(`/api/forum/response/${responseId}/comment`, {
+		const data = await fetch(`/api/forum/create-comment/${messageId}`, {
 			method: "POST",
-			body: JSON.stringify({ comment }),
+			body: JSON.stringify({ ...commentData }),
 		});
 
 		if (data) {
@@ -114,7 +118,7 @@ export default function ShowTopic() {
 					<label htmlFor="message">
                         Want to write a message ?
                     </label>
-					<textarea onChange={handleChange} name="text" id="text" className="form-input-text" />
+					<textarea onChange={handleChange} id="message" name="text"  className="form-input-text" />
 				</div>
 
 				<button type="submit" className="form-btn-submit">
@@ -137,7 +141,7 @@ export default function ShowTopic() {
 								{/* Replace this with your actual form component */}
 								<form onSubmit={handleCommentSubmit} method="post">
 									{/* Form fields go here */}
-									<input type="text" id="comment" name="text" className="form-input-text" onChange={handleChange} />
+									<input type="text" id="comment" name="text" className="form-input-text" onChange={handleChange} data-id={response.id} />
 									<button type="submit" className="form-btn-submit">
 										Reply
 									</button>
