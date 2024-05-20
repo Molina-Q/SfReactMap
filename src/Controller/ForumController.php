@@ -20,9 +20,25 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWSProvider\JWSProviderInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class ForumController extends AbstractController
 {
+
+    private TokenStorageInterface $tokenStorageInterface;
+    private JWTTokenManagerInterface $jwtManager;
+    private JWSProviderInterface $jwsProvider;
+
+    public function __construct(TokenStorageInterface $tokenStorageInterface, JWTTokenManagerInterface $jwtManager, JWSProviderInterface $jwsProvider)
+    {
+        $this->tokenStorageInterface = $tokenStorageInterface;
+        $this->jwtManager = $jwtManager;
+        $this->jwsProvider = $jwsProvider;
+    }
+
+    
 
     #[Route('/fauxrum', name: 'app_forum')]
     public function index(
@@ -251,129 +267,180 @@ class ForumController extends AbstractController
         );
     }
 
-
-    #[Route('/forum/topic/list/{sortBy}/{id?}', name: 'list_topic', defaults: ['id' => null])]
-    public function listTopics(
-        string $sortBy,
-        int $id = null,
-        TopicRepository $topicRepository,
-    ): Response {
-        $topics = '';
-        switch ($sortBy) {
-            case 'equip':
-                $topics = $topicRepository->findByEquip($id);
-                break;
-            case 'article':
-                $topics = $topicRepository->findByArticle();
-                break;
-
-            default:
-                $this->redirectToRoute('app_forum');
-                break;
-        }
-
-        // $topics = $topicRepository->findBy($id);
-
-        return $this->render('forum/list.html.twig', [
-            'topics' => $topics,
-        ]);
-    }
-
-    #[Route('/forum/message/update/{id}', name: 'update_message')]
-    public function updateMessage(
-        TopicRepository $topicRepository,
-        MessageRepository $messageRepository,
+ 
+    #[Route('/api/forum/message/create/{topicId}', name: 'show_message', methods: ['POST'])]
+    public function createMessage(
         Request $request,
+        TopicRepository $topicRepository,
+        UserRepository $userRepository,
         EntityManagerInterface $entityManager,
-        int $id
-
+        int $topicId,
     ): Response {
-        $message = $messageRepository->findOneById($id);
-        $topic = $message->getTopic();
 
-        $form = $this->createForm(MessageFormType::class, $message, ['attr' => ['class' => 'form-create']]);
-        $form->handleRequest($request);
+        $message = new Message();
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        $token = $_COOKIE['BEARER'];
+
+        $jws = $this->jwsProvider->load($token);
+        $decodedToken = $jws->getPayload();
+        $userId = $decodedToken['userId'];
+
+        $topic = $topicRepository->findOneById($topicId);
+        $currentUser = $userRepository->findOneById($userId);
+
+        $requestData = json_decode($request->getContent(), true);
+
+        if(isset($requestData)) {
+            $message->setText($requestData['text']);
+            $message->setAuthor($currentUser);
+            $message->setTopic($topic);
+            $message->setCreationDate(new DateTime('now'));
 
             $entityManager->persist($message);
             $entityManager->flush();
 
-            return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
+            $dataMessage = [
+                'author' => $message->getAuthor()->getUsername(),
+                'comments' => [],
+                'creationDate' => $message->getCreationDate(),
+                'id' => $message->getId(),
+                'text' => $message->getText(),
+            ];
+
+        } else {
+            return $this->json(
+                ['error' => true, 'message' => 'Message not created'], Response::HTTP_BAD_REQUEST
+            );
         }
 
-        return $this->render('forum/message.html.twig', [
-            'updateMessageForm' => $form->createView(),
-        ]);
+       
+        return $this->json(
+            ['error' => false, 'message' => 'Message created successfully', 'object' => $dataMessage], Response::HTTP_CREATED
+        );
     }
 
-    #[Route('/forum/message/delete/{id}', name: 'delete_message')]
-    public function deleteMessage(
-        TopicRepository $topicRepository,
-        MessageRepository $messageRepository,
-        Request $request,
-        EntityManagerInterface $entityManager,
-        int $id
+    // #[Route('/forum/topic/list/{sortBy}/{id?}', name: 'list_topic', defaults: ['id' => null])]
+    // public function listTopics(
+    //     string $sortBy,
+    //     int $id = null,
+    //     TopicRepository $topicRepository,
+    // ): Response {
+    //     $topics = '';
+    //     switch ($sortBy) {
+    //         case 'equip':
+    //             $topics = $topicRepository->findByEquip($id);
+    //             break;
+    //         case 'article':
+    //             $topics = $topicRepository->findByArticle();
+    //             break;
 
-    ): Response {
-        $message = $messageRepository->findOneById($id);
-        $topic = $message->getTopic();
+    //         default:
+    //             $this->redirectToRoute('app_forum');
+    //             break;
+    //     }
 
-        $entityManager->remove($message);
-        $entityManager->flush();
+    //     // $topics = $topicRepository->findBy($id);
 
-        $this->addFlash('success', 'The session was successfully deleted');
+    //     return $this->render('forum/list.html.twig', [
+    //         'topics' => $topics,
+    //     ]);
+    // }
 
-        return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
-    }
+    // #[Route('/forum/message/update/{id}', name: 'update_message')]
+    // public function updateMessage(
+    //     TopicRepository $topicRepository,
+    //     MessageRepository $messageRepository,
+    //     Request $request,
+    //     EntityManagerInterface $entityManager,
+    //     int $id
 
-    #[Route('/forum/comment/update/{id}', name: 'update_comment')]
-    public function updateComment(
-        TopicRepository $topicRepository,
-        MessageRepository $messageRepository,
-        CommentRepository $commentRepository,
-        Request $request,
-        EntityManagerInterface $entityManager,
-        int $id
+    // ): Response {
+    //     $message = $messageRepository->findOneById($id);
+    //     $topic = $message->getTopic();
 
-    ): Response {
-        $comment = $commentRepository->findOneById($id);
-        $topic = $comment->getMessage()->getTopic();
+    //     $form = $this->createForm(MessageFormType::class, $message, ['attr' => ['class' => 'form-create']]);
+    //     $form->handleRequest($request);
 
-        $form = $this->createForm(CommentFormType::class, $comment, ['attr' => ['class' => 'form-create']]);
-        $form->handleRequest($request);
+    //     if ($form->isSubmitted() && $form->isValid()) {
 
-        if ($form->isSubmitted() && $form->isValid()) {
+    //         $entityManager->persist($message);
+    //         $entityManager->flush();
 
-            $entityManager->persist($comment);
-            $entityManager->flush();
+    //         return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
+    //     }
 
-            return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
-        }
+    //     return $this->render('forum/message.html.twig', [
+    //         'updateMessageForm' => $form->createView(),
+    //     ]);
+    // }
 
-        return $this->render('forum/comment.html.twig', [
-            'updateCommentForm' => $form->createView(),
-        ]);
-    }
+    // #[Route('/forum/message/delete/{id}', name: 'delete_message')]
+    // public function deleteMessage(
+    //     TopicRepository $topicRepository,
+    //     MessageRepository $messageRepository,
+    //     Request $request,
+    //     EntityManagerInterface $entityManager,
+    //     int $id
 
-    #[Route('/forum/comment/delete/{id}', name: 'delete_comment')]
-    public function deleteComment(
-        TopicRepository $topicRepository,
-        MessageRepository $messageRepository,
-        CommentRepository $commentRepository,
-        Request $request,
-        EntityManagerInterface $entityManager,
-        int $id
+    // ): Response {
+    //     $message = $messageRepository->findOneById($id);
+    //     $topic = $message->getTopic();
 
-    ): Response {
-        $comment = $commentRepository->findOneById($id);
-        $topic = $comment->getMessage()->getTopic();
+    //     $entityManager->remove($message);
+    //     $entityManager->flush();
 
-        $entityManager->remove($comment);
-        $entityManager->flush();
+    //     $this->addFlash('success', 'The session was successfully deleted');
 
-        $this->addFlash('success', 'The session was successfully deleted');
+    //     return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
+    // }
 
-        return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
-    }
+    // #[Route('/forum/comment/update/{id}', name: 'update_comment')]
+    // public function updateComment(
+    //     TopicRepository $topicRepository,
+    //     MessageRepository $messageRepository,
+    //     CommentRepository $commentRepository,
+    //     Request $request,
+    //     EntityManagerInterface $entityManager,
+    //     int $id
+
+    // ): Response {
+    //     $comment = $commentRepository->findOneById($id);
+    //     $topic = $comment->getMessage()->getTopic();
+
+    //     $form = $this->createForm(CommentFormType::class, $comment, ['attr' => ['class' => 'form-create']]);
+    //     $form->handleRequest($request);
+
+    //     if ($form->isSubmitted() && $form->isValid()) {
+
+    //         $entityManager->persist($comment);
+    //         $entityManager->flush();
+
+    //         return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
+    //     }
+
+    //     return $this->render('forum/comment.html.twig', [
+    //         'updateCommentForm' => $form->createView(),
+    //     ]);
+    // }
+
+    // #[Route('/forum/comment/delete/{id}', name: 'delete_comment')]
+    // public function deleteComment(
+    //     TopicRepository $topicRepository,
+    //     MessageRepository $messageRepository,
+    //     CommentRepository $commentRepository,
+    //     Request $request,
+    //     EntityManagerInterface $entityManager,
+    //     int $id
+
+    // ): Response {
+    //     $comment = $commentRepository->findOneById($id);
+    //     $topic = $comment->getMessage()->getTopic();
+
+    //     $entityManager->remove($comment);
+    //     $entityManager->flush();
+
+    //     $this->addFlash('success', 'The session was successfully deleted');
+
+    //     return $this->redirectToRoute('show_topic', ['id' => $topic->getId()]);
+    // }
 }
