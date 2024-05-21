@@ -10,6 +10,34 @@ export default function Forum() {
 	const [loading, setLoading] = useState(true);
 	const { currentUser } = useSelector((state) => state.user);
 
+	const [topicCategories, setTopicCategories] = useState([
+		{
+			title: "Century",
+			nbTopic: 30,
+			lastTopic: "01-01-2000",
+		},
+		{
+			title: "Country",
+			nbTopic: 25,
+			lastTopic: "01-01-2000",
+		},
+		{
+			title: "Weapon",
+			nbTopic: 60,
+			lastTopic: "01-01-2000",
+		},
+		{
+			title: "Armour",
+			nbTopic: 15,
+			lastTopic: "01-01-2000",
+		},
+		{
+			title: "Tool",
+			nbTopic: 1,
+			lastTopic: "01-01-2000",
+		},
+	]);
+
 	useEffect(() => {
 		// async function that fetch articles data for the country during the selected century from the MapController
 		// await for data at the given URI (Uniform Resource Identifier)
@@ -37,49 +65,66 @@ export default function Forum() {
 	}, []);
 
 	return (
-		<main id="wrapperMain">
+		<main id="wrapperMain" className="wrap-forum">
 			<h2 className="primary-title">Forum</h2>
 
 			<Link to="/topic/create">
 				<button>New topic</button>
 			</Link>
+			<section className="forum-content">
+				<section className="topic-categories">
+					{topicCategories.map((cat) => (
+						<Link
+							to={`/api/forum/topics/category?show=${cat.title.toLowerCase()}`}
+							key={cat.title}
+							className="topic-categories-link"
+						>
+							<div className="topic-categories-bloc">
+								<h2 className="topic-categories-title">
+									Topics by {cat.title}
+								</h2>
 
-			<div className="topics-category">
-				{/* {% for category in equipCateg %} */}
+								<section className="topic-categories-section">
+									<div className="topic-categories-attribut">
+										<p>{cat.nbTopic}</p>
+										<p>{cat.nbTopic <= 1 ? "topic" : "topics"}</p>
+									</div>
 
-				<Link to="{{ path('list_topic', {id:category.id, sortBy:'equip'}) }}">
-					<button>Topics by category.label</button>
-				</Link>
-
-				{/* {% endfor %} */}
-
-				<Link to="{{ path('list_topic', {sortBy:'article'}) }}">
-					<button>Topics by Article</button>
-				</Link>
-			</div>
-
-			<section className="table-popular">
-				<div className="table-header table-row">
-					<h3>Popular topics</h3>
-				</div>
-
-				<div className="table-body">
-					{loading ? (
-						<Loading />
-					) : (
-						topics.map((topic) => (
-							<div className="table-row" key={topic.id}>
-								<div>
-									<div className="details-topic-info">{/* <TopicTag /> */}</div>
-
-									<p>
-										<Link to={`/forum/topic/${topic.id}`}>{topic.title}</Link>
-									</p>
-								</div>
+									<div className="topic-categories-attribut">
+										<p>{cat.lastTopic}</p>
+										<p>Last topic</p>
+									</div>
+								</section>
 							</div>
-						))
-					)}
-				</div>
+						</Link>
+					))}
+				</section>
+
+				<section className="table-popular">
+					<div className="table-header table-row">
+						<h3>Popular topics</h3>
+					</div>
+
+					<div className="table-body">
+						{loading ? (
+							<Loading />
+						) : (
+							topics.map((topic) => (
+								<div className="table-row" key={topic.id}>
+									<div>
+										<div className="details-topic-info">
+											{/* <TopicTag /> */}
+										</div>
+
+										<p>
+											<Link to={`/forum/topic/${topic.id}`}>{topic.title}</Link>
+										</p>
+									</div>
+								</div>
+							))
+						)}
+					</div>
+				</section>
 			</section>
 		</main>
 	);
