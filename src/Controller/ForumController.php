@@ -330,7 +330,8 @@ class ForumController extends AbstractController
 
         $comment = new Comment();
 
-        $token = $_COOKIE['BEARER'];
+        $tokenGet = $request->cookies->get('BEARER');
+        $token = filter_var($tokenGet, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
         $jws = $this->jwsProvider->load($token);
         $decodedToken = $jws->getPayload();
@@ -368,6 +369,46 @@ class ForumController extends AbstractController
             ['error' => false, 'message' => 'Comment created successfully', 'object' => $dataComment], Response::HTTP_CREATED
         );
     }
+
+    #[Route('/api/forum/topics/category', name: 'show_message', methods: ['GET'])]
+    public function topicsByCategory(
+        Request $request,
+        TopicRepository $topicRepository,
+        UserRepository $userRepository,
+        EntityManagerInterface $entityManager,
+        int $topicId,
+    ): Response {
+        $categories = ['weapon', 'armour', 'tool', 'country', 'century'];
+        $isValid = false;
+        $showGet = $request->query->get('show');
+        $show = filter_var($showGet, 'show', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $showCateg = '';
+
+        foreach($categories as $category) {
+            if($show === $category) {
+                $isValid = true;
+                if($show === 'weapon' || $show === 'armour' || $show === 'tool') {
+                    $showCateg = 'equipment';
+                } else {
+                    $showCateg = 'article';
+                }
+            }
+        }
+
+        if($isValid) {
+
+            $topics = $topicRepository->findByCategory($showCateg);
+
+            return $this->json(
+                ['error' => false, 'message' => 'Category found', 'object' => $topics], Response::HTTP_OK
+            );
+        }
+       
+        return $this->json(
+            ['error' => true, 'message' => 'There was a mistake'], Response::HTTP_BAD_REQUEST
+        );
+    }
+
 
     // #[Route('/forum/topic/list/{sortBy}/{id?}', name: 'list_topic', defaults: ['id' => null])]
     // public function listTopics(
