@@ -35,7 +35,7 @@ class RouterController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
-        return $this->render('security/index.html.twig');
+        return $this->render('base.html.twig');
     }
 
 }
