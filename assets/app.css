@@ -16,7 +16,7 @@
   --font-color-light: #fff;
   --font-color-dark: #2C2C2C;
 
-  --linear-gradient-dark: linear-gradient(#1f2020, #222224, transparent 125%);
+  --linear-gradient-dark: linear-gradient(#222224, #1e1f1f, transparent 200%);
   --linear-gradient-glass: linear-gradient(var(--background-gray-glass), #272829);
   --linear-gradient-colour: linear-gradient(0.25turn, #1D87C3, #04948B);
 
@@ -44,11 +44,8 @@
   flex-direction: column;
   font-family: "Karla", sans-serif;
 
-  background-image: url("data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='20' height='20' patternTransform='scale(3) rotate(0)'><rect x='0' y='0' width='100%' height='100%' fill='hsla(180, 2%, 12%, 1)'/><path d='M 10,-2.55e-7 V 20 Z M -1.1677362e-8,10 H 20 Z'  stroke-width='0.5' stroke='hsla(220, 9%, 38%, 1)' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(-33,0)' fill='url(%23a)'/></svg>")  
-  
-  
-  
-  /* background-image: var(--linear-gradient-dark); */
+  background-image: url("data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='20' height='20' patternTransform='scale(3) rotate(0)'><rect x='0' y='0' width='100%' height='100%' fill='hsla(180, 2%, 12%, 1)'/><path d='M 10,-2.55e-7 V 20 Z M -1.1677362e-8,10 H 20 Z'  stroke-width='0.5' stroke='hsla(220, 9%, 38%, 1)' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(-33,0)' fill='url(%23a)'/></svg>")
+    /* background-image: var(--linear-gradient-dark); */
 }
 
 #wrapperMain {
@@ -670,12 +667,12 @@ header nav {
 
       background: var(--skeleton-gradient);
       background-size: 300% 300%;
-      
+
       -webkit-animation: var(--skeleton-animation);
       -moz-animation: var(--skeleton-animation);
       -o-animation: var(--skeleton-animation);
       animation: var(--skeleton-animation);
-      
+
       border-radius: 3px;
     }
 
@@ -736,9 +733,11 @@ header nav {
   0% {
     background-position: 0% 30%;
   }
+
   50% {
     background-position: 100% 30%;
   }
+
   100% {
     background-position: 0% 30%;
   }
@@ -758,11 +757,11 @@ header nav {
 }
 
 [id^="home-"] {
-  height:calc( 100% + 1em);
+  /* min-height: 120%; */
+  height: calc(100% + 5em);
   padding-bottom: 30px;
   padding-left: 25px;
   padding-right: 25px;
-
   background: var(--linear-gradient-dark);
   border-radius: 10px;
   position: relative;
@@ -999,235 +998,240 @@ header nav {
 /*****************************************************************************************************/
 .wrap-forum {
 
-
   .forum-content {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
 
   }
+}
 
-  .topic-categories {
+.topic-categories {
 
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 30px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 30px;
 
-    flex: 1;
+  flex: 1;
 
-    .topic-categories-link {
-      width: fit-content;
-      height: fit-content;
+  .topic-categories-link {
+    width: fit-content;
+    height: fit-content;
 
-      background: var(--linear-gradient-colour);
+    background: var(--linear-gradient-colour);
 
-      padding: 10px 15px;
-      border-radius: 7px;
+    padding: 10px 15px;
+    border-radius: 7px;
 
-      .topic-categories-bloc {
-
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-
-        .topic-categories-section {
-          display: flex;
-          justify-content: space-around;
-          align-items: center;
-
-          .topic-categories-attribut {}
-        }
-      }
-
-    }
-
-  }
-
-  .table-popular {
-    /* width: 300px; */
-    /* flex: 1; */
-    display: flex;
-    flex-direction: column;
-
-    .table-header {
-      height: fit-content;
-      /* flex: 1; */
-      padding: 5px 10px;
-
-      background-image: var(--linear-gradient-colour);
-
-      border-top-left-radius: 3px;
-      border-top-right-radius: 3px;
-    }
-
-    .table-body {
-      padding: 10px;
+    .topic-categories-bloc {
 
       display: flex;
       flex-direction: column;
-      gap: 25px;
+      gap: 10px;
 
-      background-color: var(--background-gray-dark);
-      border: 5px solid var(--background-gray);
-
-      border-bottom-left-radius: 3px;
-      border-bottom-right-radius: 3px;
-
-      .table-row {
-        flex: 1;
+      .topic-categories-section {
         display: flex;
-        flex-direction: column;
-        gap: 5px;
-        /* background-color: var(--background-gray-dark); */
-      }
-    }
-
-  }
-
-  /**** showTopic ****/
-  .details-topic-info {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-
-    gap: 10px;
-
-    .topic-tag {
-      background-color: var(--primary-color);
-      font-size: 0.95em;
-      font-weight: 500;
-      padding: 3px 7px;
-      color: var(--font-color-dark);
-      border-radius: 3px;
-    }
-  }
-
-  #details-topic-header {
-    padding: 10px;
-
-    background-color: var(--background-gray);
-    border-radius: 3px;
-
-    .topic-header-wrapper {
-      /* la div vide ICONS cause la gap au dessus du tag du topic */
-      background-color: var(--background-gray-dark);
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-
-      padding: 10px 15px;
-
-      border-radius: 3px;
-
-      .param-btn-container {
-        display: grid;
-
-        grid-template-columns: repeat(auto-fit, minmax(min(100px, 100%), 1fr));
-
+        justify-content: space-around;
         align-items: center;
 
-        gap: 15px;
-
-        .details-topic-info {
-          grid-column: 1;
-
-        }
-
-        a {
-          grid-column: -1;
-          grid-row: 1;
-
-          text-align: end;
-        }
-
-        a:last-child {
-          grid-column: -2;
-        }
+        .topic-categories-attribut {}
       }
     }
+
   }
 
-  #details-topic-reponses {
-    /* height: 400px; */
-    background-color: var(--background-gray);
+}
 
+
+
+/**** showTopic ****/
+.details-topic-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  gap: 10px;
+
+}
+
+.topic-tag {
+  background-color: var(--primary-color);
+  font-size: 0.95em;
+  font-weight: 500;
+  padding: 3px 7px;
+  color: var(--font-color-dark);
+  border-radius: 3px;
+}
+
+#details-topic-header {
+  padding: 10px;
+
+  background-color: var(--background-gray);
+  border-radius: 3px;
+
+  .topic-header-wrapper {
+    /* la div vide ICONS cause la gap au dessus du tag du topic */
+    background-color: var(--background-gray-dark);
     display: flex;
     flex-direction: column;
     gap: 15px;
+
+    padding: 10px 15px;
+
     border-radius: 3px;
 
-    .details-topic-tree {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      padding: 5px 10px;
+    .param-btn-container {
+      display: grid;
 
-      .details-topic-msg {
-        background-color: var(--background-gray-dark);
-        border-radius: 3px;
-        padding: 5px;
-        display: flex;
-        flex-direction: column;
-        gap: 3px;
+      grid-template-columns: repeat(auto-fit, minmax(min(100px, 100%), 1fr));
 
-        .form-create {
+      align-items: center;
 
-          button {
-            width: 1.2em;
-            height: 1.2em;
-            padding: 0 10px;
+      gap: 15px;
 
-            font-size: 18px;
+      .details-topic-info {
+        grid-column: 1;
 
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-
-            color: var(--font-color-light);
-            text-decoration: none;
-
-            svg {
-              width: 1.2em;
-              margin-right: 5px;
-              fill: var(--font-color-light);
-            }
-          }
-        }
       }
 
-      .details-topic-comment {
-        background-color: var(--background-gray-dark);
-        border-radius: 3px;
-        padding: 5px;
+      a {
+        grid-column: -1;
+        grid-row: 1;
 
-        margin-left: 25px;
-        display: flex;
-        flex-direction: column;
-        gap: 3px;
+        text-align: end;
       }
-    }
 
-  }
-
-  .collectionType {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 15px;
-
-    li {
-      border: 1px solid var(--primary-color);
-      margin: 10px 0;
-      padding: 10px 10px;
-      list-style: none;
+      a:last-child {
+        grid-column: -2;
+      }
     }
   }
 }
+
+.table-popular {
+  /* width: 300px; */
+  /* flex: 1; */
+  display: flex;
+  flex-direction: column;
+}
+
+.table-header {
+  height: fit-content;
+  /* flex: 1; */
+  padding: 5px 10px;
+
+  background-image: var(--linear-gradient-colour);
+
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+
+.table-body {
+  padding: 10px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+
+  background-color: var(--background-gray-dark);
+  border: 5px solid var(--background-gray);
+
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+
+  .table-row {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    /* background-color: var(--background-gray-dark); */
+  }
+}
+
+
+
+#details-topic-reponses {
+  /* height: 400px; */
+  background-color: var(--background-gray);
+
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  border-radius: 3px;
+
+  .details-topic-tree {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 5px 10px;
+
+    .details-topic-msg {
+      background-color: var(--background-gray-dark);
+      border-radius: 3px;
+      padding: 5px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+
+      .form-create {
+
+        button {
+          width: 1.2em;
+          height: 1.2em;
+          padding: 0 10px;
+
+          font-size: 18px;
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center;
+
+          color: var(--font-color-light);
+          text-decoration: none;
+
+          svg {
+            width: 1.2em;
+            margin-right: 5px;
+            fill: var(--font-color-light);
+          }
+        }
+      }
+    }
+
+    .details-topic-comment {
+      background-color: var(--background-gray-dark);
+      border-radius: 3px;
+      padding: 5px;
+
+      margin-left: 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+  }
+
+}
+
+.collectionType {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+
+  li {
+    border: 1px solid var(--primary-color);
+    margin: 10px 0;
+    padding: 10px 10px;
+    list-style: none;
+  }
+}
+
 
 /*******************************************************************************************************/
 /*********************************************** Profile ***********************************************/
