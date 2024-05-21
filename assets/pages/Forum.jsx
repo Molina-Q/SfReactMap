@@ -75,7 +75,7 @@ export default function Forum() {
 				<section className="topic-categories">
 					{topicCategories.map((cat) => (
 						<Link
-							to={`/api/forum/topics/category?show=${cat.title.toLowerCase()}`}
+							to={`/forum/topics?show=${cat.title.toLowerCase()}`}
 							key={cat.title}
 							className="topic-categories-link"
 						>
