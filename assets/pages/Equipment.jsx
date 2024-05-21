@@ -86,9 +86,7 @@ export default function Equipment() {
 
 	// call fetchData when page is loading then when category type is updated
 	useEffect(() => {
-
 		// fetchData(`/api/equipment/type/${urlData.type}`, setData, setLoading);
-		
 
 		if (
 			(urlData.item && !clickedItemData.equipment) ||
@@ -108,7 +106,7 @@ export default function Equipment() {
 	useEffect(() => {
 		fetchData(`/api/equipment/type/${urlData.type}`, setData, setLoading);
 	}, [urlData.type]);
-	
+
 	if (data) {
 		console.log("data type = ", data["equipments"].length);
 	}
@@ -160,7 +158,13 @@ export default function Equipment() {
 
 					<aside className="equip-description">
 						{loadingDetails ? (
-							<Loading />
+							// <Loading />
+							<div className="skeleton">
+								<div className="skeleton-text-sm"></div>
+								<div className="skeleton-text-lg"></div>
+								<div className="skeleton-image"></div>
+								<div className="skeleton-area"></div>
+							</div>
 						) : clickedItemData.equipment ? (
 							<DetailsItem
 								name={clickedItemData.equipment.name}
