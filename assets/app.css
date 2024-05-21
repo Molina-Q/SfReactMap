@@ -19,6 +19,9 @@
   --linear-gradient-dark: linear-gradient(#1f2020, #222224, transparent 125%);
   --linear-gradient-glass: linear-gradient(var(--background-gray-glass), #272829);
   --linear-gradient-colour: linear-gradient(0.25turn, #1D87C3, #04948B);
+
+  --skeleton-gradient: linear-gradient(269deg, #313232, #464646);
+  --skeleton-animation: gradient-animation 1.5s ease-out infinite;
 }
 
 /*******************************************************************************************************/
@@ -621,6 +624,78 @@ header nav {
 
   gap: 15px;
 
+  .skeleton {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    .skeleton-text-sm {
+      height: 18px;
+      width: 80px;
+
+      background: var(--skeleton-gradient);
+      background-size: 300% 300%;
+
+
+      -webkit-animation: var(--skeleton-animation);
+      -moz-animation: var(--skeleton-animation);
+      -o-animation: var(--skeleton-animation);
+      animation: var(--skeleton-animation);
+
+      padding-right: 15px;
+      border-radius: 3px;
+    }
+
+    .skeleton-text-lg {
+      height: 28px;
+      width: 119px;
+
+      background: var(--skeleton-gradient);
+      background-size: 300% 300%;
+
+
+      -webkit-animation: var(--skeleton-animation);
+      -moz-animation: var(--skeleton-animation);
+      -o-animation: var(--skeleton-animation);
+      animation: var(--skeleton-animation);
+
+      padding-right: 15px;
+      border-radius: 3px;
+    }
+
+    .skeleton-image {
+      width: 150px;
+      height: 150px;
+
+      background: var(--skeleton-gradient);
+      background-size: 300% 300%;
+      
+      -webkit-animation: var(--skeleton-animation);
+      -moz-animation: var(--skeleton-animation);
+      -o-animation: var(--skeleton-animation);
+      animation: var(--skeleton-animation);
+      
+      border-radius: 3px;
+    }
+
+    .skeleton-area {
+      background: var(--skeleton-gradient);
+      background-size: 300% 300%;
+
+      -webkit-animation: var(--skeleton-animation);
+      -moz-animation: var(--skeleton-animation);
+      -o-animation: var(--skeleton-animation);
+      animation: var(--skeleton-animation);
+      height: 150px;
+
+      width: 100%;
+      padding-right: 15px;
+      border-radius: 3px;
+    }
+
+  }
+
+
   figure {
 
     width: 40%;
@@ -653,6 +728,18 @@ header nav {
       word-wrap: break-word;
       overflow-wrap: break-word;
     }
+  }
+}
+
+@keyframes gradient-animation {
+  0% {
+    background-position: 0% 30%;
+  }
+  50% {
+    background-position: 100% 30%;
+  }
+  100% {
+    background-position: 0% 30%;
   }
 }
 
@@ -907,29 +994,60 @@ header nav {
 /*****************************************************************************************************/
 .wrap-forum {
 
-  a:hover {
-    color: var(--background-colour-light);
-    transition: 0.1s;
-  }
 
-  .topics-category {
+  .forum-content {
     display: flex;
-    flex-direction: row;
+    flex-wrap: wrap;
     gap: 15px;
 
-    a button {
-      padding: 10px;
+  }
+
+  .topic-categories {
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 30px;
+
+    flex: 1;
+
+    .topic-categories-link {
+      width: fit-content;
+      height: fit-content;
+
+      background: var(--linear-gradient-colour);
+
+      padding: 10px 15px;
+      border-radius: 7px;
+
+      .topic-categories-bloc {
+
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .topic-categories-section {
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+
+          .topic-categories-attribut {}
+        }
+      }
+
     }
+
   }
 
   .table-popular {
-    width: 300px;
-
+    /* width: 300px; */
+    /* flex: 1; */
     display: flex;
     flex-direction: column;
 
     .table-header {
-      flex: 1;
+      height: fit-content;
+      /* flex: 1; */
       padding: 5px 10px;
 
       background-image: var(--linear-gradient-colour);
