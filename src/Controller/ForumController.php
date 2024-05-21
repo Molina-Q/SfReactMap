@@ -376,37 +376,55 @@ class ForumController extends AbstractController
         TopicRepository $topicRepository,
         UserRepository $userRepository,
         EntityManagerInterface $entityManager,
-        int $topicId,
     ): Response {
         $categories = ['weapon', 'armour', 'tool', 'country', 'century'];
         $isValid = false;
         $showGet = $request->query->get('show');
-        $show = filter_var($showGet, 'show', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $show = filter_var($showGet, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $showCateg = '';
 
-        foreach($categories as $category) {
-            if($show === $category) {
-                $isValid = true;
-                if($show === 'weapon' || $show === 'armour' || $show === 'tool') {
-                    $showCateg = 'equipment';
-                } else {
-                    $showCateg = 'article';
-                }
-            }
+        // $topicsObject = $topicRepository->findByCategory($showCateg);
+        $topicsObject = $topicRepository->findAll();
+        $topics = [];
+
+        foreach($topicsObject as $topic) {
+            $topics[] = [
+                'id' => $topic->getId(),
+                'title' => $topic->getTitle(),
+                'creationDate' => $topic->getCreationDate(),
+                'author' => $topic->getAuthor()->getUsername(),
+                'message' => $topic->msgAuthor(),
+                'cat' => $topic->showCategory(),
+            ];
         }
 
-        if($isValid) {
-
-            $topics = $topicRepository->findByCategory($showCateg);
-
-            return $this->json(
-                ['error' => false, 'message' => 'Category found', 'object' => $topics], Response::HTTP_OK
-            );
-        }
-       
         return $this->json(
-            ['error' => true, 'message' => 'There was a mistake'], Response::HTTP_BAD_REQUEST
+            ['error' => false, 'message' => 'Category found', 'object' => $topics], Response::HTTP_OK
         );
+
+        // foreach($categories as $category) {
+        //     if($show === $category) {
+        //         $isValid = true;
+        //         if($show === 'weapon' || $show === 'armour' || $show === 'tool') {
+        //             $showCateg = 'equipment';
+        //         } else {
+        //             $showCateg = 'article';
+        //         }
+        //     }
+        // }
+
+        // if($isValid) {
+
+        //     $topics = $topicRepository->findByCategory($showCateg);
+
+        //     return $this->json(
+        //         ['error' => false, 'message' => 'Category found', 'object' => $topics], Response::HTTP_OK
+        //     );
+        // }
+       
+        // return $this->json(
+        //     ['error' => true, 'message' => 'There was a mistake'], Response::HTTP_BAD_REQUEST
+        // );
     }
 
 
