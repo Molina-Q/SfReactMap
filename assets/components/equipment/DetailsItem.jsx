@@ -17,14 +17,14 @@ function DetailsItem(props) {
             <p>{props.text}</p>
           </div>
 
-          <div>
+          {/* <div>
             <LinkBtn URI={`/equipment/update/${props.id}`}>
               Edit
             </LinkBtn>
             <LinkBtn URI={`/equipment/delete/${props.id}`}>
               Delete
             </LinkBtn>
-          </div>
+          </div> */}
         </>
       )}
     </>
