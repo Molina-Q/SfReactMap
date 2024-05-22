@@ -11,11 +11,20 @@ export default function Home() {
 
 	return (
 		<main className="wrap-home">
+			
+			<h2 className="primary-title">Welcome to our Map</h2>
+
 			<section id="home-welcome">
-				<h2 className="primary-title">Welcome to our Map</h2>
+
+				<h3>Learn more about history</h3>
 				<p>
 					Here you will learn how to use the app and learn more about each
 					country's military gear from the 14th to the 20th century
+				</p>
+
+				<p>
+					You will find Weapons, Armours and different Tools they used back
+					then!
 				</p>
 
 				<SlArrowDown onClick={handleClick} size="4em" className="home-arrow" />
@@ -52,7 +61,9 @@ export default function Home() {
 			<article id="home-timeline">
 				<h3>Click on the timeline</h3>
 				<p>
-					The borders of each country will reflect the ones they had during the clicked century and the content of every Articles will be updated following the same logic.
+					The borders of each country will reflect the ones they had during the
+					clicked century and the content of every Articles will be updated
+					following the same logic.
 				</p>
 				<figure className="home-figure-timeline">
 					<img src="/img/timeline_screen.webp" alt="timeline" />
