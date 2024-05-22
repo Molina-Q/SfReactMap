@@ -22,7 +22,7 @@ export default function App() {
 		<BrowserRouter>
 			<NavbarMap />
 			<Routes>
-				{/* Route with no limitation */}
+				{/* Public Route */}
 				<Route path="/home" element={<Home />} />
 				<Route path="/map" element={<SfReactMap />} />
 				<Route path="/equipment" element={<Equipment />} />
@@ -30,7 +30,7 @@ export default function App() {
 				<Route path="/forum/topics" element={<TopicsList />} />
 				<Route path="/forum/topic/:topicId" element={<ShowTopic />} />
 
-				{/* Route for non logged user */}
+				{/* Route for non logged user Only */}
 				<Route element={<UnauthenticatedRoute />}>
 					<Route path="/login" element={<Login />} />
 					<Route path="/register" element={<Register />} />
@@ -45,7 +45,9 @@ export default function App() {
 				</Route>
 
 				{/* Route for Admin Only */}
-				<Route element={<AdminRoute />}></Route>
+				<Route element={<AdminRoute />}>
+
+				</Route>
 			</Routes>
 		</BrowserRouter>
 	);
