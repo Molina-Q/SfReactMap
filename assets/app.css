@@ -763,8 +763,8 @@ header nav {
   padding-bottom: 30px;
   padding-left: 25px;
   padding-right: 25px;
-  background: var(--linear-gradient-dark);
-  border-radius: 10px;
+  background: var(--background-gray-darker);
+  border-radius: 6px;
   position: relative;
   overflow: hidden;
   /* Ensures the pseudo-element is contained */
@@ -780,7 +780,7 @@ header nav {
   right: 0;
   bottom: 0;
 
-  border-radius: 10px;
+  border-radius: 6px;
 
   background: linear-gradient(to bottom, var(--background-gray), rgba(0, 0, 0, 0));
 
@@ -803,10 +803,19 @@ header nav {
 
   text-align: center;
 
+  
+
   .home-arrow {
     cursor: pointer;
   }
 
+  .primary-title {
+    font-size: 6em;
+    font-weight: 600;
+    /* padding: 25px 0; */
+    margin: 150px 0 50px;
+  }
+  
   section,
   article {
     margin: 150px 0;
@@ -817,11 +826,8 @@ header nav {
     align-items: center;
     justify-content: center;
 
-    /* line-height: 5em; */
-
     gap: 15px;
 
-    h2,
     h3,
     h4 {
       font-size: 3em;
