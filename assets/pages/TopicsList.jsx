@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-
+import { BsChatText } from "react-icons/bs";
+import { FcLike } from "react-icons/fc";
 export default function TopicsList() {
 	const [topics, setTopics] = useState(null);
 
@@ -38,18 +39,24 @@ export default function TopicsList() {
 					{topics &&
 						topics.map((topic) => (
 							<div className="table-row" key={topic.id}>
-								<p className="topics-items">{topic.cat}</p>
-								<p className="topics-items">{topic.title}</p>
-								<p className="topics-items">
-									by <b>{topic.author}</b>
-								</p>
-								<p className="topics-items">
-									{new Date(topic.creationDate).toLocaleString()}
-								</p>
+								<div className="table-topic-head">
+									<p className="table-cat">[ {topic.cat} ]</p>
+									<span>|</span>
+									<p className="table-date">
+										{  Math.floor((new Date() - new Date(topic.creationDate)) / (1000 * 60 * 60)) + ' hours ago'}
+									</p>
+								</div>
+	
+								<p className="table-title">{topic.title}</p>
+								<p className="table-message">{topic.message}</p>
+
+								<div className="table-icons">
+									<span className="table-icon-item"><FcLike size={'15px'}/> Like</span>
+									<span className="table-icon-item"><BsChatText /> Comment</span>
+								</div>
 							</div>
 						))}
 				</div>
-        
 			</div>
 		</main>
 	);
