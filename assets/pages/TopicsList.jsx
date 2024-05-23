@@ -3,7 +3,7 @@ import { BsChatText } from "react-icons/bs";
 import { FcLike } from "react-icons/fc";
 export default function TopicsList() {
 	const [topics, setTopics] = useState(null);
-	const [rangeValue, setRangeValue] = useState(0);
+	const [rangeValue, setRangeValue] = useState(1400);
 	useEffect(() => {
 		async function fetchData() {
 			console.log("-- Fetch - called --");
