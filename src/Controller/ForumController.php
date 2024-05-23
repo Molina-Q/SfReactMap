@@ -38,8 +38,6 @@ class ForumController extends AbstractController
         $this->jwsProvider = $jwsProvider;
     }
 
-    
-
     #[Route('/fauxrum', name: 'app_forum')]
     public function index(
         TopicRepository $topicRepository,
@@ -111,7 +109,6 @@ class ForumController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         int $id
-
     ): Response {
         $topic = $topicRepository->findOneById($id);
         $message = $messageRepository->findOneByTopic($id);
@@ -268,7 +265,7 @@ class ForumController extends AbstractController
     }
 
  
-    #[Route('/api/forum/message/create/{topicId}', name: 'show_message', methods: ['POST'])]
+    #[Route('/api/forum/message/create/{topicId}', name: 'create_message', methods: ['POST'])]
     public function createMessage(
         Request $request,
         TopicRepository $topicRepository,
