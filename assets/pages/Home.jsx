@@ -15,8 +15,8 @@ export default function Home() {
 			<h2 className="primary-title">Welcome to our Map</h2>
 
 			<section id="home-welcome">
-
 				<h3>Learn more about history</h3>
+
 				<p>
 					Here you will learn how to use the app and learn more about each
 					country's military gear from the 14th to the 20th century
