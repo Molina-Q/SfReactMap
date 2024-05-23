@@ -1195,6 +1195,12 @@ header nav {
 
       gap: 5px;
 
+      cursor: pointer;
+
+      &:hover {
+        background-color: var(--background-gray-dark);
+      }
+
       svg {
         display: inline;
         vertical-align: 'middle' 
