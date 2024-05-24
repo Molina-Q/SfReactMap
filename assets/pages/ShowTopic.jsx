@@ -12,6 +12,8 @@ export default function ShowTopic() {
 	const [commentData, setCommentData] = useState({});
 	const [messageData, setMessageData] = useState({});
 
+	const [showBtn, setShowBtn] = useState(false);
+
 	const topicId = window.location.pathname.split("/").pop();
 
 	useEffect(() => {
@@ -44,6 +46,23 @@ export default function ShowTopic() {
 		}
 
 		// console.log('comment: ', commentData, ' - message : ', messageData);
+	};
+
+	const handleFocus = (e) => {
+		const type = e.type;
+		switch (type) {
+			case "focus":
+				setShowBtn(true);
+				break;
+
+			case "blur":
+				setShowBtn(false);
+				break;
+
+			default:
+				setShowBtn(false);
+				break;
+		}
 	};
 
 	const handleMessageSubmit = async (e) => {
@@ -93,70 +112,81 @@ export default function ShowTopic() {
 
 	return (
 		<main id="wrapperMain" className="wrap-forum">
-			<article id="details-topic-header">
-				<div className="topic-header-wrapper">
-					<div className="param-btn-container">
-						<div className="details-topic-info">
-							{/* Replace TopicTag with your actual React component */}
-							<TopicTag category={topic.cat} author={topic.author} />
+			<article className="wrapper-topic">
+				<article id="details-topic-header">
+					<div className="topic-header-wrapper">
+						<div className="param-btn-container">
+							<div className="details-topic-info">
+								<TopicTag category={topic.cat} author={topic.author} />
+							</div>
+							{/* 
+							<button>EDIT</button>
+							<button className="delete-btn">DELETE</button> */}
 						</div>
 
-						<button>EDIT</button>
-						<button className="delete-btn">DELETE</button>
+						<div className="details-topic-content">
+							<h1>{topic.title}</h1>
+							<p>{topic.message}</p>
+						</div>
 					</div>
-
-					<div className="details-topic-content">
-						<h1>{topic.title}</h1>
-						<p>{topic.message}</p>
-					</div>
-				</div>
+				</article>
 			</article>
 
-			{/* Replace this with your actual form component */}
-			<form className="form-create" onSubmit={handleMessageSubmit}>
-				{/* Form fields go here */}
-				<div>
-					<label htmlFor="message">Want to write a message ?</label>
-					<textarea
-						onChange={handleChange}
-						id="message"
-						name="text"
-						className="form-input-text"
-					/>
-				</div>
-
-				<button type="submit" className="form-btn-submit">
-					Send <IoSendSharp/>
-				</button>
-			</form>
-
-			<section id="details-topic-reponses">
-				{responses && responses.length > 0 ? (
-					responses.map((response) => (
-						<div className="details-topic-tree" key={response.id}>
-							<div className="details-topic-msg">
-								<p>
-									{response.author} -{" "}
-									<span>
-										{new Date(response.creationDate).toLocaleString()}
-									</span>
-								</p>
-								<p>{response.text}</p>
-								{/* Replace this with your actual form component */}
-								<form onSubmit={handleCommentSubmit} data-id={response.id}>
-									{/* Form fields go here */}
-									<input
-										type="text"
-										id="comment"
-										name="text"
-										className="form-input-text"
-										onChange={handleChange}
-									/>
-									<button type="submit" className="form-btn-submit">
-										Reply
-									</button>
-									<BsThreeDots />
-									{/* <Link to={`/update_message/${response.id}`}>
+			<article className="wrapper-topic">
+				<form className="form-create" onSubmit={handleMessageSubmit}>
+					{/* Form fields go here */}
+					<div>
+						<label htmlFor="message">Want to write a message ?</label>
+						<textarea
+							onFocus={handleFocus}
+							onBlur={handleFocus}
+							onChange={handleChange}
+							id="message"
+							name="text"
+							className="form-input-text"
+						/>
+					</div>
+					{showBtn && (
+						<button type="submit" className="form-btn-submit">
+							Send <IoSendSharp />
+						</button>
+					)}
+				</form>
+				<section id="details-topic-reponses">
+					{responses && responses.length > 0 ? (
+						responses.map((response) => (
+							<div className="details-topic-tree" key={response.id}>
+								<div className="details-topic-msg">
+									<p>
+										{response.author} -{" "}
+										<span>
+											{new Date(response.creationDate).toLocaleString()}
+										</span>
+									</p>
+									<p>{response.text}</p>
+									{/* Replace this with your actual form component */}
+									<form onSubmit={handleCommentSubmit} data-id={response.id}>
+										{/* Form fields go here */}
+										<input
+											type="text"
+											onFocus={handleFocus}
+											onBlur={handleFocus}
+											id="comment"
+											name="text"
+											className="form-input-text"
+											onChange={handleChange}
+										/>
+										{showBtn && (
+											<button
+				
+												type="submit"
+												className="form-btn-submit"
+											>
+												Reply
+											</button>
+										)}
+										<BsThreeDots />
+										{/* <Link to={`/update_message/${response.id}`}>
 										<strong>EDIT</strong>
 									</Link>
 									<Link
@@ -165,23 +195,23 @@ export default function ShowTopic() {
 									>
 										<strong>DELETE</strong>
 									</Link> */}
-								</form>
-							</div>
-							{response &&
-								response.comments &&
-								response.comments.length > 0 &&
-								response.comments.map((comment) => (
-									<div className="details-topic-comment" key={comment.id}>
-										<p>
-											{comment.author} -{" "}
-											<span>
-												{new Date(comment.creationDate).toLocaleString()}
-											</span>
-										</p>
-										<p>{comment.text}</p>
-										<BsThreeDots />
+									</form>
+								</div>
+								{response &&
+									response.comments &&
+									response.comments.length > 0 &&
+									response.comments.map((comment) => (
+										<div className="details-topic-comment" key={comment.id}>
+											<p>
+												{comment.author} -{" "}
+												<span>
+													{new Date(comment.creationDate).toLocaleString()}
+												</span>
+											</p>
+											<p>{comment.text}</p>
+											<BsThreeDots />
 
-										{/* <Link to={`/update_comment/${comment.id}`}>
+											{/* <Link to={`/update_comment/${comment.id}`}>
 											<strong>EDIT</strong>
 										</Link>
 										<Link
@@ -190,18 +220,19 @@ export default function ShowTopic() {
 										>
 											<strong>DELETE</strong>
 										</Link> */}
-									</div>
-								))}
+										</div>
+									))}
+							</div>
+						))
+					) : (
+						<div className="details-topic-tree">
+							<div className="details-topic-msg">
+								<p>This topic doesn't have any messages</p>
+							</div>
 						</div>
-					))
-				) : (
-					<div className="details-topic-tree">
-						<div className="details-topic-msg">
-							<p>This topic doesn't have any messages</p>
-						</div>
-					</div>
-				)}
-			</section>
+					)}
+				</section>
+			</article>
 		</main>
 	);
 }
