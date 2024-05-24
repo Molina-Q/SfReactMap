@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BsChatText } from "react-icons/bs";
 import { FcLike } from "react-icons/fc";
+import { Link } from "react-router-dom";
 export default function TopicsList() {
 	const [topics, setTopics] = useState(null);
 	const [rangeValue, setRangeValue] = useState(1400);
@@ -88,7 +89,7 @@ export default function TopicsList() {
 									</p>
 								</div>
 
-								<p className="table-title">{topic.title}</p>
+								<Link to={`/forum/topic/${topic.id}`} className="table-title">{topic.title}</Link>
 								<p className="table-message">{topic.message}</p>
 
 								<div className="table-icons">
