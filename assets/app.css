@@ -60,7 +60,6 @@
   padding: 25px 8% 0;
 
   button {
-    background: var(--linear-gradient-colour);
     border: none;
     border-radius: 5px;
 
@@ -72,7 +71,6 @@
 }
 
 .button-main {
-  background: var(--linear-gradient-colour);
   border: none;
   border-radius: 5px;
 
@@ -100,7 +98,7 @@ a {
     display: flex;
     justify-content: center;
 
-    background: var(--linear-gradient-colour);
+    /* background: var(--linear-gradient-colour); */
 
     border: none;
     border-radius: 5px;
@@ -770,7 +768,6 @@ header nav {
   border-radius: 6px;
   position: relative;
   overflow: hidden;
-  /* Ensures the pseudo-element is contained */
 }
 
 [id^="home-"]::before {
@@ -804,76 +801,152 @@ header nav {
 
   min-height: 100svh;
 
-  text-align: center;
-
-
-
-  .home-arrow {
-    cursor: pointer;
-  }
-
-  .primary-title {
-    font-size: 6em;
-    font-weight: 600;
-    /* padding: 25px 0; */
-    margin: 150px 0 50px;
-  }
-
   section,
-  article {
-    margin: 150px 0;
-    /* min-height: 95vh; */
+article {
+  margin: 150px 0;
+  /* min-height: 95vh; */
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
-    gap: 15px;
+  gap: 15px;
 
-    h3,
-    h4 {
-      font-size: 3em;
-      font-weight: 600;
-      padding: 25px 0;
-    }
+  h3,
+  h4 {
+    font-size: 3em;
+    font-weight: 600;
+    padding: 25px 0;
 
-    p {
-      hyphens: auto;
-      font-size: 2em;
-      font-weight: 300;
-    }
+    text-align: center;
+  }
 
-    .home-figure-map,
-    .home-figure-article,
-    .home-figure-section {
-      height: 425px;
+  p {
+    hyphens: auto;
+    font-size: 2em;
+    font-weight: 300;
+    text-align: left;
+    width: 90%;
+  }
 
-      img {
-        height: 100%;
-        border-radius: 10px;
-        object-fit: contain;
-        border: 1px solid var(--background-gray-dark);
-        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-      }
-    }
+  .home-figure-map,
+  .home-figure-article,
+  .home-figure-section {
+    height: 425px;
 
-    .home-figure-timeline {
-      width: 60vw;
-
-      img {
-        width: 100%;
-        border-radius: 10px;
-        object-fit: contain;
-        border: 1px solid var(--background-gray-dark);
-        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-      }
+    img {
+      height: 100%;
+      border-radius: 10px;
+      object-fit: contain;
+      border: 1px solid var(--background-gray-dark);
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     }
   }
+
+  .home-figure-map {
+    width: 50vw;
+    height: 700px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 10px;
+      object-fit: cover;
+      border: 1px solid var(--background-gray-dark);
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    }
+  }
+
+  .home-figure-timeline {
+    width: 60vw;
+
+    img {
+      width: 100%;
+      border-radius: 10px;
+      object-fit: contain;
+      border: 1px solid var(--background-gray-dark);
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    }
+  }
+}
+}
+
+.home-arrow {
+  cursor: pointer;
+}
+
+.primary-title {
+  font-size: 6em;
+  font-weight: 600;
+  /* padding: 25px 0; */
+  margin: 150px 0 50px;
+}
+
+
+
+#home-colour-section:nth-child(even) {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+
+  background:none;
+   
+  &::before {
+    background:none;
+  }
+
+  p {
+    height: fit-content;
+    width: 500px;
+    padding: 25px 25px;
+    background: var(--background-gray-darker);
+    border-radius: 6px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    text-align: left;
+
+    border: 2px solid var(--background-gray);
+    border-right: 0px;
+  }
+}
+
+#home-colour-section:nth-child(odd) {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 0px;
+
+  background:none;
+   
+  &::before {
+    background:none;
+  }
+
+  p {
+    height: fit-content;
+    width: 500px;
+    padding: 25px 25px;
+    background: var(--background-gray-darker);
+    border-radius: 6px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    text-align: left;
+
+    border: 2px solid var(--background-gray);
+    border-left: 0px;
+  }
+}
+
+.home-highlight {
+  color: var(--secondary-color);
+  font-weight: 600;
 }
 
 #home-colour {
   gap: 30px;
+  p {
+    text-align: center;
+  }
 }
 
 /****************************************************************************************************/
@@ -934,7 +1007,7 @@ header nav {
 .form-btn-submit {
   height: 35px;
   color: var(--font-color-light);
-  background-color: var(--primary-color);
+  background-color: var(--background-gray);
   border: 0;
   border-radius: 2px;
   font-size: 16px;
@@ -1016,6 +1089,8 @@ header nav {
   }
 }
 
+
+
 .topic-categories {
 
   display: flex;
@@ -1056,6 +1131,20 @@ header nav {
 
 
 /**** showTopic ****/
+.wrapper-topic {
+  background-color: var(--background-gray-glass);
+  backdrop-filter: blur(4px);
+  border-radius: 8px;
+  border: 1px solid rgba(71, 71, 71, 0.658);
+
+  .form-create{
+    width: auto;
+    background-color: var(--background-gray-darker);
+    border: 0px solid var(--background-gray);
+    /* border-radius: 5px; */
+  }
+}
+
 .details-topic-info {
   display: flex;
   flex-direction: row;
@@ -1077,12 +1166,12 @@ header nav {
 #details-topic-header {
   padding: 10px;
 
-  background-color: var(--background-gray);
+  /* background-color: var(--background-gray); */
   border-radius: 3px;
 
   .topic-header-wrapper {
     /* la div vide ICONS cause la gap au dessus du tag du topic */
-    background-color: var(--background-gray-dark);
+    background-color: var(--background-gray-darker);
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -1229,11 +1318,9 @@ header nav {
 
 }
 
-
-
 #details-topic-reponses {
   /* height: 400px; */
-  background-color: var(--background-gray);
+  /* background-color: var(--background-gray); */
 
   display: flex;
   flex-direction: column;
@@ -1247,7 +1334,7 @@ header nav {
     padding: 5px 10px;
 
     .details-topic-msg {
-      background-color: var(--background-gray-dark);
+      background-color: var(--background-gray-darker);
       border-radius: 3px;
       padding: 5px;
       display: flex;
@@ -1281,7 +1368,7 @@ header nav {
     }
 
     .details-topic-comment {
-      background-color: var(--background-gray-dark);
+      background-color: var(--background-gray-darker);
       border-radius: 3px;
       padding: 5px;
 
