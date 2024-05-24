@@ -11,7 +11,6 @@ export default function Home() {
 
 	return (
 		<main className="wrap-home">
-			
 			<h2 className="primary-title">Welcome to our Map</h2>
 
 			<section id="home-welcome">
@@ -35,41 +34,52 @@ export default function Home() {
 					Click on the colored countries to learn more about the country's
 					equipments
 				</h3>
-				{/* <p>learn more about their Weapons, Armours or tools</p> */}
-				<p>
-					An article will appear with different section containing information
-					about the country
-				</p>
 
 				<figure className="home-figure-map">
 					<img src="/img/map_screen.PNG" alt="map" />
 				</figure>
+
 				<p>
-					You can then click on any of the highlighted sub-titles to go deeper!
+					An article will appear with different section containing information
+					about the country
+				</p>
+			</article>
+
+			<section id="home-colour-section">
+				<p>
+					You can then click on any of the{" "}
+					<span className="home-highlight">highlighted</span> sub-titles to go
+					deeper!
 				</p>
 				<figure className="home-figure-article">
 					<img src="/img/article_screen.PNG" alt="an article of the map" />
 				</figure>
+			</section>
 
-				<p>The Section will give you more details about the equipments!</p>
+			<section id="home-colour-section">
+				<p>The <b>Section</b> will give you more details about the equipments!</p>
 
 				<figure className="home-figure-section">
 					<img src="/img/section_screen.PNG" alt="a section in an article" />
 				</figure>
-			</article>
+			</section>
 
 			<article id="home-timeline">
 				<h3>Click on the timeline</h3>
 				<p>
 					The borders of each country will reflect the ones they had during the
-					clicked century and the content of every Articles will be updated
-					following the same logic.
+					clicked century.
+				</p>
+				<p>
+					The content of every Articles will be updated following the same
+					logic.
 				</p>
 				<figure className="home-figure-timeline">
 					<img src="/img/timeline_screen.webp" alt="timeline" />
 				</figure>
 			</article>
 
+			<div className="home-grid">
 			<section id="home-equip">
 				<h4>The Equipment section</h4>
 				<p>You can check the weapons, armours and tools present in the map !</p>
@@ -79,9 +89,8 @@ export default function Home() {
 				</figure>
 
 				<Link to="/equipment" className="button-main">
-					<span>
-						Equipment <IoCaretForwardOutline />
-					</span>
+					<p>Equipment</p>
+					<IoCaretForwardOutline />
 				</Link>
 			</section>
 
@@ -99,6 +108,7 @@ export default function Home() {
 					<span>Forum</span>
 				</Link>
 			</section>
+			</div>
 		</main>
 	);
 }
