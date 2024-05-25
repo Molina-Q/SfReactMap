@@ -7,16 +7,18 @@ import Forum from "./pages/Forum";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ShowTopic from "./pages/ShowTopic";
-import CreateEquipment from "./pages/CreateEquipment";
-import CreateArticle from "./pages/CreateArticle";
-import CreateTopic from "./pages/CreateTopic";
+import CreateEquipment from "./forms/CreateEquipment";
+import CreateArticle from "./forms/CreateArticle";
+import CreateTopic from "./forms/CreateTopic";
 import Profile from "./pages/Profile";
 import NavbarMap from "./components/NavbarMap";
 import AdminRoute from "./components/AdminRoute";
 import AuthenticatedRoute from "./components/AuthenticatedRoute";
 import UnauthenticatedRoute from "./components/UnauthenticatedRoute";
 import TopicsList from "./pages/TopicsList";
-import CreateSection from "./components/CreateSection";
+import CreateSection from "./forms/CreateSection";
+import EditSection from "./forms/EditSection";
+import EditArticle from "./forms/EditArticle";
 
 export default function App() {
 	return (
@@ -36,20 +38,22 @@ export default function App() {
 					<Route path="/login" element={<Login />} />
 					<Route path="/register" element={<Register />} />
 				</Route>
-				
+
 				{/* Route for logged user Only */}
 				<Route element={<AuthenticatedRoute />}>
 					<Route path="/profile" element={<Profile />} />
-					<Route path="/equipment/create" element={<CreateEquipment />} />
 					<Route path="/article/create" element={<CreateArticle />} />
+					<Route path="/article/edit/:articleId" element={<EditArticle />} />
+
 					<Route path="/section/create" element={<CreateSection />} />
+					<Route path="/section/edit/:sectionId" element={<EditSection />} />
+
+					<Route path="/equipment/create" element={<CreateEquipment />} />
 					<Route path="/topic/create" element={<CreateTopic />} />
 				</Route>
 
 				{/* Route for Admin Only */}
-				<Route element={<AdminRoute />}>
-
-				</Route>
+				<Route element={<AdminRoute />}></Route>
 			</Routes>
 		</BrowserRouter>
 	);
