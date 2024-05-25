@@ -2,12 +2,13 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\Article;
 use App\Entity\Country;
 use App\Repository\UserRepository;
+use App\Repository\ArticleRepository;
 use App\Repository\CenturyRepository;
 use App\Repository\CountryRepository;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,7 +29,7 @@ class ArticleController extends AbstractController
         ]);
     }
 
-    #[Route('/api/article/data', name: 'app_article')]
+    #[Route('/api/article/country-century/data', name: 'app_article')]
     public function getCountryAndCentury(
         CountryRepository $countryRepository,
         CenturyRepository $centuryRepository
@@ -140,4 +141,36 @@ class ArticleController extends AbstractController
             ], 400);
         }
     }
+
+    #[Route('/api/article/data', name: 'data_article_section', methods: ['GET'])]
+    public function getArticle(
+        ArticleRepository $articleRepository,
+    ): Response {
+
+        $articlesObject = $articleRepository->findAll();
+
+        if (!$articlesObject) {
+            return $this->json([
+                'error' => true,
+                'message' => 'Article not found',
+            ], 404);
+        }
+
+        $articles =[];
+
+        foreach ($articlesObject as $article) {
+            $articles[] = [
+                'id' => $article->getId(),
+                'title' => $article->getTitle(),
+                'category' => $article->articleTag(),
+            ];
+        }
+     
+
+        return $this->json([
+            'error' => false,
+            'object' => $articles,
+        ]);
+    }
+    
 }
