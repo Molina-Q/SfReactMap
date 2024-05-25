@@ -192,7 +192,12 @@ class Equipment
     #[SerializedName('img')]
     public function getOneImg()
     {
-        return $this->imgObjects[0]->getImg()->getPath();
+        return $this->imgObjects->first()->getImg()->getPath();
+    }
+
+    public function showObjectCategory()
+    {
+        return $this->sub_category->getCategory();
     }
 
     public function getSubCatLabel()
