@@ -76,6 +76,32 @@ class EquipmentController extends AbstractController
         ]);
     }
 
+    #[Route('/api/equipment/data/{categoryId}', name: 'show_light_equipment')]
+    public function getDataEquipment(
+        EquipmentRepository $equipmentRepository,
+        int $categoryId,
+    ): Response {
+
+        $equipmentsObject = $equipmentRepository->findByCategory($categoryId);
+
+        foreach ($equipmentsObject as $equipment) {
+            $equipments[] = [
+                'id' => $equipment->getId(),
+                'name' => $equipment->getName(),
+            ];
+        }
+
+        if(!isset($equipments)) {
+            return $this->json([
+                'error' => true,
+            ]);
+        }
+
+        return $this->json([
+            'error' => false, 'object' => $equipments,
+        ]);
+    }
+
     #[Route('/equipment/delete/{id}', name: 'delete_equipment')]
     public function delete(
         EquipmentRepository $equipmentRepository,
