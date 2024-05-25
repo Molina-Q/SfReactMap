@@ -16,6 +16,7 @@ import AdminRoute from "./components/AdminRoute";
 import AuthenticatedRoute from "./components/AuthenticatedRoute";
 import UnauthenticatedRoute from "./components/UnauthenticatedRoute";
 import TopicsList from "./pages/TopicsList";
+import CreateSection from "./components/CreateSection";
 
 export default function App() {
 	return (
@@ -41,6 +42,7 @@ export default function App() {
 					<Route path="/profile" element={<Profile />} />
 					<Route path="/equipment/create" element={<CreateEquipment />} />
 					<Route path="/article/create" element={<CreateArticle />} />
+					<Route path="/section/create" element={<CreateSection />} />
 					<Route path="/topic/create" element={<CreateTopic />} />
 				</Route>
 
