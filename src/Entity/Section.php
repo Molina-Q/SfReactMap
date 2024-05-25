@@ -122,4 +122,12 @@ class Section
     public function __toString() {
         return $this->title;
     }
+
+    public function sectionCategoryId(): string
+    {
+        if($this->equipmentSections->first()) {
+            return $this->equipmentSections->first()->getEquipment()->showObjectCategory()->getId();
+        }
+        return 'No category';
+    }
 }
