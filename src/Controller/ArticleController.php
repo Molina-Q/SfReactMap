@@ -9,6 +9,7 @@ use App\Repository\UserRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\CenturyRepository;
 use App\Repository\CountryRepository;
+use App\Repository\SectionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -77,7 +78,7 @@ class ArticleController extends AbstractController
         $isEdit = false;
         $article = '';
 
-        if(isset($articleId)) {
+        if (isset($articleId)) {
             $isEdit = true;
         }
 
@@ -118,10 +119,9 @@ class ArticleController extends AbstractController
             try {
                 // if isEdit is false the goal is to create a new entity
                 // if true the goal is to edit the entity
-                $isEdit ? 
-                    $article = $articleRepository->findOneById($articleId) : 
-                    $article = new Article()
-                ;
+                $isEdit ?
+                    $article = $articleRepository->findOneById($articleId) :
+                    $article = new Article();
 
                 $article->setTitle($title);
                 $article->setSummary($summary);
@@ -137,7 +137,6 @@ class ArticleController extends AbstractController
 
                 $entityManager->persist($article);
                 $entityManager->flush();
-
             } catch (NotEncodableValueException $e) {
                 return $this->json([
                     'error' => true,
@@ -172,7 +171,7 @@ class ArticleController extends AbstractController
             ], 404);
         }
 
-        $articles =[];
+        $articles = [];
 
         foreach ($articlesObject as $article) {
             $articles[] = [
@@ -181,12 +180,67 @@ class ArticleController extends AbstractController
                 'category' => $article->articleTag(),
             ];
         }
-     
+
 
         return $this->json([
             'error' => false,
             'object' => $articles,
         ]);
     }
-    
+
+    #[Route('/api/user/owner/articles-sections/{userId}', name: 'show_article_data', methods: ['GET'])]
+    public function showArticlesAndSections(
+        Request $request,
+        int $userId,
+        ArticleRepository $articleRepository,
+        UserRepository $userRepository,
+        SectionRepository $sectionRepository,
+        JWSProviderInterface $jwsProvider
+    ): Response {
+
+        $tokenGet = $request->cookies->get('BEARER');
+        $token = filter_var($tokenGet, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+        $jws = $jwsProvider->load($token);
+        $decodedToken = $jws->getPayload();
+        $decodedUserId = $decodedToken['userId'];
+
+        if ($decodedUserId !== $userId) {
+            return $this->json([
+                'error' => true,
+                'message' => 'Invalid user id',
+            ], 400);
+        }
+
+        $user = $userRepository->find($userId);
+
+        if (!$user) {
+            return $this->json([
+                'error' => true,
+                'message' => 'User not found',
+            ], 400);
+        }
+
+        // $articlesObject = $articleRepository->findByAuthor($userId);
+        $articlesObject = $articleRepository->findAll();
+
+        $articles = [];
+
+        foreach ($articlesObject as $article) {
+            $articles[] = [
+                'id' => $article->getId(),
+                'title' => $article->getTitle(),
+                'summary' => $article->getSummary(),
+                'creation_date' => $article->getCreationDate(),
+                'category' => $article->articleTag(),
+                'country' => $article->getCountry()->getName(),
+                'century' => $article->getCentury()->getYear(),
+            ];
+        }
+
+        return $this->json([
+            'error' => false,
+            'object' => $articles,
+        ]);
+    }
 }
