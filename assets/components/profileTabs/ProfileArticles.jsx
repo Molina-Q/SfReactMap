@@ -6,12 +6,20 @@ export default function ProfileArticles() {
     <div>
       ProfileArticles
 
+      <h2>ARTICLE</h2>
       <Link to='/article/create'>
-        <button>Create an article</button>
+        <button>Create an Article</button>
+      </Link>
+      <Link to='/article/edit/1'>
+        <button>Edit an Article</button>
       </Link>
 
+      <h2>SECTION</h2>
       <Link to='/section/create'>
         <button>Create a Section</button>
+      </Link>
+      <Link to='/section/edit/1'>
+        <button>Edit a Section</button>
       </Link>
 
 
