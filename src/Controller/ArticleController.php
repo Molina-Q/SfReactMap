@@ -158,8 +158,8 @@ class ArticleController extends AbstractController
         }
     }
 
-    #[Route('/api/article/data', name: 'data_article_section', methods: ['GET'])]
-    public function getArticle(
+    #[Route('/api/articles/data', name: 'data_article_section', methods: ['GET'])]
+    public function getArticles(
         ArticleRepository $articleRepository,
     ): Response {
 
