@@ -60,7 +60,7 @@ export default function CreateArticle() {
 		const fetchCenturiesAndCountries = async () => {
 			setLoading(true);
 			try {
-				const res = await fetch("/api/article/data");
+				const res = await fetch("/api/article/country-century/data");
 
 				const data = await res.json();
 
