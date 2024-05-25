@@ -25,7 +25,7 @@ export default function CreateSection() {
 	useEffect(() => {
 		const fetchArticles = async () => {
 			try {
-				const response = await fetch(`/api/article/data`, {
+				const response = await fetch(`/api/articles/data`, {
 					method: "GET",
 					headers: {
 						"Content-Type": "application/json",
@@ -55,6 +55,11 @@ export default function CreateSection() {
 	// change because i only want to show object from one category
 	useEffect(() => {
 		setLoadingCategory(true);
+
+		setFormState({
+			...formState,
+			equipmentSections: [{ equip: "" }],
+		});
 
 		const fetchEquipment = async () => {
 			try {
