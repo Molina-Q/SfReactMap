@@ -260,42 +260,52 @@ class ApiController extends AbstractController
 
     // modal showArticle
     #[Route('/dataCountry/{country}/{century}', name: 'show_article', methods: ['GET'])]
+    #[Route('/api/article/{articleId}', name: 'show_edit_article', methods: ['GET'])]
     public function dataCount(
-        string $country,
-        string $century,
+        string $country = null,
+        string $century = null,
+        int $articleId = null,
         ArticleRepository $articleRepository,
         SectionRepository $sectionRepository
     ): Response {
-        $article = $articleRepository->findOneByCountryAndCentury($country, $century);
+        $article = '';
+
+        if (isset($articleId)) {
+            $article = $articleRepository->findOneById($articleId);
+        } else if (isset($country) && isset($century)) {
+            $article = $articleRepository->findOneByCountryAndCentury($country, $century);
+        } else {
+
+            return $this->json([
+                'error' => true, 'message' => 'There was a mistake in the request. Please try again.'
+            ]);
+        }
 
         if (!$article) {
-            return new JsonResponse(false);
+
+            return $this->json([
+                'error' => true, 'message' => 'There was a mistake in the request. Please try again.'
+            ]);
         }
 
         $sectionsObject = $sectionRepository->findByArticle($article->getId());
 
-        $sections = [];
-
-        // object witht the structure of Section
-        foreach ($sectionsObject as $section) {
-            $sections[] = [
+        $sections = array_map(function ($section) {
+            return [
                 'id' => $section->getId(),
                 'title' => $section->getTitle(),
                 'text' => $section->getText(),
                 'summary' => $section->getSummary()
             ];
-        }
+        }, $sectionsObject);
 
-        // object witht the structure of Article
         $object = [
             "id" => $article->getId(),
             "title" => $article->getTitle(),
             "summary" => $article->getSummary(),
             "creation_date" => $article->getCreationDate(),
-
-            "Country" => ["name" => $article->getCountry()->getName()],
-            "Century" => ["year" => $article->getCentury()->getYear()],
-
+            "Country" => ["id" => $article->getCountry()->getId(), "name" => $article->getCountry()->getName()],
+            "Century" => ["id" => $article->getCentury()->getId(), "year" => $article->getCentury()->getYear()],
             "sections" => $sections
         ];
 
