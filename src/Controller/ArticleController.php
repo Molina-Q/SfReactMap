@@ -243,4 +243,45 @@ class ArticleController extends AbstractController
             'object' => $articles,
         ]);
     }
+
+    #[Route('/api/article/delete/{articleId}', name: 'delete_article', methods: ['DELETE'])]
+    public function deleteArticle(
+        int $articleId,
+        ArticleRepository $articleRepository,
+        EntityManagerInterface $entityManager,
+        JWSProviderInterface $jwsProvider,
+        Request $request
+    ): Response {
+
+        // $tokenGet = $request->cookies->get('BEARER');
+        // $token = filter_var($tokenGet, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+        // $jws = $jwsProvider->load($token);
+        // $decodedToken = $jws->getPayload();
+        // $userId = $decodedToken['userId'];
+
+        // if (!$userId) {
+        //     return $this->json([
+        //         'error' => true,
+        //         'message' => 'User not found',
+        //     ], 400);
+        // }
+
+        $article = $articleRepository->findOneById($articleId);
+
+        if (!$article) {
+            return $this->json([
+                'error' => true,
+                'message' => 'Article not found',
+            ], 404);
+        }
+
+        $entityManager->remove($article);
+        $entityManager->flush();
+
+        return $this->json([
+            'error' => false,
+            'message' => 'Article deleted successfully',
+        ], 200);
+    }
 }
