@@ -191,6 +191,30 @@ class SectionController extends AbstractController
         ], 400);
     }
 
+    #[Route('/api/section/delete/{sectionId}', name: 'delete_section', methods: ['DELETE'])]
+    public function deleteSection(
+        int $sectionId,
+        SectionRepository $sectionRepository,
+        EntityManagerInterface $entityManager,
+    ): Response {
+        $section = $sectionRepository->findOneById($sectionId);
+
+        if (!$section) {
+            return $this->json([
+                'error' => true,
+                'message' => 'The section does not exist',
+            ], 404);
+        }
+
+        $entityManager->remove($section);
+        $entityManager->flush();
+
+        return $this->json([
+            'error' => false,
+            'message' => 'The section was deleted successfully',
+        ], 204);
+    }
+
     // #[Route('/section/edit/{idSection}', name: 'edit_section')]
     // public function edit(
     //     ArticleRepository $articleRepository,
