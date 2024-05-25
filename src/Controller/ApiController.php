@@ -219,43 +219,40 @@ class ApiController extends AbstractController
     // }
 
     // The section Modal from the map
-    #[Route('/dataCountry/section/{id}', name: 'show_section', methods: ['GET'])]
+
+    #[Route('/dataCountry/section/{sectionId}', name: 'show_section', methods: ['GET'])]
     public function showSection(
-        int $id,
+        int $sectionId,
         SectionRepository $sectionRepository,
     ): Response {
         // The Section
-        $sectionSF = $sectionRepository->findOneById($id);
+        $sectionObject = $sectionRepository->findOneById($sectionId);
 
         // The equipment collection of the Section 
-        $equipementsSection = [];
-        foreach ($sectionSF->getEquipmentSections() as $equip) {
-            $equipementsSection[] = $equip->getEquipment();
+        if (!$sectionObject) {
+            return $this->json(['message' => 'The section does not exist']);
         }
-
-        // all individual Equipment entity and their attribut
-        $equipementsObjects = [];
-        foreach ($equipementsSection as $equip) {
-            $equipementsObjects[] = [
-                'id' => $equip->getId(),
-                'name' => $equip->getName(),
-                'text' => $equip->getText(),
-                'img' => $equip->getOneImg()
+    
+        $equipmentsObjects = array_map(function($equipmentSection) {
+            $equipment = $equipmentSection->getEquipment();
+            return [
+                'id' => $equipment->getId(),
+                'name' => $equipment->getName(),
+                'text' => $equipment->getText(),
+                'img' => $equipment->getOneImg()
             ];
-        }
-
-        // the final object that's going to be fetched by React
+        }, $sectionObject->getEquipmentSections()->toArray());
+    
         $object = [
-            'id' => $sectionSF->getId(),
-            'title' => $sectionSF->getTitle(),
-            'text' => $sectionSF->getText(),
-            'summary' => $sectionSF->getSummary(),
-            'Equipments' => $equipementsObjects
+            'id' => $sectionObject->getId(),
+            'title' => $sectionObject->getTitle(),
+            'text' => $sectionObject->getText(),
+            'summary' => $sectionObject->getSummary(),
+            'Article' => $sectionObject->getArticle()->getId(),
+            'Equipments' => $equipmentsObjects
         ];
-
-        return new JsonResponse([
-            'section' => $object
-        ]);
+    
+        return $this->json(['section' => $object], 201);
     }
 
     // modal showArticle
@@ -271,21 +268,25 @@ class ApiController extends AbstractController
         $article = '';
 
         if (isset($articleId)) {
+
             $article = $articleRepository->findOneById($articleId);
+
         } else if (isset($country) && isset($century)) {
+
             $article = $articleRepository->findOneByCountryAndCentury($country, $century);
+
         } else {
 
             return $this->json([
-                'error' => true, 'message' => 'There was a mistake in the request. Please try again.'
-            ]);
+                'error' => true, 'message' => 'There was a mistake in the URL. Please try again.'
+            ], 500);
         }
 
         if (!$article) {
 
             return $this->json([
-                'error' => true, 'message' => 'There was a mistake in the request. Please try again.'
-            ]);
+                'error' => true, 'message' => 'There was a problem with the article. Please try again.'
+            ], 500);
         }
 
         $sectionsObject = $sectionRepository->findByArticle($article->getId());
