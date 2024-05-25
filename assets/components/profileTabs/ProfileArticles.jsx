@@ -1,30 +1,117 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 export default function ProfileArticles() {
-  return (
-    <div>
-      ProfileArticles
+	const { currentUser } = useSelector((state) => state.user);
+	const dialogRef = useRef(null);
+	const [entityToDelete, setEntityToDelete] = useState(null);
+	const [fetchedData, setFetchedData] = useState([
+		{
+			id: "",
+			title: "",
+			summary: "",
+			creation_date: "",
+			country: "",
+			century: "",
+		},
+	]);
 
-      <h2>ARTICLE</h2>
-      <Link to='/article/create'>
-        <button>Create an Article</button>
-      </Link>
-      <Link to='/article/edit/1'>
-        <button>Edit an Article</button>
-      </Link>
+	useEffect(() => {
+		async function fetchCreatedEntity() {
+			try {
+				const res = await fetch(
+					`/api/user/owner/articles-sections/${currentUser.userId}`
+				);
+				const data = await res.json();
 
-      <h2>SECTION</h2>
-      <Link to='/section/create'>
-        <button>Create a Section</button>
-      </Link>
-      <Link to='/section/edit/1'>
-        <button>Edit a Section</button>
-      </Link>
+				if (res.ok) {
+					console.log(data);
+					setFetchedData(data.object);
+				}
 
+				console.log("Response data : ", data);
+				console.log("entityToDelete : ", entityToDelete);
 
+			} catch (error) {
+				console.log("Error fetching entityToDelete : ", error.message);
+			}
+		}
+		fetchCreatedEntity();
+	}, []);
 
+	const openDialog = (entityId) => {
+		setEntityToDelete(entityId);
+		dialogRef.current.showModal();
+	};
 
-    </div>
-  )
+	const closeDialog = () => {
+		dialogRef.current.close();
+	};
+
+	const handleDelete = () => {
+		// Here you can call your API to delete the entity
+		const fetchDeleteEntity = async () => {};
+
+		closeDialog();
+	};
+
+	return (
+		<div>
+			ProfileArticles
+			<h2>ARTICLE</h2>
+
+			<Link to="/article/create">
+				<button>Create an Article</button>
+			</Link>
+
+			<section>
+				{fetchedData.map((article) => (
+					<div key={article.id}>
+            <h2>{article.category}</h2>
+						<h3>{article.title}</h3>
+						<p>{article.summary}</p>
+						<Link to={`/article/edit/${article.id}`}>
+							<button>Edit</button>
+						</Link>
+						<button
+							className="delete-btn"
+							onClick={() => openDialog(article.id)}
+						>
+							Delete
+						</button>
+					</div>
+				))}
+			</section>
+
+			{/* <Link to='#'> */}
+			<button id="10" className="delete-btn" onClick={() => openDialog(10)}>
+				Delete a Section
+			</button>
+			{/* </Link> */}
+			<h2>SECTION</h2>
+			<Link to="/section/create">
+				<button>Create a Section</button>
+			</Link>
+			<Link to="/section/edit/1">
+				<button>Edit a Section</button>
+			</Link>
+			{/* <Link to='#'> */}
+			<button
+				id="10"
+				name=""
+				className="delete-btn"
+				onClick={() => openDialog(10)}
+			>
+				Delete a Section
+			</button>
+			{/* </Link> */}
+			<dialog ref={dialogRef}>
+				<h2>Confirm Deletion</h2>
+				<p>Are you sure you want to delete this Article ?</p>
+				<button onClick={handleDelete}>Yes, delete it</button>
+				<button onClick={closeDialog}>No, cancel</button>
+			</dialog>
+		</div>
+	);
 }
