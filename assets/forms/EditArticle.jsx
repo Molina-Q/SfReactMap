@@ -4,12 +4,12 @@ import { useNavigate, useParams } from "react-router-dom";
 export default function EditArticle() {
 	const params = useParams();
 	const [formData, setFormData] = useState({
-        id:'',
-        title: '',
-        summary: '',
-        creation_date: '',
-        country: '',
-        century: '',
+		id: "",
+		title: "",
+		summary: "",
+		creation_date: "",
+		country: '',
+		century: ''
 	});
 
 	const [centuries, setCenturies] = useState([]);
@@ -37,14 +37,8 @@ export default function EditArticle() {
 					throw new Error(data.message);
 				}
 				console.log(data);
-				const {
-					id,
-					title,
-					summary,
-					creation_date,
-					Country,
-					Century,
-				} = data.article;
+				const { id, title, summary, creation_date, Country, Century } =
+					data.article;
 
 				setFormData({
 					id,
@@ -58,13 +52,38 @@ export default function EditArticle() {
 				setError(error.message);
 			}
 		};
+
 		fetchArticle();
+
+		const fetchCenturiesAndCountries = async () => {
+			setLoading(true);
+			try {
+				const res = await fetch("/api/article/country-century/data");
+
+				const data = await res.json();
+
+				if (res.ok) {
+					setCenturies(data.centuries);
+					setCountries(data.countries);
+
+					setLoading(false);
+				} else {
+					setLoading(false);
+					throw new Error(data.message);
+				}
+			} catch (error) {
+				console.log(error.message);
+				setLoading(false);
+			}
+		};
+
+		fetchCenturiesAndCountries();
 	}, []);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-        setError(null);
+		setError(null);
 
 		const values = Object.values(formData);
 		if (values.every((value) => value === "")) {
@@ -95,35 +114,9 @@ export default function EditArticle() {
 		}
 	};
 
-	useEffect(() => {
-		const fetchCenturiesAndCountries = async () => {
-			setLoading(true);
-			try {
-				const res = await fetch("/api/article/country-century/data");
-
-				const data = await res.json();
-
-				if (res.ok) {
-					setCenturies(data.centuries);
-					setCountries(data.countries);
-
-					setLoading(false);
-				} else {
-					setLoading(false);
-					throw new Error(data.message);
-				}
-			} catch (error) {
-				console.log(error.message);
-				setLoading(false);
-			}
-		};
-
-		fetchCenturiesAndCountries();
-	}, []);
-
 	return (
 		<main className="wrap-login">
-			<h1>Write an article</h1>
+			<h1>Edit an article</h1>
 			<form onSubmit={handleSubmit} className="form-create">
 				<div>
 					<label>Title</label>
@@ -148,18 +141,16 @@ export default function EditArticle() {
 
 				<div>
 					<label>Century</label>
+
 					<select
 						name="century"
-						value={formData.century.id}
+						value={formData.century}
 						onChange={handleChange}
 						disabled={loading}
 						required
-                        defaultValue={formData.century.id}
 					>
-						<option value="none">None selected</option>
-
-						{centuries.map((century) => (
-							<option key={century.id} value={century.id} >
+						{centuries && centuries.map((century) => (
+							<option key={century.id} value={century.id}>
 								{century.year}
 							</option>
 						))}
@@ -170,13 +161,11 @@ export default function EditArticle() {
 					<label>Country</label>
 					<select
 						name="country"
-						value={formData.country.id}
+						value={formData.country}
 						onChange={handleChange}
 						disabled={loading}
 						required
 					>
-						<option value="none">None selected</option>
-
 						{countries.map((country) => (
 							<option key={country.id} value={country.id}>
 								{country.name}
@@ -186,7 +175,7 @@ export default function EditArticle() {
 				</div>
 
 				<button type="submit" disabled={loading} className="form-btn-submit">
-					Submit and Create a Section
+					Submit
 				</button>
 			</form>
 			{error && <p className="failure">{error}</p>}
