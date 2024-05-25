@@ -60,7 +60,9 @@ class ArticleController extends AbstractController
     }
 
     #[Route('/api/article/create', name: 'create_form_article', methods: ['POST'])]
+    #[Route('/api/article/edit/{articleId}', name: 'edit_form_article', methods: ['POST'])]
     public function createArticle(
+        int $articleId = null,
         Request $request,
         SerializerInterface $serializer,
         ValidatorInterface $validator,
@@ -69,7 +71,15 @@ class ArticleController extends AbstractController
         UserRepository $userRepository,
         CountryRepository $countryRepository,
         CenturyRepository $centuryRepository,
+        ArticleRepository $articleRepository,
     ): Response {
+
+        $isEdit = false;
+        $article = '';
+
+        if(isset($articleId)) {
+            $isEdit = true;
+        }
 
         $requestData = json_decode($request->getContent(), true);
 
@@ -106,7 +116,12 @@ class ArticleController extends AbstractController
             $creationDate = new DateTime('now');
 
             try {
-                $article = new Article();
+                // if isEdit is false the goal is to create a new entity
+                // if true the goal is to edit the entity
+                $isEdit ? 
+                    $article = $articleRepository->findOneById($articleId) : 
+                    $article = new Article()
+                ;
 
                 $article->setTitle($title);
                 $article->setSummary($summary);
@@ -122,6 +137,7 @@ class ArticleController extends AbstractController
 
                 $entityManager->persist($article);
                 $entityManager->flush();
+
             } catch (NotEncodableValueException $e) {
                 return $this->json([
                     'error' => true,
@@ -131,13 +147,13 @@ class ArticleController extends AbstractController
 
             return $this->json([
                 'error' => false,
-                'message' => 'Article created successfully',
+                'message' => $isEdit ? 'Article edited successfully' : 'Article created successfully',
             ], 201);
         } else {
 
             return $this->json([
                 'error' => true,
-                'message' => 'Article not created',
+                'message' => 'Article not created/edited',
             ], 400);
         }
     }
