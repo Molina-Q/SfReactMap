@@ -49,9 +49,47 @@ export default function ProfileArticles() {
 		dialogRef.current.close();
 	};
 
-	const handleDelete = () => {
+	const handleDeleteSection = () => {
 		// Here you can call your API to delete the entity
-		const fetchDeleteEntity = async () => {};
+		const fetchDeleteEntity = async () => {
+      try {
+        const res = await fetch(`/api/section/delete/${entityToDelete}`, {
+          method: "DELETE",
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+          console.log(data);
+        }
+      } catch (error) {
+        console.log("Error deleting entity : ", error.message);
+      }
+    };
+
+    fetchDeleteEntity();
+
+		closeDialog();
+	};
+
+  
+	const handleDeleteArticle = () => {
+		// Here you can call your API to delete the entity
+		const fetchDeleteEntity = async () => {
+      try {
+        const res = await fetch(`/api/article/delete/${entityToDelete}`, {
+          method: "DELETE",
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+          console.log(data);
+        }
+      } catch (error) {
+        console.log("Error deleting entity : ", error.message);
+      }
+    };
+
+    fetchDeleteEntity();
 
 		closeDialog();
 	};
@@ -85,9 +123,6 @@ export default function ProfileArticles() {
 			</section>
 
 			{/* <Link to='#'> */}
-			<button id="10" className="delete-btn" onClick={() => openDialog(10)}>
-				Delete a Section
-			</button>
 			{/* </Link> */}
 			<h2>SECTION</h2>
 			<Link to="/section/create">
@@ -98,18 +133,18 @@ export default function ProfileArticles() {
 			</Link>
 			{/* <Link to='#'> */}
 			<button
-				id="10"
 				name=""
 				className="delete-btn"
-				onClick={() => openDialog(10)}
+				onClick={() => openDialog(8)}
 			>
 				Delete a Section
 			</button>
 			{/* </Link> */}
+
 			<dialog ref={dialogRef}>
 				<h2>Confirm Deletion</h2>
-				<p>Are you sure you want to delete this Article ?</p>
-				<button onClick={handleDelete}>Yes, delete it</button>
+				<p>Are you sure you want to delete this entity {entityToDelete} ?</p>
+				<button onClick={handleDeleteArticle}>Yes, delete it</button>
 				<button onClick={closeDialog}>No, cancel</button>
 			</dialog>
 		</div>
