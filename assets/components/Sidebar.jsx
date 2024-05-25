@@ -54,6 +54,15 @@ export default function Sidebar() {
 						Articles
 					</li>
 				</Link>
+
+				<Link to="/profile?tab=equipments">
+					<li
+						className={`sidebar-item ${tab === "equipments" ? "selected" : ""}`}
+						// label={currentUser.roles ? "Admin" : "User"}
+					>
+						Equipments
+					</li>
+				</Link>
 				{!currentUser && (
 					<>
 						<Link to="/profile?tab=posts">
