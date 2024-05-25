@@ -4,16 +4,21 @@ import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import ProfileUser from "../components/profileTabs/ProfileUser";
-import ProfileArticle from "../components/profileTabs/ProfileArticles";
 import ProfileArticles from "../components/profileTabs/ProfileArticles";
 import { useNavigate } from "react-router-dom";
+import ProfileEquipments from "../components/profileTabs/ProfileEquipments";
 
 export default function Profile() {
-	const {currentUser} = useSelector(state => state.user);
+	const { currentUser } = useSelector((state) => state.user);
 	const [tab, setTab] = useState("");
 	const location = useLocation();
 	const navigate = useNavigate();
 
+	const tabsArray = [
+		{ label: "user", element: <ProfileUser /> },
+		{ label: "articles", element: <ProfileArticles /> },
+		{ label: "equipments", element: <ProfileEquipments /> },
+	];
 
 	useEffect(() => {
 		const urlParams = new URLSearchParams(location.search);
@@ -22,11 +27,11 @@ export default function Profile() {
 			setTab(tabFromUrl);
 		} else {
 			const urlParams = new URLSearchParams();
-			urlParams.set("tab", 'user');
+			urlParams.set("tab", "user");
 
 			const searchQuery = urlParams.toString();
 			// setTab('user');
-			navigate(`/profile?${searchQuery}`);			
+			navigate(`/profile?${searchQuery}`);
 		}
 	}, [location.search]);
 
@@ -35,16 +40,9 @@ export default function Profile() {
 			<div className="sidebar-container">
 				<Sidebar />
 			</div>
-
-			{/* Profile */}
-			{tab === "user" && <ProfileUser />}
-
-			{/* Posts */}
-			{tab === "articles" && <ProfileArticles />}
-
-			{/* Users */}
-			{tab === "users" && <DashUsers />}
+			{tabsArray.map((singleTab) => 
+				tab === singleTab.label && singleTab.element
+			)}
 		</main>
 	);
-
 }
