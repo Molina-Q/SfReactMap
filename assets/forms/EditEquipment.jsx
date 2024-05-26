@@ -112,7 +112,7 @@ export default function EditEquipment() {
 
 	return (
 		<main className="wrap-login">
-			<h1>Create a piece of Equipment</h1>
+			<h1>Edit a piece of Equipment</h1>
 
 			<form onSubmit={handleSubmit} className="form-create">
 				<div>
