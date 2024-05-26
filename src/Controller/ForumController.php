@@ -52,6 +52,7 @@ class ForumController extends AbstractController
         ArticleRepository $articleRepository,
         MessageRepository $messageRepository
     ): Response {
+        $isEdit = $topicId ? true : false;
         $topic = $topicId ? $topicRepository->findOneById($topicId) : new Topic();
         $message = $topicId ? $messageRepository->findOneById($topic->messageTopic()->getId()) : new Message();
 
@@ -68,7 +69,6 @@ class ForumController extends AbstractController
         $data = filter_var_array($requestData, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
         if (isset($data)) {
-            $date = new DateTime('now');
 
             // there can only be one.
             if ($data['Equipment']) {
@@ -79,14 +79,21 @@ class ForumController extends AbstractController
                 $topic->setArticle($article);
             }
 
+            // all the codes that only needs to be executed on topic create
+            if (!$isEdit) {
+                $date = new DateTime('now');
+
+                $topic->setCreationDate($date);
+                $topic->setAuthor($currentUser);
+
+                $message->setAuthor($currentUser);
+                $message->setCreationDate($date);
+                $message->setTopic($topic);
+            }
+
             $topic->setTitle($data['title']);
-            $topic->setCreationDate($date);
-            $topic->setAuthor($currentUser);
 
             $message->setText($data['Message']);
-            $message->setAuthor($currentUser);
-            $message->setTopic($topic);
-            $message->setCreationDate($date);
 
             $entityManager->persist($topic);
             $entityManager->flush();
@@ -133,7 +140,10 @@ class ForumController extends AbstractController
             'creationDate' => $topicObject->getCreationDate(),
             'author' => $topicObject->getAuthor()->getUsername(),
             'message' => $topicObject->msgAuthor(),
+            'messageId' => $topicObject->messageTopic()->getId(),
             'cat' => $topicObject->showCategory(),
+            'equipId' => $topicObject->getEquipment() ? $topicObject->getEquipment()->getId() : '',
+            'articleId' => $topicObject->getArticle() ? $topicObject->getArticle()->getId() : '',
         ];
 
         // Prepare the responses data
@@ -146,7 +156,6 @@ class ForumController extends AbstractController
                     'author' => $comment->getAuthor()->getUsername(),
                     'text' => $comment->getText(),
                     'creationDate' => $comment->getCreationDate()->format('Y-m-d'),
-                    // Add other comment fields as needed
                 ];
             }
 
