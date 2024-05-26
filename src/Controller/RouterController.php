@@ -17,7 +17,8 @@ class RouterController extends AbstractController
 
     #[Route('/home', name: 'app_home', methods: ['GET'])]
     #[Route('/forum', name: 'app_forum', methods: ['GET'])]
-    #[Route('/forum/topics', name: 'topics_forum', methods: ['GET'])]
+    #[Route('/forum/topic/{id}', name: 'one_topic_forum', methods: ['GET'])]
+    #[Route('/forum/topics', name: 'all_topics_forum', methods: ['GET'])]
     #[Route('/topic/create', name: 'show_create_topic', methods: ['GET'])]
     #[Route('/topic/edit/{topicId}', name: 'show_edit_topic', methods: ['GET'])]
 
@@ -27,8 +28,10 @@ class RouterController extends AbstractController
 
     #[Route('/article/create', name: 'show_create_article', methods: ['GET'])]
     #[Route('/article/edit/{id}', name: 'show_create_article', methods: ['GET'])]
+
     #[Route('/section/create', name: 'show_create_section', methods: ['GET'])]
     #[Route('/section/edit/{id}', name: 'show_edit_section', methods: ['GET'])]
+
     #[Route('/map', name: 'app_map', methods: ['GET'])]
 
     #[Route('/profile', name: 'app_profile', methods: ['GET'])]
