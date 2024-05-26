@@ -199,15 +199,18 @@ class ForumController extends AbstractController
 
 
     #[Route('/api/forum/message/create/{topicId}', name: 'create_message', methods: ['POST'])]
+    #[Route('/api/forum/message/edit/{messageId}', name: 'edit_message', methods: ['POST'])]
     public function createMessage(
         Request $request,
         TopicRepository $topicRepository,
         UserRepository $userRepository,
         EntityManagerInterface $entityManager,
-        int $topicId,
+        MessageRepository $messageRepository,
+        int $topicId = null,
+        int $messageId = null,
     ): Response {
-
-        $message = new Message();
+        $isEdit = $messageId ? true : false;
+        $message = $messageId ? $messageRepository->findOneById($messageId) : new Message();
 
         $token = $_COOKIE['BEARER'];
 
@@ -218,13 +221,18 @@ class ForumController extends AbstractController
         $topic = $topicRepository->findOneById($topicId);
         $currentUser = $userRepository->findOneById($userId);
 
-        $requestData = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true);
+        $requestData = filter_var_array($data, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
         if (isset($requestData)) {
+
+            if (!$isEdit) {
+                $message->setAuthor($currentUser);
+                $message->setTopic($topic);
+                $message->setCreationDate(new DateTime('now'));
+            }
+
             $message->setText($requestData['text']);
-            $message->setAuthor($currentUser);
-            $message->setTopic($topic);
-            $message->setCreationDate(new DateTime('now'));
 
             $entityManager->persist($message);
             $entityManager->flush();
@@ -251,15 +259,18 @@ class ForumController extends AbstractController
     }
 
     #[Route('/api/forum/comment/create/{messageId}', name: 'create_comment', methods: ['POST'])]
+    #[Route('/api/forum/comment/edit/{commentId}', name: 'edit_comment', methods: ['POST'])]
     public function createComment(
         Request $request,
         MessageRepository $messageRepository,
         UserRepository $userRepository,
         EntityManagerInterface $entityManager,
-        int $messageId,
+        CommentRepository $commentRepository,
+        int $messageId = null,
+        int $commentId = null,
     ): Response {
-
-        $comment = new Comment();
+        $isEdit = $commentId ? true : false;
+        $comment = $commentId ? $commentRepository->findOneById($commentId) : new Comment();
 
         $tokenGet = $request->cookies->get('BEARER');
         $token = filter_var($tokenGet, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -271,14 +282,18 @@ class ForumController extends AbstractController
         $message = $messageRepository->findOneById($messageId);
         $currentUser = $userRepository->findOneById($userId);
 
-        $requestData = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true);
+        $requestData = filter_input_array($data, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
         if (isset($requestData)) {
-            $comment->setText($requestData['text']);
-            $comment->setAuthor($currentUser);
-            $comment->setMessage($message);
-            $comment->setCreationDate(new DateTime('now'));
+            if (!$isEdit) {
+                $comment->setAuthor($currentUser);
+                $comment->setMessage($message);
+                $comment->setCreationDate(new DateTime('now'));
+            }
 
+            $comment->setText($requestData['text']);
+            
             $entityManager->persist($comment);
             $entityManager->flush();
 
