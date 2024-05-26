@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 
 export default function CreateEquipment() {
-	const [formData, setFormData] = useState({});
+	const [formData, setFormData] = useState({
+		name: "",
+		text: "",
+		sub_category: "",
+		image: null,
+	});
 	const [dataMessage, setDataMessage] = useState(null);
 	const [alertType, setAlertType] = useState("failure");
 	const [subCategories, setSubCategories] = useState([]);
 	const [selectLoading, setSelectLoading] = useState(true);
-
+	console.log(formData);
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setDataMessage(null);
@@ -31,7 +36,7 @@ export default function CreateEquipment() {
 		}
 
 		try {
-			const response = await fetch("/api/equipment/create-entity", {
+			const response = await fetch("/api/equipment/create", {
 				method: "POST",
 				body: data,
 			});
@@ -109,6 +114,7 @@ export default function CreateEquipment() {
 						id="sub_category"
 						onChange={handleChange}
 						disabled={selectLoading}
+						value={formData.sub_category}
 					>
 						{subCategories &&
 							subCategories.map((subCategory) => (
