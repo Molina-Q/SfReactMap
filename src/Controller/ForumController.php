@@ -180,6 +180,23 @@ class ForumController extends AbstractController
         );
     }
 
+    #[Route('/api/topic/delete/{id}', name: 'delete_topic', methods: ['DELETE'])]
+    public function deleteTopic(
+        int $id,
+        TopicRepository $topicRepository,
+        EntityManagerInterface $entityManager
+    ): Response {
+        $topic = $topicRepository->findOneById($id);
+
+        $entityManager->remove($topic);
+        $entityManager->flush();
+
+        return $this->json(
+            ['error' => false, 'message' => 'Topic deleted successfully'],
+            Response::HTTP_OK
+        );
+    }
+
 
     #[Route('/api/forum/message/create/{topicId}', name: 'create_message', methods: ['POST'])]
     public function createMessage(
