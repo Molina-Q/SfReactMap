@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BsChatText } from "react-icons/bs";
 import { FcLike } from "react-icons/fc";
 import { Link } from "react-router-dom";
+
 export default function TopicsList() {
 	const [topics, setTopics] = useState([{
 		id: "",
@@ -11,7 +12,9 @@ export default function TopicsList() {
 		creationDate: "",
 	
 	}]);
+
 	const [rangeValue, setRangeValue] = useState(1400);
+
 	useEffect(() => {
 		async function fetchData() {
 			console.log("-- Fetch - called --");
