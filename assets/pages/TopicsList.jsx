@@ -3,7 +3,14 @@ import { BsChatText } from "react-icons/bs";
 import { FcLike } from "react-icons/fc";
 import { Link } from "react-router-dom";
 export default function TopicsList() {
-	const [topics, setTopics] = useState(null);
+	const [topics, setTopics] = useState([{
+		id: "",
+		title: "",
+		message: "",
+		cat: "",
+		creationDate: "",
+	
+	}]);
 	const [rangeValue, setRangeValue] = useState(1400);
 	useEffect(() => {
 		async function fetchData() {
@@ -87,6 +94,8 @@ export default function TopicsList() {
 									<p className="table-date">
 										{Math.floor((new Date() - new Date(topic.creationDate)) / (1000 * 60 * 60)) + ' hours ago'}
 									</p>
+									<span>|</span>
+									<Link to={`/topic/edit/${topic.id}`}><small>edit</small></Link>
 								</div>
 
 								<Link to={`/forum/topic/${topic.id}`} className="table-title">{topic.title}</Link>
