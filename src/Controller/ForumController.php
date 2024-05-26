@@ -10,11 +10,13 @@ use App\Entity\Message;
 use App\Form\TopicFormType;
 use App\Form\CommentFormType;
 use App\Form\MessageFormType;
+use App\Repository\ArticleRepository;
 use App\Repository\UserRepository;
 use App\Repository\TopicRepository;
 use App\Repository\CommentRepository;
 use App\Repository\MessageRepository;
 use App\Repository\CategoryRepository;
+use App\Repository\EquipmentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,87 +40,53 @@ class ForumController extends AbstractController
         $this->jwsProvider = $jwsProvider;
     }
 
-    #[Route('/fauxrum', name: 'app_forum')]
-    public function index(
-        TopicRepository $topicRepository,
-        CategoryRepository $categoryRepository
-
-    ): Response {
-        $topics = $topicRepository->findBy([], ['title' => 'ASC']);
-        $equipCateg = $categoryRepository->findAll();
-
-        return $this->render('forum/index.html.twig', [
-            'topics' => $topics,
-            'equipCateg' => $equipCateg
-        ]);
-    }
-
-    // create forum route
-    #[Route('/forum/create', name: 'create_topic')]
-    public function create(
-        TopicRepository $topicRepository,
+    #[Route('/api/forum/topic/create', name: 'create_topic', methods: ['POST'])]
+    #[Route('/api/forum/topic/edit/{topicId}', name: 'edit_topic', methods: ['POST'])]
+    public function createTopic(
+        Request $request,
+        int $topicId = null,
         UserRepository $userRepository,
-        Request $request,
-        EntityManagerInterface $entityManager
-
+        EntityManagerInterface $entityManager,
+        TopicRepository $topicRepository,
+        EquipmentRepository $equipmentRepository,
+        ArticleRepository $articleRepository,
+        MessageRepository $messageRepository
     ): Response {
-        $topic = new Topic();
-        $message = new Message();
+        $topic = $topicId ? $topicRepository->findOneById($topicId) : new Topic();
+        $message = $topicId ? $messageRepository->findOneById($topic->messageTopic()->getId()) : new Message();
 
-        $user = $this->getUser(); // get the user currently logged in
+        $token = $_COOKIE['BEARER'];
 
-        $form = $this->createForm(TopicFormType::class, null, ['attr' => ['class' => 'form-create']]);
-        $form->handleRequest($request);
+        $jws = $this->jwsProvider->load($token);
+        $decodedToken = $jws->getPayload();
+        $userId = $decodedToken['userId'];
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $dateNow = new \DateTime('now');
+        $currentUser = $userRepository->findOneById($userId);
 
-            // first set topic's fields
-            $topic->setAuthor($user);
-            $topic->setTitle($form->get('title')->getData());
-            $topic->setEquipment($form->get('Equipment')->getData());
-            $topic->setArticle($form->get('Article')->getData());
-            $topic->setCreationDate($dateNow);
+        $requestData = json_decode($request->getContent(), true);
 
-            $entityManager->persist($topic);
-            $entityManager->flush();
+        $data = filter_var_array($requestData, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-            // then message fields
-            $message->setAuthor($user);
+        if (isset($data)) {
+            $date = new DateTime('now');
+
+            // there can only be one.
+            if ($data['Equipment']) {
+                $equipment = $equipmentRepository->findOneById($data['Equipment']);
+                $topic->setEquipment($equipment);
+            } else if ($data['Article']) {
+                $article = $articleRepository->findOneById($data['Article']);
+                $topic->setArticle($article);
+            }
+
+            $topic->setTitle($data['title']);
+            $topic->setCreationDate($date);
+            $topic->setAuthor($currentUser);
+
+            $message->setText($data['Message']);
+            $message->setAuthor($currentUser);
             $message->setTopic($topic);
-            $message->setCreationDate($dateNow);
-            $message->setText($form->get('msgAuthor')->getData());
-
-            $entityManager->persist($message);
-            $entityManager->flush();
-
-            $this->addFlash('success', 'The Topic ' . $topic->getTitle() . ' was successfully created');
-
-            return $this->redirectToRoute('app_forum');
-        }
-
-        return $this->render('forum/create.html.twig', [
-            'createTopicForm' => $form->createView(),
-        ]);
-    }
-
-    #[Route('/forum/update/{id}', name: 'update_topic')]
-    public function update(
-        TopicRepository $topicRepository,
-        MessageRepository $messageRepository,
-        Request $request,
-        EntityManagerInterface $entityManager,
-        int $id
-    ): Response {
-        $topic = $topicRepository->findOneById($id);
-        $message = $messageRepository->findOneByTopic($id);
-
-        $form = $this->createForm(TopicFormType::class, $topic, ['attr' => ['class' => 'form-create']]);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $message->setText($form->get('msgAuthor')->getData());
+            $message->setCreationDate($date);
 
             $entityManager->persist($topic);
             $entityManager->flush();
@@ -126,86 +94,25 @@ class ForumController extends AbstractController
             $entityManager->persist($message);
             $entityManager->flush();
 
-            $this->addFlash('success', 'The Topic ' . $topic->getTitle() . ' was successfully updated');
-
-            return $this->redirectToRoute('app_forum');
+            $dataTopic = [
+                'author' => $topic->getAuthor()->getUsername(),
+                'cat' => $topic->showCategory(),
+                'creationDate' => $topic->getCreationDate(),
+                'id' => $topic->getId(),
+                'title' => $topic->getTitle(),
+            ];
+        } else {
+            return $this->json(
+                ['error' => true, 'message' => 'Topic not created'],
+                Response::HTTP_BAD_REQUEST
+            );
         }
 
-        return $this->render('forum/create.html.twig', [
-            'createTopicForm' => $form->createView(),
-        ]);
-    }
 
-    #[Route('/forum/delete/{id}', name: 'delete_topic')]
-    public function delete(
-        TopicRepository $topicRepository,
-        MessageRepository $messageRepository,
-        Request $request,
-        EntityManagerInterface $entityManager,
-        int $id
-
-    ): Response {
-        $topic = $topicRepository->findOneById($id);
-
-        $entityManager->remove($topic);
-        $entityManager->flush();
-
-        $this->addFlash('success', 'The session was successfully deleted');
-
-        return $this->redirectToRoute('app_forum');
-    }
-
-    // #[Route('/forum/topic/comment', name: 'create_comment')]
-    // public function createComment(
-    //     MessageRepository $messageRepository,
-    //     EntityManagerInterface $entityManager
-    // ): Response {
-
-    //     $comment = new Comment();
-    //     $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    //     $text = filter_input(INPUT_POST, 'comment', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
-
-    //     $message = $messageRepository->findOneById($id);
-
-    //     $errorCheck = false;
-
-    //     if (!$message) {
-    //         $errorCheck = true;
-    //         $this->redirectToRoute('app_forum');
-    //     }
-
-    //     if (empty($id)) {
-    //         $errorCheck = true;
-    //         $this->addFlash('error', 'The session was successfully deleted');
-    //     }
-
-    //     if (empty($text)) {
-    //         $errorCheck = true;
-    //         $this->addFlash('error', 'Text cannot be empty');
-    //     }
-
-    //     if (!$errorCheck) {
-    //         $dateNow = new \DateTime('now');
-
-    //         $comment->setText($text);
-    //         $comment->setCreationDate($dateNow);
-    //         $comment->setAuthor($this->getUser());
-    //         $comment->setMessage($message);
-
-    //         $entityManager->persist($comment);
-    //         $entityManager->flush();
-    //     }
-
-    //     $idTopic = $message->getTopic()->getId();
-
-    //     return $this->redirectToRoute('show_topic', ['id' => $idTopic]);
-    // }
-
-    #[Route('/forum/topic/{id}', name: 'get_topic', methods: ['GET'])]
-    public function getTopic(): Response
-    {
-        return $this->render('base.html.twig');
+        return $this->json(
+            ['error' => false, 'message' => 'Topic created successfully', 'object' => $dataTopic],
+            Response::HTTP_CREATED
+        );
     }
 
     #[Route('/api/forum/topic/{id}', name: 'show_topic', methods: ['GET'])]
@@ -264,7 +171,7 @@ class ForumController extends AbstractController
         );
     }
 
- 
+
     #[Route('/api/forum/message/create/{topicId}', name: 'create_message', methods: ['POST'])]
     public function createMessage(
         Request $request,
@@ -287,7 +194,7 @@ class ForumController extends AbstractController
 
         $requestData = json_decode($request->getContent(), true);
 
-        if(isset($requestData)) {
+        if (isset($requestData)) {
             $message->setText($requestData['text']);
             $message->setAuthor($currentUser);
             $message->setTopic($topic);
@@ -303,16 +210,17 @@ class ForumController extends AbstractController
                 'id' => $message->getId(),
                 'text' => $message->getText(),
             ];
-
         } else {
             return $this->json(
-                ['error' => true, 'message' => 'Message not created'], Response::HTTP_BAD_REQUEST
+                ['error' => true, 'message' => 'Message not created'],
+                Response::HTTP_BAD_REQUEST
             );
         }
 
-       
+
         return $this->json(
-            ['error' => false, 'message' => 'Message created successfully', 'object' => $dataMessage], Response::HTTP_CREATED
+            ['error' => false, 'message' => 'Message created successfully', 'object' => $dataMessage],
+            Response::HTTP_CREATED
         );
     }
 
@@ -339,7 +247,7 @@ class ForumController extends AbstractController
 
         $requestData = json_decode($request->getContent(), true);
 
-        if(isset($requestData)) {
+        if (isset($requestData)) {
             $comment->setText($requestData['text']);
             $comment->setAuthor($currentUser);
             $comment->setMessage($message);
@@ -354,16 +262,17 @@ class ForumController extends AbstractController
                 'id' => $comment->getId(),
                 'text' => $comment->getText(),
             ];
-
         } else {
             return $this->json(
-                ['error' => true, 'message' => 'Comment not created'], Response::HTTP_BAD_REQUEST
+                ['error' => true, 'message' => 'Comment not created'],
+                Response::HTTP_BAD_REQUEST
             );
         }
 
-       
+
         return $this->json(
-            ['error' => false, 'message' => 'Comment created successfully', 'object' => $dataComment], Response::HTTP_CREATED
+            ['error' => false, 'message' => 'Comment created successfully', 'object' => $dataComment],
+            Response::HTTP_CREATED
         );
     }
 
@@ -384,7 +293,7 @@ class ForumController extends AbstractController
         $topicsObject = $topicRepository->findAll();
         $topics = [];
 
-        foreach($topicsObject as $topic) {
+        foreach ($topicsObject as $topic) {
             $topics[] = [
                 'id' => $topic->getId(),
                 'title' => $topic->getTitle(),
@@ -396,7 +305,8 @@ class ForumController extends AbstractController
         }
 
         return $this->json(
-            ['error' => false, 'message' => 'Category found', 'object' => $topics], Response::HTTP_OK
+            ['error' => false, 'message' => 'Category found', 'object' => $topics],
+            Response::HTTP_OK
         );
 
         // foreach($categories as $category) {
@@ -418,7 +328,7 @@ class ForumController extends AbstractController
         //         ['error' => false, 'message' => 'Category found', 'object' => $topics], Response::HTTP_OK
         //     );
         // }
-       
+
         // return $this->json(
         //     ['error' => true, 'message' => 'There was a mistake'], Response::HTTP_BAD_REQUEST
         // );
