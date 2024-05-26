@@ -20,6 +20,7 @@ import CreateSection from "./forms/CreateSection";
 import EditSection from "./forms/EditSection";
 import EditArticle from "./forms/EditArticle";
 import EditEquipment from "./forms/EditEquipment";
+import EditTopic from "./forms/EditTopic";
 
 export default function App() {
 	return (
@@ -53,6 +54,7 @@ export default function App() {
 					<Route path="/equipment/edit/:equipmentId" element={<EditEquipment />} />
 
 					<Route path="/topic/create" element={<CreateTopic />} />
+					<Route path="/topic/edit/:topicId" element={<EditTopic />} />
 				</Route>
 
 				{/* Route for Admin Only */}
