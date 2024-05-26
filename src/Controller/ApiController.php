@@ -160,6 +160,24 @@ class ApiController extends AbstractController
         return new JsonResponse(['message' => 'Error: Invalid data'], Response::HTTP_BAD_REQUEST);
     }
 
+    #[Route('/api/equipment/delete/{equipmentId}', name: 'delete_equipment_route', methods: ['DELETE'])]
+    public function deleteEquip(
+        int $equipmentId,
+        EntityManagerInterface $entityManager,
+        EquipmentRepository $equipmentRepository
+    ): Response {
+        $equipment = $equipmentRepository->findOneById($equipmentId);
+
+        if ($equipment) {
+            $entityManager->remove($equipment);
+            $entityManager->flush();
+
+            return $this->json(['message' => 'Equipment deleted!'], Response::HTTP_OK);
+        }
+
+        return $this->json(['message' => 'Equipment not found!'], Response::HTTP_NOT_FOUND);
+    }
+
     #[Route('/api/upload', name: 'upload_file', methods: ['POST'])]
     public function fileUpload(): Response
     {
