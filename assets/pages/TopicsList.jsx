@@ -42,6 +42,20 @@ export default function TopicsList() {
 		// console.log(e.target.value);
 	};
 
+	const handleDelete = async (id) => {
+		const res = await fetch(`/api/topic/delete/${id}`, {
+			method: "DELETE",
+		});
+
+		const data = res.json();
+
+		if (res.ok) {
+			console.log(data.message);
+			setTopics(topics.filter((topic) => topic.id !== id));
+		}
+	
+	}
+
 
 	return (
 		<main>
@@ -96,6 +110,7 @@ export default function TopicsList() {
 									</p>
 									<span>|</span>
 									<Link to={`/topic/edit/${topic.id}`}><small>edit</small></Link>
+									<button><small onClick={() => handleDelete(topic.id)}>delete</small></button>
 								</div>
 
 								<Link to={`/forum/topic/${topic.id}`} className="table-title">{topic.title}</Link>
@@ -103,7 +118,7 @@ export default function TopicsList() {
 
 								<div className="table-icons">
 									<span className="table-icon-item"><FcLike size={'15px'} /> Like</span>
-									<span className="table-icon-item"><BsChatText /> Comment</span>
+									<Link  to={`/forum/topic/${topic.id}`}><span className="table-icon-item"><BsChatText /> Comment</span></Link>
 								</div>
 							</div>
 						))}
