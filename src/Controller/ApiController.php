@@ -46,7 +46,7 @@ class ApiController extends AbstractController
     }
 
     // get the 5 most popular posts
-    #[Route('/api/forum/popularposts', name: 'get_posts')]
+    #[Route('/api/forum/popularposts', name: 'get_posts', methods: ['GET'])]
     public function getPosts(
         TopicRepository $topicRepository,
     ): Response {
@@ -342,5 +342,37 @@ class ApiController extends AbstractController
         return new JsonResponse([
             'article' => $object
         ]);
+    }
+
+    #[Route('/api/articles/equipments/data', name: 'data_create_topic', methods: ['GET'])]
+    public function dataCreateTopic(
+        EquipmentRepository $equipmentRepository,
+        ArticleRepository $articleRepository,
+    ): Response {
+        $equipmentsObject = $equipmentRepository->findAll();
+        $equipments = [];
+
+        $articlesObject = $articleRepository->findAll();
+        $articles = [];
+
+        foreach ($equipmentsObject as $equip) {
+            $equipments[] = [
+                'id' => $equip->getId(),
+                'label' => $equip->equipTag(),
+            ];
+        }
+
+        foreach ($articlesObject as $article) {
+            $articles[] = [
+                'id' => $article->getId(),
+                'label' => $article->articleTag(),
+            ];
+        }
+
+        return $this->json([
+            'equipments' => $equipments,
+            'articles' => $articles,
+            'message' => 'Data retrieved successfully!'
+        ], 200);
     }
 }
