@@ -195,12 +195,22 @@ class Equipment
         return $this->imgObjects->first()->getImg()->getPath();
     }
 
+    public function getFirstImg()
+    {
+        return $this->imgObjects->first();
+    }
+
     public function showObjectCategory()
     {
         return $this->sub_category->getCategory();
     }
 
     public function getSubCatLabel()
+    {
+        return $this->sub_category->getLabel();
+    }
+
+    public function getSubCatId()
     {
         return $this->sub_category->getLabel();
     }
