@@ -175,7 +175,16 @@ class Topic
     public function msgAuthor() {
 
         if(isset($this->messages[0])) {
-            return $this->messages[0]->getText();
+            return $this->messages->first()->getText();
+        } 
+
+        return "";
+    }
+
+    public function messageTopic() {
+
+        if(isset($this->messages[0])) {
+            return $this->messages->first();
         } 
 
         return "";
