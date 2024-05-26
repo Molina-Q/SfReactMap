@@ -86,17 +86,25 @@ class ApiController extends AbstractController
         ]);
     }
 
-    // create an Equipment
-    #[Route('/api/equipment/create-entity', name: 'create_equipment', methods: ['POST'])]
+    #[Route('/api/equipment/create', name: 'create_equipment', methods: ['POST'])]
+    #[Route('/api/equipment/edit/{equipmentId}', name: 'edit_equipment', methods: ['POST'])]
     public function create(
+        int $equipmentId = null,
         UserRepository $userRepository,
         SubCategoryRepository $subCategoryRepository,
         Request $request,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        EquipmentRepository $equipmentRepository
     ): Response {
-        $equipment = new Equipment();
-        $img = new Img();
-        $imgObject = new ImgObject();
+
+        $isEdit = false;
+        if (isset($equipmentId)) {
+            $isEdit = true;
+        }
+
+        $equipment = isset($equipmentId) ? $equipmentRepository->findOneById($equipmentId) : new Equipment();
+        $imgObject = isset($equipmentId) ? $equipment->getFirstImg() : new ImgObject();
+        $img = isset($equipmentId) ? $imgObject->getImg() : new Img();
 
         // $user = $userRepository->findOneById('1'); // get the user currently logged in
 
@@ -106,11 +114,13 @@ class ApiController extends AbstractController
         if ($data) {
             $dateNow = new \DateTime('now');
 
-            $subCategory = $subCategoryRepository->findOneById($data['sub_category']);
-
+            if(!$isEdit) {
+                $subCategory = $subCategoryRepository->findOneById($data['sub_category']);
+                $equipment->setSubCategory($subCategory);
+            }
+   
             $equipment->setName($data['name']);
             $equipment->setText($data['text']);
-            $equipment->setSubCategory($subCategory);
 
             $entityManager->persist($equipment);
             $entityManager->flush();
@@ -174,6 +184,7 @@ class ApiController extends AbstractController
             'text' => $equipObject->getText(),
             'img' => $equipObject->getOneImg(),
             'sub_cat' => $equipObject->getSubCatLabel(),
+            'sub_cat_id' => $equipObject->getSubCatId(),
         ];
 
         return new JsonResponse([
