@@ -18,6 +18,7 @@ class RouterController extends AbstractController
     #[Route('/home', name: 'app_home', methods: ['GET'])]
     #[Route('/equipment', name: 'app_equipment', methods: ['GET'])]
     #[Route('/equipment/create', name: 'show_create_equipment', methods: ['GET'])]
+    #[Route('/equipment/edit/{id}', name: 'show_create_equipment', methods: ['GET'])]
     #[Route('/article/create', name: 'show_create_article', methods: ['GET'])]
     #[Route('/article/edit/{id}', name: 'show_create_article', methods: ['GET'])]
     #[Route('/section/create', name: 'show_create_section', methods: ['GET'])]
