@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import LeafletMap from "../components/LeafletMap";
-import Timeline from "../components/timeline/Timeline";
+import Timeline from "../components/Timeline";
 import Modal from "../components/modal/Modal";
 import ShowArticle from "../components/modal/ShowArticle";
 import Loading from "../components/UI/animation/Loading";
