@@ -85,7 +85,7 @@ export default function Home() {
 				</figure>
 			</article>
 
-			<div className="home-grid">
+			{/* <div className="home-grid"> */}
 				<section id="home-equip">
 					<h4>The Equipment section</h4>
 					<p>
@@ -108,15 +108,15 @@ export default function Home() {
 
 					<p>Countries, Weapons or History !</p>
 
-					<figure>
-						<img src="" alt="forum" />
+					<figure className="home-figure-section">
+						<img src="/img/forum_screen.PNG" alt="forum" />
 					</figure>
 
 					<Link to="/forum" className="button-main">
 						<span>Forum</span>
 					</Link>
 				</section>
-			</div>
+			{/* </div> */}
 		</main>
 	);
 }
