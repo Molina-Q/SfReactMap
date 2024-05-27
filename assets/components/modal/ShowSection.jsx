@@ -16,7 +16,7 @@ function ShowSection({ section }) {
       <p>{section.text}</p>
 
       <section className="section-gallery-container">
-        {<Gallery items={section.Equipments} className={"gallery-items"} />}
+        {<Gallery items={section.Equipments} className={"gallery-items"} isLink={true} />}
       </section>
     </article>
   );
