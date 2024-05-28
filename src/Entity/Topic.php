@@ -150,10 +150,12 @@ class Topic
 
     public function showCategory() 
     {
-        if(empty($this->Article)) {
+        if ($this->Equipment !== null) {
             return $this->Equipment->equipTag();
-        } else {
+        } elseif ($this->Article !== null) {
             return $this->Article->articleTag();
+        } else {
+            return null;
         }
     }
 
@@ -166,22 +168,18 @@ class Topic
         }
     }
 
-    public function categories()
+    // return the text of the message of the author
+    public function msgAuthor() 
     {
-        $cat = ['Century', 'Country', 'Weapon', 'Armour', 'Tool']; 
-        return $cat;
-    }
-
-    public function msgAuthor() {
-
         if(isset($this->messages[0])) {
             return $this->messages->first()->getText();
         } 
-
         return "";
     }
 
-    public function messageTopic() {
+    // return the message entity of the author
+    public function messageTopic() 
+    {
 
         if(isset($this->messages[0])) {
             return $this->messages->first();
@@ -190,16 +188,103 @@ class Topic
         return "";
     }
 
-    public function setMsgAuthor(string $newMsg) {
-        $this->messages[0]->setText($newMsg);
-
+    // unused, might delete
+    public function setMsgAuthor(string $newMsg) 
+    {
+        $this->messages->first()->setText($newMsg);
         return $this;
     }
 
+    // show all messages except the first one of the author
     public function showMessages()
-    {
+    {     
         $messages = $this->messages;
         // needs to return array with all messages except the one in the header
-        return $this;
+        return $this->messages;
+        // $messages = $this->messages;
+        // $messages->remove(0);
+        // return $messages;
     }
+
+    // show all messages except the first one of the author
+    // needs to be optimized
+    public function showUserMessages()
+    {     
+        $messages = $this->messages;
+        $updatedMessages = new ArrayCollection();
+
+        foreach ($messages as $key => $message) {
+            if ($key !== 0) {
+                $updatedMessages->add($message);
+            }
+        }
+    
+        return $updatedMessages;
+    }
+
+
+    // return a string of the category of the topic
+    public function returnCategory()
+    {
+        if ($this->Equipment !== null) {
+            return 'equipment';
+        } elseif ($this->Article !== null) {
+            return 'article';
+        } else {
+            return null;
+        }
+    }
+
+    // return the id of the category of the equipment 
+    public function returnEquipmentCategory()
+    {
+        if ($this->Equipment !== null) {
+            return $this->Equipment->getSubCategory()->getCategory()->getId();
+        } else {
+            return null;
+        }
+    }
+
+    // return the length of time that has passed since the topic was created
+    // automaticaly changed the end string to according to the amount of time
+    public function timeSinceCreation()
+    {
+        $now = new \DateTime();
+        $interval = $now->diff($this->creationDate);
+        if ($interval->y > 0) {
+            return $interval->y . ' years';
+        } elseif ($interval->m > 0) {
+            return $interval->m . ' months';
+        } elseif ($interval->d > 0) {
+            return $interval->d . ' days';
+        } elseif ($interval->h > 0) {
+            return $interval->h . ' hours';
+        } elseif ($interval->i > 0) {
+            return $interval->i . ' minutes';
+        } else {
+            return 'now';
+        }
+    }
+
+    // number of comments and messages
+    public function countReplies(): int
+    {
+ 
+        $nbMessages = count($this->messages);
+
+        if ($nbMessages <= 1) {
+            return 0;
+        }
+
+        // i do this to not count the message of the author
+
+        $nbComments = 0;
+
+        foreach ($this->messages as $message) {
+            $nbComments += count($message->getComments());
+        }
+
+        return $nbMessages + $nbComments - 1;
+    }
+    
 }
