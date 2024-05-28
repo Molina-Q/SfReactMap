@@ -15,6 +15,7 @@ class RouterController extends AbstractController
         return $this->redirectToRoute('app_home');
     }
 
+    // all of my page's routes
     #[Route('/home', name: 'app_home', methods: ['GET'])]
     #[Route('/forum', name: 'app_forum', methods: ['GET'])]
     #[Route('/forum/topic/{id}', name: 'one_topic_forum', methods: ['GET'])]
@@ -24,10 +25,10 @@ class RouterController extends AbstractController
 
     #[Route('/equipment', name: 'app_equipment', methods: ['GET'])]
     #[Route('/equipment/create', name: 'show_create_equipment', methods: ['GET'])]
-    #[Route('/equipment/edit/{id}', name: 'show_create_equipment', methods: ['GET'])]
+    #[Route('/equipment/edit/{id}', name: 'show_edit_equipment', methods: ['GET'])]
 
     #[Route('/article/create', name: 'show_create_article', methods: ['GET'])]
-    #[Route('/article/edit/{id}', name: 'show_create_article', methods: ['GET'])]
+    #[Route('/article/edit/{id}', name: 'show_edit_article', methods: ['GET'])]
 
     #[Route('/section/create', name: 'show_create_section', methods: ['GET'])]
     #[Route('/section/edit/{id}', name: 'show_edit_section', methods: ['GET'])]
