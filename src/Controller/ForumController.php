@@ -56,7 +56,8 @@ class ForumController extends AbstractController
         $topic = $topicId ? $topicRepository->findOneById($topicId) : new Topic();
         $message = $topicId ? $messageRepository->findOneById($topic->messageTopic()->getId()) : new Message();
 
-        $token = $_COOKIE['BEARER'];
+        $tokenGet = $request->cookies->get('BEARER');
+        $token = filter_var($tokenGet, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
         $jws = $this->jwsProvider->load($token);
         $decodedToken = $jws->getPayload();
@@ -131,8 +132,9 @@ class ForumController extends AbstractController
         EntityManagerInterface $entityManager
     ): Response {
         $topicObject = $topicRepository->findOneById($id);
-        $responsesObject = $messageRepository->findMessages($id);
-
+        // $responsesObject = $messageRepository->findMessages($id);
+        $responsesObject = $topicObject->showUserMessages();
+        // dd($responsesObject);
         // Prepare the topic data
         $topic = [
             'id' => $topicObject->getId(),
@@ -331,7 +333,7 @@ class ForumController extends AbstractController
         $showCateg = '';
 
         // $topicsObject = $topicRepository->findByCategory($showCateg);
-        $topicsObject = $topicRepository->findAll();
+        $topicsObject = $topicRepository->findBy([], ['creationDate' => 'DESC']);
         $topics = [];
 
         foreach ($topicsObject as $topic) {
@@ -339,8 +341,11 @@ class ForumController extends AbstractController
                 'id' => $topic->getId(),
                 'title' => $topic->getTitle(),
                 'creationDate' => $topic->getCreationDate(),
+                'interval' => $topic->timeSinceCreation(),
                 'author' => $topic->getAuthor()->getUsername(),
                 'message' => $topic->msgAuthor(),
+                'countReplies' => $topic->countReplies(),
+                'countLike' => '1',
                 'cat' => $topic->showCategory(),
             ];
         }
