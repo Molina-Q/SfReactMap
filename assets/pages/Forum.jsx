@@ -6,21 +6,7 @@ import Loading from "../components/UI/animation/Loading";
 import { useSelector } from "react-redux";
 
 export default function Forum() {
-	const [orderParams, setOrderParams] = useState({ 
-		/*
-			Oldest, 
-			Newest,
-			Most liked,
-			Most commented,
-		*/
-	});
 
-	const [filterParams, setFilterParams] = useState({
-		/*
-			category: "all",
-		
-		*/
-	});
 
 	const [topics, setTopics] = useState([]);
 	const [loading, setLoading] = useState(true);
