@@ -138,4 +138,11 @@ class Message
     {
         return $this->text;
     }
+
+    public function countMessage() {
+        if ($this->comments === null) {
+            return 0;
+        }
+        return count($this->comments);
+    }
 }
