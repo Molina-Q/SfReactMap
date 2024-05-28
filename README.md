@@ -16,6 +16,8 @@ timeline provides a historical overview, allowing users to observe changes in mi
 ### Prerequisites
 
 - PHP >=8.1
+- MongoDB driver for PHP (https://github.com/mongodb/mongo-php-driver/releases/tag/1.19.0)
+- OpenSSL (https://slproweb.com/products/Win32OpenSSL.html)
 - Composer (https://getcomposer.org/)
 - Scoop (https://scoop.sh/)
 - Symfony CLI (https://symfony.com/download)
