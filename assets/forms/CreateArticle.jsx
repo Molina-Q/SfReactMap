@@ -24,6 +24,7 @@ export default function CreateArticle() {
 		});
 	};
 	console.log(formData);
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
@@ -46,7 +47,14 @@ export default function CreateArticle() {
 
 			if (!response.ok) {
 				setError(data.message);
+				return;
 			}
+
+			if (data.error == 'true') {
+				setError(data.message);
+				return;
+			}
+
 			// Handle successful form submission here
 			// For example, you can clear the form
 			setFormData({});
