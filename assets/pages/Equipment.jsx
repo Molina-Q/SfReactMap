@@ -104,7 +104,7 @@ export default function Equipment() {
 	}, [urlData]); // will re-run only when one of those variables changes (using Object.js comparison)
 
 	useEffect(() => {
-		fetchData(`/api/equipment/type/${urlData.type}`, setData, setLoading);
+		fetchData(`/api/equipments/type/${urlData.type}`, setData, setLoading);
 	}, [urlData.type]);
 
 	if (data) {
