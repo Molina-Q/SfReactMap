@@ -23,7 +23,7 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-
+    # put when the jwt in the browser as a cookie when it is created
     acme_api.event.jwt_created_listener:
         class: App\EventListener\JWTCreatedListener
         arguments:  
@@ -31,5 +31,10 @@ services:
             $jwtEncoder: '@lexik_jwt_authentication.encoder'
         tags:
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: onJWTCreated }
+
+    # is called whenever a request to the API is made
+    App\EventListener\TokenListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
