@@ -188,54 +188,6 @@ class ApiController extends AbstractController
         return new JsonResponse(['status' => 'File uploaded!']);
     }
 
-    // get a single equipment item
-    #[Route('/api/equipment/{id}', name: 'get_one_equipment')]
-    public function getSingleEquip(
-        EquipmentRepository $equipmentRepository,
-        int $id
-    ): Response {
-        $equipObject = $equipmentRepository->findOneById($id);
-
-        $equipment = [
-            'id' => $equipObject->getId(),
-            'name' => $equipObject->getName(),
-            'text' => $equipObject->getText(),
-            'img' => $equipObject->getOneImg(),
-            'sub_cat' => $equipObject->getSubCatLabel(),
-            'sub_cat_id' => $equipObject->getSubCatId(),
-        ];
-
-        return new JsonResponse([
-            'equipment' => $equipment
-        ]);
-    }
-
-    // get every equipment from the specified category
-    #[Route('/api/equipment/type/{id}', name: 'get_equipment', methods: ['GET'])]
-    public function getEquip(
-        EquipmentRepository $equipmentRepository,
-        int $id
-    ): Response {
-        $equipmentsObject = $equipmentRepository->findByCategory($id);
-        $equipments = [];
-
-        foreach ($equipmentsObject as $equip) {
-            $equipments[] = [
-                'id' => $equip->getId(),
-                'name' => $equip->getName(),
-                'text' => $equip->getText(),
-                'img' => $equip->getOneImg(),
-            ];
-        }
-        // dd($equipmentsObject);
-        return new JsonResponse([
-            'equipments' => $equipments,
-        ]);
-
-        // return $this->json([
-        //     'equipments' => $equipments,
-        // ], 200, [],  []);
-    }
     // public function getEquip(
     //     EquipmentRepository $equipmentRepository,
     //     int $id
