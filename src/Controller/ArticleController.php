@@ -5,6 +5,7 @@ namespace App\Controller;
 use DateTime;
 use App\Entity\Article;
 use App\Entity\Country;
+use App\Service\TokenService;
 use App\Repository\UserRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\CenturyRepository;
@@ -73,7 +74,19 @@ class ArticleController extends AbstractController
         CountryRepository $countryRepository,
         CenturyRepository $centuryRepository,
         ArticleRepository $articleRepository,
+        TokenService $tokenService
     ): Response {
+
+        $userId = $request->attributes->get('tokenUserId');
+
+        // $identification = $tokenService->getUserIdFromToken();
+
+        // if($identification['error']) {
+        //     return $this->json([
+        //         'error' => true,
+        //         'message' => $identification['message'],
+        //     ], 401);
+        // }
 
         $isEdit = false;
         $article = '';
@@ -82,38 +95,27 @@ class ArticleController extends AbstractController
             $isEdit = true;
         }
 
-        $requestData = json_decode($request->getContent(), true);
-
-        $tokenGet = $request->cookies->get('BEARER');
-        $token = filter_var($tokenGet, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
-        $jws = $jwsProvider->load($token);
-        $decodedToken = $jws->getPayload();
-        $userId = $decodedToken['userId'];
-
-        if (!$userId) {
-            return $this->json([
-                'error' => true,
-                'message' => 'User not found',
-            ], 400);
-        }
 
         $user = $userRepository->find($userId);
 
         if (!$user) {
             return $this->json([
                 'error' => true,
-                'message' => 'User not found',
+                'message' => 'There was a problem.',
             ], 400);
         }
 
-        if (isset($requestData)) {
+        $requestData = json_decode($request->getContent(), true);
+
+        $title = filter_var($requestData['title'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $summary = filter_var($requestData['summary'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $countryId = filter_var($requestData['country'], FILTER_SANITIZE_NUMBER_INT);
+        $centuryId = filter_var($requestData['century'], FILTER_SANITIZE_NUMBER_INT);
+
+        if ($title && $summary && $countryId && $centuryId) {
 
             // Sanitize all elements in the array
-            $title = filter_var($requestData['title'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $summary = filter_var($requestData['summary'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $countryId = filter_var($requestData['country'], FILTER_SANITIZE_NUMBER_INT);
-            $centuryId = filter_var($requestData['century'], FILTER_SANITIZE_NUMBER_INT);
+
             $creationDate = new DateTime('now');
 
             try {
