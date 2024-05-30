@@ -9,11 +9,5 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
 
-    #[Route('/', name: 'app_index')]
-    public function indexApp(): Response
-    {
-        return $this->redirectToRoute('app_home');
-    }
-
 
 }
