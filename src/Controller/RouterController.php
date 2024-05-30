@@ -12,7 +12,7 @@ class RouterController extends AbstractController
     #[Route('/', name: 'public_app_index', methods: ['GET'])]
     public function indexRedirect(): Response
     {
-        return $this->redirectToRoute('app_home');
+        return $this->redirectToRoute('public_app_home');
     }
 
     // all of my page's routes
@@ -35,7 +35,7 @@ class RouterController extends AbstractController
 
     #[Route('/map', name: 'public_app_map', methods: ['GET'])]
 
-    #[Route('/profile', name: 'public_app_profile', methods: ['GET'])]
+    #[Route('/profile', name: 'app_profile', methods: ['GET'])]
     public function index(): Response
     {
         return $this->render('base.html.twig');
