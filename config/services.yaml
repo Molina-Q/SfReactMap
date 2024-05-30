@@ -23,7 +23,7 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    # put when the jwt in the browser as a cookie when it is created
+    # add more data to the jwt token before being sent as a cookie 
     acme_api.event.jwt_created_listener:
         class: App\EventListener\JWTCreatedListener
         arguments:  
