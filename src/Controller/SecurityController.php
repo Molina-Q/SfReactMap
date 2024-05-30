@@ -2,24 +2,15 @@
 
 namespace App\Controller;
 
-use App\Repository\UserRepository;
-use Symfony\Component\HttpFoundation\Cookie;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Security\Http\Event\LogoutEvent;
-use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWSProvider\JWSProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-
+use Symfony\Bundle\SecurityBundle\Security;
 
 
 class SecurityController extends AbstractController
@@ -42,11 +33,13 @@ class SecurityController extends AbstractController
         // the sent data
         $data = ['message' => 'Logged out successfully',];
 
+        // $response = $security->logout();
         // Create a JsonResponse object the data
         $response = new JsonResponse($data);
 
         // Clear the BEARER cookie (the JWT authenticate token)
         $response->headers->clearCookie('BEARER', '/', null, true, true, 'strict');
+        $response->headers->clearCookie('refresh_token', '/', null, true, true, 'strict');
 
         // Return the new header response that delete the cookie and the json data at the same time
         return $response;
