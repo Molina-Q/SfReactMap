@@ -21,7 +21,7 @@ class EquipmentController extends AbstractController
 {
 
        // get a single equipment item
-       #[Route('/api/equipment/{id}', name: 'get_one_equipment', methods: ['GET'])]
+       #[Route('/api/equipment/{id}', name: 'public_get_one_equipment', methods: ['GET'])]
        public function getSingleEquip(
            EquipmentRepository $equipmentRepository,
            int $id
@@ -43,7 +43,7 @@ class EquipmentController extends AbstractController
        }
    
        // get every equipment from the specified category
-       #[Route('/api/equipments/type/{id}', name: 'get_equipments', methods: ['GET'])]
+       #[Route('/api/equipments/type/{id}', name: 'public_get_equipments', methods: ['GET'])]
        public function getEquip(
            EquipmentRepository $equipmentRepository,
            int $id
@@ -124,7 +124,7 @@ class EquipmentController extends AbstractController
         ]);
     }
 
-    #[Route('/api/equipment/data/{categoryId}', name: 'show_light_equipment')]
+    #[Route('/api/equipment/data/{categoryId}', name: 'public_show_light_equipment')]
     public function getDataEquipment(
         EquipmentRepository $equipmentRepository,
         int $categoryId,
