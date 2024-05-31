@@ -31,7 +31,7 @@ export default function App() {
 				<Route path="/home" element={<Home />} />
 				<Route path="/map" element={<SfReactMap />} />
 				<Route path="/equipment" element={<Equipment />} />
-				<Route path="/forum" element={<Forum />} />
+				<Route path="/forum" element={<TopicsList />} />
 				<Route path="/forum/topics" element={<TopicsList />} />
 				<Route path="/forum/topic/:topicId" element={<ShowTopic />} />
 
