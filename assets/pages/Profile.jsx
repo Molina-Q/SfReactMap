@@ -41,7 +41,7 @@ export default function Profile() {
 				<Sidebar />
 			</div>
 			{tabsArray.map((singleTab) => 
-				tab === singleTab.label && singleTab.element
+				tab === singleTab.label && <div key={singleTab.label}>{singleTab.element}</div> 
 			)}
 		</main>
 	);
