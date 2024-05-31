@@ -19,15 +19,21 @@ class TokenListener
     {
         $request = $event->getRequest();
 
-        // Make it so every route with a name that start with "public" will do an early return
+        // Early return when route name start with public
         if (strpos($request->get('_route'), 'public') === 0) {
+            return;
+        }
+
+        // Early return route not starting with /api
+        if (strpos($request->getPathInfo(), '/api') !== 0) {
+            // If not, return early
             return;
         }
 
         $userId = $this->tokenService->getUserIdFromToken();
 
         if (isset($userId['error'])) {
-            $response = new JsonResponse($userId, 401);
+            $response = new JsonResponse(['error' => true, 'message' => $userId], 401);
             $event->setResponse($response);
         } else {
             $request->attributes->set('tokenUserId', $userId);
