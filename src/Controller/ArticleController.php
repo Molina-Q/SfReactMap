@@ -12,6 +12,7 @@ use App\Repository\CenturyRepository;
 use App\Repository\CountryRepository;
 use App\Repository\SectionRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\Entity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -285,5 +286,31 @@ class ArticleController extends AbstractController
             'error' => false,
             'message' => 'Article deleted successfully',
         ], 200);
+    }
+    
+    #[Route('/api/articles/countries/{century}', name: 'public_get_country', methods: ['GET'])]
+    public function showArticle(
+        string $century,
+        ArticleRepository $articleRepository,
+        JWSProviderInterface $jwsProvider,
+        EntityManagerInterface $entityManager,
+        Request $request,
+        CountryRepository $countryRepository,
+
+    ): Response {
+
+        $articlesObject = $articleRepository->findByCountryWithArticle($century);
+        $countriesCodes = [];
+
+        foreach ($articlesObject as $article) {
+            $countriesCodes[] = $article->getCountry()->getCountryCode();
+        }
+
+        $codes = array_unique($countriesCodes);
+        // dd($codes); 
+        return $this->json([
+            'error' => false,
+            'object' => $codes,
+        ]);
     }
 }
