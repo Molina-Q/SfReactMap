@@ -30,13 +30,27 @@ class SecurityController extends AbstractController
     #[Route(path: '/api/logout', name: 'app_logout')]
     public function logout(): Response
     {
-        // the sent data
-        $data = ['message' => 'Logged out successfully',];
-
         // $response = $security->logout();
-        // Create a JsonResponse object the data
-        $response = new JsonResponse($data);
 
+        // Create a JsonResponse object
+        $response = new JsonResponse(['message' => 'Logged out successfully']);
+
+        // Clear the BEARER cookie (the JWT authenticate token)
+        $response->headers->clearCookie('BEARER', '/', null, true, true, 'strict');
+        $response->headers->clearCookie('refresh_token', '/', null, true, true, 'strict');
+
+        // Return the new header response that delete the cookie and the json data at the same time
+        return $response;
+    }
+
+    #[Route(path: '/api/logout/forced', name: 'forced_logout')]
+    public function forcedLogout(): Response
+    {
+        // $response = $security->logout();
+
+        // Create a JsonResponse object
+        // $response = new JsonResponse(['message' => 'Logged out successfully']);
+        $response = new JsonResponse(['error' => true, 'message' => 'Your session is invalid please reconnect.']);
         // Clear the BEARER cookie (the JWT authenticate token)
         $response->headers->clearCookie('BEARER', '/', null, true, true, 'strict');
         $response->headers->clearCookie('refresh_token', '/', null, true, true, 'strict');
