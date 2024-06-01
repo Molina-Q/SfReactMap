@@ -319,7 +319,7 @@ class ForumController extends AbstractController
         );
     }
 
-    #[Route('/api/forum/topics/category', name: 'show_message', methods: ['GET'])]
+    #[Route('/api/forum/topics/category', name: 'public_show_message', methods: ['GET'])]
     public function topicsByCategory(
         Request $request,
         TopicRepository $topicRepository,
