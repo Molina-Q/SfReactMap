@@ -23,9 +23,9 @@ const LeafletMap = ({ checkedValue, handleClickOnCountry }) => {
 	const [countriesWithArticles, setCountriesWithArticles] = useState([]);
 
 	useEffect(() => {
-    myGeoJsons[checkedValue]
-    ? setGeoJsonFeatures(myGeoJsons[checkedValue].features)
-    : setGeoJsonFeatures(myGeoJson1900.features);
+		myGeoJsons[checkedValue]
+			? setGeoJsonFeatures(myGeoJsons[checkedValue].features)
+			: setGeoJsonFeatures(myGeoJson1900.features);
 
 		// Fetch all countries that have articles
 		const fetchCountriesWithArticles = async () => {
@@ -51,29 +51,21 @@ const LeafletMap = ({ checkedValue, handleClickOnCountry }) => {
 	// const [data, setData] = useState(null);
 
 	useEffect(() => {
-
-
-		// if (myGeoJsons[checkedValue]) {
-		//   setGeoJsonFeatures(myGeoJsons[checkedValue].features);
-		// } else {
-		//   setGeoJsonFeatures(myGeoJson1900.features);
-		// }
-
 		const optionsCopy = { ...options };
 		for (let countryCode in optionsCopy) {
-      console.log(countriesWithArticles);
+			console.log(countriesWithArticles);
 			if (!countriesWithArticles.includes(countryCode)) {
 				optionsCopy[countryCode].isGray = true;
 			} else {
-        optionsCopy[countryCode].isGray = false;
-      }
+				optionsCopy[countryCode].isGray = false;
+			}
 		}
 		setOptions(optionsCopy, countriesWithArticles);
 	}, [countriesWithArticles]); // this make it so useEffect will take effect only when checkedValue is changed
 
 	// Style variable for the country polygon
 	const [options, setOptions] = useState({
-		BEL: { color: "yellow", fillOpacity: 0.1, isGray: false},
+		BEL: { color: "yellow", fillOpacity: 0.1, isGray: false },
 		FRA: { color: "blue", fillOpacity: 0.1, isGray: false },
 		DEU: { color: "green", fillOpacity: 0.1, isGray: false }, // Germany
 		RUS: { color: "green", fillOpacity: 0.1, isGray: false },
@@ -130,7 +122,11 @@ const LeafletMap = ({ checkedValue, handleClickOnCountry }) => {
 					<GeoJSON
 						data={feature.geometry}
 						key={feature.properties.ADMIN} // their names are used as key
-						pathOptions={options[feature.properties.ISO_A3].isGray ? { color: "gray", fillOpacity: 0.1 } : options[feature.properties.ISO_A3]} // Use gray if no options for this country
+						pathOptions={
+							options[feature.properties.ISO_A3].isGray
+								? { color: "gray", fillOpacity: 0.1 }
+								: options[feature.properties.ISO_A3]
+						} // Use gray if no options for this country
 						eventHandlers={handlers}
 						smoothFactor={4}
 					/>
