@@ -289,28 +289,16 @@ class ArticleController extends AbstractController
     }
     
     #[Route('/api/articles/countries/{century}', name: 'public_get_country', methods: ['GET'])]
-    public function showArticle(
+    public function getCountryWithArticles(
         string $century,
         ArticleRepository $articleRepository,
-        JWSProviderInterface $jwsProvider,
-        EntityManagerInterface $entityManager,
-        Request $request,
-        CountryRepository $countryRepository,
-
     ): Response {
 
         $articlesObject = $articleRepository->findByCountryWithArticle($century);
-        $countriesCodes = [];
-
-        foreach ($articlesObject as $article) {
-            $countriesCodes[] = $article->getCountry()->getCountryCode();
-        }
-
-        $codes = array_unique($countriesCodes);
-        // dd($codes); 
+ 
         return $this->json([
             'error' => false,
-            'object' => $codes,
+            'object' => $articlesObject,
         ]);
     }
 }
