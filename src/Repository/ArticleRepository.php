@@ -21,32 +21,33 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
-//    /**
-//     * @return Article[] Returns an array of Article objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('a.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    //    /**
+    //     * @return Article[] Returns an array of Article objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('a')
+    //            ->andWhere('a.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('a.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
 
-//    public function findOneBySomeField($value): ?Article
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    //    public function findOneBySomeField($value): ?Article
+    //    {
+    //        return $this->createQueryBuilder('a')
+    //            ->andWhere('a.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 
-    public function findOneByCountryAndCentury($country, $century) {
+    public function findOneByCountryAndCentury($country, $century)
+    {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
 
@@ -62,6 +63,21 @@ class ArticleRepository extends ServiceEntityRepository
 
         $query = $qb->getQuery();
         return $query->getOneOrNullResult();
-    }   
+    }
 
+    public function findByCountryWithArticle($century)
+    {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+
+        $qb->select('a')
+            ->from('App\Entity\Article', 'a')
+            ->leftJoin('a.Country', 'co')
+            ->leftJoin('a.Century', 'ce')
+            ->where('ce.year = :century')
+            ->setParameter('century', $century);
+
+        $query = $qb->getQuery();
+        return $query->getResult();
+    }
 }
