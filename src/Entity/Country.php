@@ -21,6 +21,9 @@ class Country
     #[ORM\OneToMany(mappedBy: 'Country', targetEntity: Article::class)]
     private Collection $articles;
 
+    #[ORM\Column(length: 15)]
+    private ?string $countryCode = null;
+
     public function __construct()
     {
         $this->articles = new ArrayCollection();
@@ -75,5 +78,17 @@ class Country
     
     public function __toString() {
         return $this->name;
+    }
+
+    public function getCountryCode(): ?string
+    {
+        return $this->countryCode;
+    }
+
+    public function setCountryCode(string $countryCode): static
+    {
+        $this->countryCode = $countryCode;
+
+        return $this;
     }
 }
