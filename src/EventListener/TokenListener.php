@@ -24,7 +24,7 @@ class TokenListener
             return;
         }
 
-        // Early return route not starting with /api
+        // Early return route's name do not start with /api
         if (strpos($request->getPathInfo(), '/api') !== 0) {
             // If not, return early
             return;
@@ -32,6 +32,7 @@ class TokenListener
 
         $userId = $this->tokenService->getUserIdFromToken();
 
+        // If the token is invalid or expired
         if (isset($userId['error'])) {
             $response = new JsonResponse(['error' => true, 'message' => $userId], 401);
             $event->setResponse($response);
