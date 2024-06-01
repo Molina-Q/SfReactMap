@@ -24,7 +24,7 @@ class TokenListener
             return;
         }
 
-        // Early return route's name do not start with /api
+        // Early return when route's name do not start with /api
         if (strpos($request->getPathInfo(), '/api') !== 0) {
             // If not, return early
             return;
