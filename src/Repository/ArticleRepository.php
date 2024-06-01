@@ -67,17 +67,16 @@ class ArticleRepository extends ServiceEntityRepository
 
     public function findByCountryWithArticle($century)
     {
-        $em = $this->getEntityManager();
-        $qb = $em->createQueryBuilder();
-
-        $qb->select('a')
-            ->from('App\Entity\Article', 'a')
-            ->leftJoin('a.Country', 'co')
+        $qb = $this->createQueryBuilder('a')
+            ->select('c.countryCode')
+            ->leftJoin('a.Country', 'c')
             ->leftJoin('a.Century', 'ce')
             ->where('ce.year = :century')
-            ->setParameter('century', $century);
+            ->setParameter('century', $century)
+            ->distinct();
 
-        $query = $qb->getQuery();
-        return $query->getResult();
+        $query = $qb->getQuery()->getResult();
+        $countryCodes = array_column($query, 'countryCode');
+        return $countryCodes;
     }
 }
