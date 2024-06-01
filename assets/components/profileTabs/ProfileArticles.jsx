@@ -1,9 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import useFetch from "../cutomHooks/UseFetch";
 
 export default function ProfileArticles() {
 	const { currentUser } = useSelector((state) => state.user);
+
+	const { fetchData, error } = useFetch();
+
 	const dialogRef = useRef(null);
 	const [entityToDelete, setEntityToDelete] = useState(null);
 	const [fetchedData, setFetchedData] = useState([
@@ -19,21 +23,10 @@ export default function ProfileArticles() {
 
 	useEffect(() => {
 		async function fetchCreatedEntity() {
-			try {
-				const res = await fetch(
-					`/api/user/owner/articles-sections/${currentUser.userId}`
-				);
-				const data = await res.json();
+			const data = await fetchData(`/api/user/owner/articles-sections/${currentUser.userId}`);
 
-				if (res.ok) {
-					console.log(data);
-					setFetchedData(data.object);
-				}
-
-				console.log("Response data : ", data);
-				console.log("entityToDelete : ", entityToDelete);
-			} catch (error) {
-				console.log("Error fetching entityToDelete : ", error.message);
+			if (data) {
+				setFetchedData(data.object);
 			}
 		}
 		fetchCreatedEntity();
