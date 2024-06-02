@@ -34,6 +34,12 @@ class Topic
     #[ORM\OneToMany(mappedBy: 'Topic', targetEntity: Message::class)]
     private Collection $messages;
 
+    #[ORM\Column]
+    private ?bool $allowPicture = null;
+
+    #[ORM\Column]
+    private ?bool $isEdited = null;
+
     public function __construct()
     {
         $this->messages = new ArrayCollection();
@@ -285,6 +291,30 @@ class Topic
         }
 
         return $nbMessages + $nbComments - 1;
+    }
+
+    public function isAllowPicture(): ?bool
+    {
+        return $this->allowPicture;
+    }
+
+    public function setAllowPicture(bool $allowPicture): static
+    {
+        $this->allowPicture = $allowPicture;
+
+        return $this;
+    }
+
+    public function isEdited(): ?bool
+    {
+        return $this->isEdited;
+    }
+
+    public function setEdited(bool $isEdited): static
+    {
+        $this->isEdited = $isEdited;
+
+        return $this;
     }
     
 }
