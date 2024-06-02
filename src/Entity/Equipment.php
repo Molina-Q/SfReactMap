@@ -39,6 +39,12 @@ class Equipment
     #[ORM\OneToMany(mappedBy: 'Equipment', targetEntity: Topic::class)]
     private Collection $topics;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $creationDate = null;
+
+    #[ORM\ManyToOne(inversedBy: 'equipments')]
+    private ?User $author = null;
+
     public function __construct()
     {
         $this->imgObjects = new ArrayCollection();
@@ -213,5 +219,29 @@ class Equipment
     public function getSubCatId()
     {
         return $this->sub_category->getLabel();
+    }
+
+    public function getCreationDate(): ?\DateTimeInterface
+    {
+        return $this->creationDate;
+    }
+
+    public function setCreationDate(\DateTimeInterface $creationDate): static
+    {
+        $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): static
+    {
+        $this->author = $author;
+
+        return $this;
     }
 }
