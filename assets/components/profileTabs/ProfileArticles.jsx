@@ -87,7 +87,6 @@ export default function ProfileArticles() {
 
 	return (
 		<div>
-			ProfileArticles
 			<h2>ARTICLE</h2>
 			<Link to="/article/create">
 				<button>Create an Article</button>
