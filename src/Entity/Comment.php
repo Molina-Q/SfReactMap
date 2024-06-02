@@ -26,6 +26,9 @@ class Comment
     #[ORM\ManyToOne(inversedBy: 'comments')]
     private ?User $Author = null;
 
+    #[ORM\Column]
+    private ?bool $isEdited = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +78,18 @@ class Comment
     public function setAuthor(?User $Author): static
     {
         $this->Author = $Author;
+
+        return $this;
+    }
+
+    public function isEdited(): ?bool
+    {
+        return $this->isEdited;
+    }
+
+    public function setEdited(bool $isEdited): static
+    {
+        $this->isEdited = $isEdited;
 
         return $this;
     }
