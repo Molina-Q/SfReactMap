@@ -34,6 +34,9 @@ class Message
     #[ORM\ManyToOne(inversedBy: 'messages')]
     private ?Topic $Topic = null;
 
+    #[ORM\Column]
+    private ?bool $isEdited = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -144,5 +147,17 @@ class Message
             return 0;
         }
         return count($this->comments);
+    }
+
+    public function isEdited(): ?bool
+    {
+        return $this->isEdited;
+    }
+
+    public function setEdited(bool $isEdited): static
+    {
+        $this->isEdited = $isEdited;
+
+        return $this;
     }
 }
