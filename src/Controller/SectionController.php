@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Section;
 use App\Entity\Equipment;
 use App\Form\SectionFormType;
 use App\Entity\EquipmentSection;
+use App\Repository\UserRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\SectionRepository;
 use App\Repository\EquipmentRepository;
@@ -88,6 +90,7 @@ class SectionController extends AbstractController
         Request $request,
         JWSProviderInterface $jwsProvider,
         EquipmentRepository $equipmentRepository,
+        UserRepository $userRepository,
     ): Response {
         $isEdit = false;
         $section = '';
@@ -109,12 +112,8 @@ class SectionController extends AbstractController
                 $section = new Section();
             }
 
-            $tokenGet = $request->cookies->get('BEARER');
-            $token = filter_var($tokenGet, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
-            $jws = $jwsProvider->load($token);
-            $decodedToken = $jws->getPayload();
-            $userId = $decodedToken['userId'];
+            $userId = $request->attributes->get('tokenUserId');
+            $author = $userRepository->findOneById($userId);
 
             $title = filter_var($requestData['title'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $text = filter_var($requestData['text'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -126,6 +125,8 @@ class SectionController extends AbstractController
             $section->setTitle($title);
             $section->setText($text);
             $section->setSummary($summary);
+            $section->setAuthor($author);
+            $section->setCreationDate(new \DateTime('now'));
 
             if (!$isEdit) {
                 $section->setArticle($articleRepository->findOneById($id));
@@ -178,10 +179,11 @@ class SectionController extends AbstractController
 
             $entityManager->persist($section);
             $entityManager->flush();
+            $message = $isEdit ? 'Section edited successfully' : 'Section created successfully';
 
             return $this->json([
                 'error' => false,
-                'message' => 'Section edited successfully',
+                'message' => $message,
             ], 201);
         }
 
