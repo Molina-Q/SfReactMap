@@ -4,9 +4,10 @@ import Gallery from "../components/gallery/Gallery";
 import Loading from "../components/UI/animation/Loading";
 import DetailsItem from "../components/equipment/DetailsItem";
 import { getUrlParam, setUrlParam } from "../utils/UrlParam";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Equipment() {
+	const navigate = useNavigate();
 	// states for the gallery data
 	const [data, setData] = useState(null);
 	const [loading, setLoading] = useState(true);
@@ -36,18 +37,44 @@ export default function Equipment() {
 	];
 
 	const [urlData, setUrlData] = useState({
-		type: getUrlParam("type") || 1,
-		item: getUrlParam("item") || "",
+		type: "",
+		item: "",
 	});
+
+	useEffect(() => {
+		const urlParams = new URLSearchParams(location.search);
+		const type = urlParams.get("type");
+		const item = urlParams.get("item");
+
+		setCurrentCategory(type ?? 1);
+
+		setUrlData({
+			type: type ?? 1,
+			item: item ?? 1,
+		});
+		
+	}, []);
 
 	// onClick function for the images of the gallery
 	const handleClickImage = (id) => {
 		if (clickedItemId === id) return;
 
+		const urlParams = new URLSearchParams(location.search);
+
+		urlParams.set("item", id);
+
+		const searchParams = urlParams.toString();
+
+		navigate(`/equipment?${searchParams}`);
+
+
 		setClickedItemId(id);
+
 		setLoadingDetails(true);
-		setUrlParam("item", id);
+		// setUrlParam();
+
 		setUrlData({ ...urlData, item: id });
+
 	};
 
 	// onClick function for the categories
@@ -59,13 +86,19 @@ export default function Equipment() {
 			e.target.getAttribute("data-id") == 2 ||
 			e.target.getAttribute("data-id") == 3
 		) {
-			setUrlParam("type", e.target.getAttribute("data-id"));
+			const urlParams = new URLSearchParams(location.search);
+
+			urlParams.set("type", e.target.getAttribute("data-id"));
+
+			const searchParams = urlParams.toString();
 
 			setUrlData({ ...urlData, type: e.target.getAttribute("data-id") });
 
 			setCurrentCategory(e.target.getAttribute("data-id"));
 
 			setLoading(true);
+
+			navigate(`/equipment?${searchParams}`);
 		}
 	};
 
@@ -94,6 +127,7 @@ export default function Equipment() {
 				urlData.item != clickedItemData.equipment.id)
 		) {
 			setLoadingDetails(true);
+			setCurrentCategory(urlData.type);
 
 			fetchData(
 				`/api/equipment/${urlData.item}`,
@@ -101,7 +135,7 @@ export default function Equipment() {
 				setLoadingDetails
 			);
 		}
-	}, [urlData]); // will re-run only when one of those variables changes (using Object.js comparison)
+	}, [location.search]); // will re-run only when one of those variables changes (using Object.js comparison)
 
 	useEffect(() => {
 		fetchData(`/api/equipments/type/${urlData.type}`, setData, setLoading);
