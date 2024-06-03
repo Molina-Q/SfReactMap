@@ -46,7 +46,7 @@ const SfReactMap = () => {
 
 	// URI of the content of the modal
 	const [dataURI, setDataURI] = useState(
-		`/dataCountry/${clickedCountry}/${checkedYear}`
+		`/api/article/map/${clickedCountry}/${checkedYear}`
 	);
 
 	/***** Callback to ModalShowArticle *****/
@@ -65,12 +65,12 @@ const SfReactMap = () => {
 	// onClick backArrow
 	const backArrowHandler = () => {
 		// change the URI of the fetch to return to the original data
-		setDataURI(`/dataCountry/${clickedCountry}/${checkedYear}`);
+		setDataURI(`/api/article/map/${clickedCountry}/${checkedYear}`);
 	};
 
 	const getDetailsSection = (id) => {
 		// change the URI of the fetch to return to the original data
-		setDataURI(`/dataCountry/section/${id}`);
+		setDataURI(`/api/article/map/section/${id}`);
 	};
 
 	/***** Callback to Timeline *****/
@@ -86,7 +86,7 @@ const SfReactMap = () => {
 			year: stringYear,
 		});
 		// change the URI to match the checked year
-		setDataURI(`/dataCountry/${clickedCountry}/${stringYear}`);
+		setDataURI(`/api/article/map/${clickedCountry}/${stringYear}`);
 	};
 
 	/***** Callback to LeafletMap *****/
@@ -96,7 +96,7 @@ const SfReactMap = () => {
 		setClickedCountry(countryName);
 
 		// change the URI to match the clicked country
-		setDataURI(`/dataCountry/${countryName}/${checkedYear}`);
+		setDataURI(`/api/article/map/${countryName}/${checkedYear}`);
 		setUrlData({
 			...urlData,
 			country: countryName,
@@ -185,16 +185,16 @@ const SfReactMap = () => {
 			<LeafletMap
 				checkedValue={checkedYear}
 				handleClickOnCountry={handleClickOnCountry}
-			/>
-
-			<Modal
-				isOpen={openModal}
-				onClose={modalIsClosed}
-				handleReturn={backArrowHandler}
-				// children={loading ? <Loading /> : contentModal}
 			>
-				{loading ? <Loading /> : contentModal}
-			</Modal>
+				<Modal
+					isOpen={openModal}
+					onClose={modalIsClosed}
+					handleReturn={backArrowHandler}
+					// children={loading ? <Loading /> : contentModal}
+				>
+					{loading ? <Loading /> : contentModal}
+				</Modal>
+			</LeafletMap>
 
 			<div id="timeline">
 				<Timeline defaultYear={checkedYear} returnChecked={returnValue} />
