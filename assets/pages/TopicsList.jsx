@@ -171,39 +171,46 @@ export default function TopicsList() {
 				</div>
 
 				<div className="table-body">
-					{loading ? <TopicsSkeleton count={6} /> :
+					{loading ? (
+						<TopicsSkeleton count={6} />
+					) : (
 						topics.map((topic) => (
 							<div className="table-row" key={topic.id}>
-								<div className="table-topic-head">
-									<p className="table-cat">[ {topic.cat} ]</p>
-									<span>|</span>
-									<p className="table-date">{topic.interval}</p>
-									<span>|</span>
-									<Link to={`/topic/edit/${topic.id}`}>
-										<small>edit</small>
-									</Link>
-									<button>
-										<small onClick={() => handleDelete(topic.id)}>delete</small>
-									</button>
-								</div>
-
 								<Link to={`/forum/topic/${topic.id}`} className="table-title">
-									{topic.title}
-								</Link>
-								<p className="table-message">{topic.message}</p>
+									<div className="table-hover">
+										<div className="table-topic-head">
+											<p className="table-cat">[ {topic.cat} ]</p>
+											<span>|</span>
+											<p className="table-date">{topic.interval}</p>
+											<span>|</span>
+											<Link to={`/topic/edit/${topic.id}`}>
+												<small>edit</small>
+											</Link>
+											<button>
+												<small onClick={() => handleDelete(topic.id)}>
+													delete
+												</small>
+											</button>
+										</div>
 
-								<div className="table-icons">
-									<span className="table-icon-item">
-										<FcLike size={"15px"} /> Like
-									</span>
-									<Link to={`/forum/topic/${topic.id}`}>
-										<span className="table-icon-item">
-											<BsChatText /> Comment {topic.countReplies}
-										</span>
-									</Link>
-								</div>
+										<p className="table-title">{topic.title}</p>
+										<p className="table-message">{topic.message}</p>
+
+										<div className="table-icons">
+											<span className="table-icon-item">
+												<FcLike size={"15px"} /> Like
+											</span>
+											<Link to={`/forum/topic/${topic.id}`}>
+												<span className="table-icon-item">
+													<BsChatText /> Comment {topic.countReplies}
+												</span>
+											</Link>
+										</div>
+									</div>
+								</Link>
 							</div>
-						))}
+						))
+					)}
 				</div>
 			</div>
 		</main>
