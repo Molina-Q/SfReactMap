@@ -123,7 +123,7 @@ class ForumController extends AbstractController
         );
     }
 
-    #[Route('/api/forum/topic/{id}', name: 'show_topic', methods: ['GET'])]
+    #[Route('/api/forum/topic/{id}', name: 'public_show_topic', methods: ['GET'])]
     public function showTopic(
         int $id,
         TopicRepository $topicRepository,
