@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { getUserSession } from "../utils/getUserSession";
 import { clearUser, loginSuccess } from "../redux/user/userSlice";
+import { RxHamburgerMenu } from "react-icons/rx";
 
 export default function NavbarMap() {
+	const [isOpen, setIsOpen] = useState(false);
 	const { currentUser } = useSelector((state) => state.user);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	// console.log("User:", currentUser);
 
 	const handleSignOut = async (e) => {
 		e.preventDefault();
@@ -21,6 +22,13 @@ export default function NavbarMap() {
 		} catch (error) {
 			console.log("logout error: ", error);
 		}
+	};
+
+	const handleBurgerMenu = (e) => {
+		// const burgerContainer = document.querySelector(".nav-burger-container");
+		// menuRef.classList.toggle("showMenu");
+
+		setIsOpen(!isOpen);
 	};
 
 	return (
@@ -55,7 +63,11 @@ export default function NavbarMap() {
 					</div>
 				</div>
 
-				<div>
+				<div id="nav-burger" className="nav-items nav-right">
+					<RxHamburgerMenu onClick={handleBurgerMenu} />
+				</div>
+
+				<div className={`nav-burger-container ${isOpen && "showMenu"}`}>
 					<div className="nav-items nav-right">
 						<Link to="/home">
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -76,7 +88,7 @@ export default function NavbarMap() {
 									Profile
 								</Link>
 							</div>
-							
+
 							<div className="nav-items nav-right">
 								<Link to="#" onClick={handleSignOut}>
 									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
