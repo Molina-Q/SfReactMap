@@ -17,7 +17,7 @@ const myGeoJsons = {
 	1900: myGeoJson1900,
 };
 
-const LeafletMap = ({ checkedValue, handleClickOnCountry }) => {
+const LeafletMap = ({ checkedValue, handleClickOnCountry, children }) => {
 	const position = [46.2276, 3.2137];
 
 	const [countriesWithArticles, setCountriesWithArticles] = useState([]);
@@ -157,6 +157,8 @@ const LeafletMap = ({ checkedValue, handleClickOnCountry }) => {
 				{/* Country polygon */}
 				<GeoJsonGeometry jsonFeatures={geoJsonFeatures} />
 			</MapContainer>
+
+			{children}
 		</div>
 	);
 };
