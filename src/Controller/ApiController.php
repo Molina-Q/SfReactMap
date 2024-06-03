@@ -201,7 +201,7 @@ class ApiController extends AbstractController
 
     // The section Modal from the map
 
-    #[Route('/dataCountry/section/{sectionId}', name: 'show_section', methods: ['GET'])]
+    #[Route('/api/article/map/section/{sectionId}', name: 'public_show_section', methods: ['GET'])]
     public function showSection(
         int $sectionId,
         SectionRepository $sectionRepository,
@@ -237,8 +237,8 @@ class ApiController extends AbstractController
     }
 
     // modal showArticle
-    #[Route('/dataCountry/{country}/{century}', name: 'show_article', methods: ['GET'])]
-    #[Route('/api/article/{articleId}', name: 'show_edit_article', methods: ['GET'])]
+    #[Route('/api/article/map/{country}/{century}', name: 'public_show_article', methods: ['GET'])]
+    #[Route('/api/article/{articleId}', name: 'public_show_edit_article', methods: ['GET'])]
     public function dataCount(
         string $country = null,
         string $century = null,
