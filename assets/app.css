@@ -247,7 +247,7 @@ header nav {
 
   z-index: 1000;
 
-  overflow: scroll;
+  overflow: auto;
 }
 
 #myDialog article {
