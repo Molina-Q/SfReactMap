@@ -182,7 +182,7 @@ export default function TopicsList() {
 											<p className="table-cat">[ {topic.cat} ]</p>
 											<span>|</span>
 											<p className="table-date">{topic.interval}</p>
-											<span>|</span>
+											{/* <span>|</span>
 											<Link to={`/topic/edit/${topic.id}`}>
 												<small>edit</small>
 											</Link>
@@ -190,7 +190,7 @@ export default function TopicsList() {
 												<small onClick={() => handleDelete(topic.id)}>
 													delete
 												</small>
-											</button>
+											</button> */}
 										</div>
 
 										<p className="table-title">{topic.title}</p>
@@ -198,11 +198,11 @@ export default function TopicsList() {
 
 										<div className="table-icons">
 											<span className="table-icon-item">
-												<FcLike size={"15px"} /> Like
+												<FcLike size={"15px"} /> <span className="topic-icon-label">Like</span>
 											</span>
 											<Link to={`/forum/topic/${topic.id}`}>
 												<span className="table-icon-item">
-													<BsChatText /> Comment {topic.countReplies}
+													<BsChatText />  {topic.countReplies} <span className="topic-icon-label">Comment{topic.countReplies > 1 ? "s" : ""}</span>
 												</span>
 											</Link>
 										</div>
