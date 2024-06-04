@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { fetchAnything } from "../utils/Fetchs";
 import TopicTag from "../components/forum/TopicTag";
 import { BsThreeDots } from "react-icons/bs";
@@ -14,11 +14,11 @@ export default function ShowTopic() {
 
 	const [showBtn, setShowBtn] = useState(false);
 
-	const topicId = window.location.pathname.split("/").pop();
-
+	const params = useParams();
+	
 	useEffect(() => {
 		async function fetchData() {
-			const topicData = await fetchAnything(`/api/forum/topic/${topicId}`);
+			const topicData = await fetchAnything(`/api/forum/topic/${params.topicId}`);
 
 			if (topicData) {
 				setTopic(topicData.topic);
@@ -134,7 +134,6 @@ export default function ShowTopic() {
 
 			<article className="wrapper-topic">
 				<form className="form-create" onSubmit={handleMessageSubmit}>
-					{/* Form fields go here */}
 					<div>
 						<label htmlFor="message">Want to write a message ?</label>
 						<textarea
@@ -164,9 +163,7 @@ export default function ShowTopic() {
 										</span>
 									</p>
 									<p>{response.text}</p>
-									{/* Replace this with your actual form component */}
 									<form onSubmit={handleCommentSubmit} data-id={response.id}>
-										{/* Form fields go here */}
 										<input
 											type="text"
 											onFocus={handleFocus}
@@ -177,11 +174,7 @@ export default function ShowTopic() {
 											onChange={handleChange}
 										/>
 										{showBtn && (
-											<button
-				
-												type="submit"
-												className="form-btn-submit"
-											>
+											<button type="submit" className="form-btn-submit">
 												Reply
 											</button>
 										)}
