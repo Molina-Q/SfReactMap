@@ -198,9 +198,10 @@ header nav {
       }
     }
 
-    #nav-burger {
-      display: none;
-    }
+  }
+
+  #nav-burger {
+    display: none;
   }
 }
 
@@ -1698,7 +1699,7 @@ header nav {
 
     h3,
     h4 {
-      font-size: 3em;
+      font-size: 2.5em;
       font-weight: 600;
       /* padding: 25px 0; */
 
@@ -1721,10 +1722,10 @@ header nav {
     .home-figure-map,
     .home-figure-article,
     .home-figure-section {
-      height: 425px;
+      width: 90svw;
 
       img {
-        height: 100%;
+        width: 100%;
         border-radius: 10px;
         object-fit: contain;
         border: 1px solid var(--background-gray-dark);
@@ -1733,8 +1734,8 @@ header nav {
     }
 
     .home-figure-map {
-      width: 100%;
-      height: 550px;
+      width: 90vw;
+      /* height: 550px; */
 
       img {
         width: 100%;
@@ -1747,7 +1748,7 @@ header nav {
     }
 
     .home-figure-timeline {
-      width: 60vw;
+      width: 90vw;
 
       img {
         width: 100%;
@@ -1760,7 +1761,7 @@ header nav {
 
     p {
       hyphens: auto;
-      font-size: 2em;
+      font-size: 1.5em;
       font-weight: 300;
       text-align: left;
       width: 90%;
@@ -1781,19 +1782,13 @@ header nav {
   }
 
   .primary-title {
-    /* width: 100%; */
-    font-size: 6em;
-    font-weight: 600;
-    /* padding: 25px 0; */
-    margin: 150px 0 50px;
-    text-align: center;
+    font-size: 2.8em;
+    margin: 120px 0 30px;
   }
 
   .primary-span {
     white-space: nowrap;
   }
-
-
 
   #home-colour-section:nth-child(even) {
     display: flex;
@@ -1827,7 +1822,7 @@ header nav {
 
       border-bottom-left-radius: 0px;
       border-bottom-right-radius: 0px;
-      
+
       border: 2px solid var(--background-gray);
       border-bottom: 0px;
     }
@@ -1839,6 +1834,396 @@ header nav {
     p {
       text-align: center;
     }
+  }
+
+  /*****************************************************************************************************/
+  /*********************************************** Forum ***********************************************/
+  /*****************************************************************************************************/
+  .wrap-forum {
+    display: flex;
+    flex-wrap: wrap;
+
+    .form-create {
+      width: auto;
+    }
+    
+    .forum-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+  }
+
+  .filter-container {
+    .form-create {
+      background-color: var(--background-gray-darker);
+    }
+  }
+
+  .topic-categories {
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 30px;
+
+    flex: 1;
+
+    .topic-categories-link {
+      width: fit-content;
+      height: fit-content;
+
+      background: var(--linear-gradient-colour);
+
+      padding: 10px 15px;
+      border-radius: 7px;
+
+      .topic-categories-bloc {
+
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .topic-categories-section {
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+
+          .topic-categories-attribut {}
+        }
+      }
+
+    }
+
+  }
+
+
+
+  /**** showTopic ****/
+  .wrapper-topic {
+    background-color: var(--background-gray-glass);
+    backdrop-filter: blur(4px);
+    border-radius: 8px;
+    border: 1px solid rgba(71, 71, 71, 0.658);
+
+    .form-create {
+      width: auto;
+      background-color: var(--background-gray-darker);
+      border: 0px solid var(--background-gray);
+      /* border-radius: 5px; */
+    }
+  }
+
+  .details-topic-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    gap: 10px;
+
+  }
+
+  .topic-tag {
+    background-color: var(--primary-color);
+    font-size: 0.95em;
+    font-weight: 500;
+    padding: 3px 7px;
+    color: var(--font-color-dark);
+    border-radius: 3px;
+  }
+
+  #details-topic-header {
+    padding: 10px;
+
+    /* background-color: var(--background-gray); */
+    border-radius: 3px;
+
+    .topic-header-wrapper {
+      /* la div vide ICONS cause la gap au dessus du tag du topic */
+      background-color: var(--background-gray-darker);
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+
+      padding: 10px 15px;
+
+      border-radius: 3px;
+
+      .param-btn-container {
+        display: grid;
+
+        grid-template-columns: repeat(auto-fit, minmax(min(100px, 100%), 1fr));
+
+        align-items: center;
+
+        gap: 15px;
+
+        .details-topic-info {
+          grid-column: 1;
+
+        }
+
+        a {
+          grid-column: -1;
+          grid-row: 1;
+
+          text-align: end;
+        }
+
+        a:last-child {
+          grid-column: -2;
+        }
+      }
+    }
+  }
+
+  .table-popular {
+    /* width: 300px; */
+    /* flex: 1; */
+    display: flex;
+    flex-direction: column;
+  }
+
+  .table-header {
+    height: fit-content;
+    /* flex: 1; */
+    padding: 5px 10px;
+
+    background-color: var(--background-gray);
+
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+  }
+
+
+  .table-body {
+    padding: 0;
+
+    display: flex;
+    flex-direction: column;
+    /* gap: 25px; */
+
+    background-color: var(--background-gray-darker);
+    border: 0;
+
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+
+    .table-row {
+      padding: 10px;
+
+      .table-hover {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+
+        gap: 15px;
+        transition: 0.3s;
+        padding: 10px;
+
+        &:hover {
+          background-color: var(--background-gray-dark);
+          border-radius: 10px;
+
+          transition: 0.3s;
+        }
+      }
+    }
+
+    .table-date {
+      font-weight: 300;
+      opacity: 0.7;
+    }
+
+    .table-cat {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .table-title {
+      font-weight: 700;
+    }
+
+    .table-message {
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+
+      font-weight: 200;
+    }
+
+    .table-icons {
+      display: flex;
+      gap: 15px;
+    }
+
+    .table-icon-item {
+      border: 1px solid var(--background-gray);
+      border-radius: 15px;
+      padding: 4px 10px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      gap: 5px;
+
+      cursor: pointer;
+
+      &:hover {
+        background-color: var(--background-gray-darker);
+      }
+
+      svg {
+        display: inline;
+        vertical-align: 'middle'
+      }
+    }
+
+    .table-topic-head {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      span {
+        display: none;
+      }
+      /* justify-content: space-between; */
+    }
+
+    .table-row:not(:last-child) {
+      border-bottom: 1px solid var(--background-gray);
+    }
+
+    .table-row-bloc {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+  }
+
+  #details-topic-reponses {
+    /* height: 400px; */
+    /* background-color: var(--background-gray); */
+
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    border-radius: 3px;
+
+    .details-topic-tree {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding: 5px 10px;
+
+      .details-topic-msg {
+        background-color: var(--background-gray-darker);
+        border-radius: 3px;
+        padding: 5px;
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+
+        .form-create {
+
+          button {
+            width: 1.2em;
+            height: 1.2em;
+            padding: 0 10px;
+
+            font-size: 18px;
+
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+
+            color: var(--font-color-light);
+            text-decoration: none;
+
+            svg {
+              width: 1.2em;
+              margin-right: 5px;
+              fill: var(--font-color-light);
+            }
+          }
+        }
+      }
+
+      .details-topic-comment {
+        background-color: var(--background-gray-darker);
+        border-radius: 3px;
+        padding: 5px;
+
+        margin-left: 25px;
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+      }
+    }
+
+  }
+
+  .collectionType {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 15px;
+
+    li {
+      border: 1px solid var(--primary-color);
+      margin: 10px 0;
+      padding: 10px 10px;
+      list-style: none;
+    }
+  }
+
+  .topic-skeleton-container {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid var(--background-gray);
+    margin-bottom: 10px;
+
+  }
+
+  .skeleton-topic-flex {
+    display: flex;
+    gap: 5px;
+  }
+
+  .skeleton-topic {
+    height: 20px;
+    width: 150px;
+    margin-bottom: 10px;
+    background-color: var(--background-gray-dark);
+  }
+
+  .skeleton-topic-1 {
+    height: 20px;
+    width: 350px;
+    margin-bottom: 10px;
+    background-color: var(--background-gray-dark);
+  }
+
+  .skeleton-topic-2 {
+    height: 80px;
+    width: 100%;
+    margin-bottom: 10px;
+    background-color: var(--background-gray-dark);
+  }
+
+  .skeleton-topic-round {
+    height: 20px;
+    width: 150px;
+    margin-bottom: 10px;
+    background-color: var(--background-gray-dark);
+    border-radius: 15px;
   }
 
 }
@@ -1876,7 +2261,6 @@ header nav {
         fill: var(--primary-color);
       }
     }
-
   }
 
   /*********************************************************************************/
