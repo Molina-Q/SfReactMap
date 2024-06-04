@@ -10,7 +10,7 @@ export default function Home() {
 	};
 
 	return (
-		<main className="wrap-home">
+		<main className="wrap-home" id="wrapperMain">
 			<h2 className="primary-title">
 				Welcome to <strong className="primary-span">The Armoury</strong>
 			</h2>
