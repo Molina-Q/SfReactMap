@@ -14,7 +14,6 @@ export default function Home() {
 			<h2 className="primary-title">
 				Welcome to <strong className="primary-span">The Armoury</strong>
 			</h2>
-			{/* <h2>Dis</h2> */}
 
 			<section id="home-welcome">
 				<h3>Learn more about history</h3>
