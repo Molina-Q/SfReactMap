@@ -267,7 +267,7 @@ class ApiController extends AbstractController
 
             return $this->json([
                 'error' => true, 'message' => 'There was a problem with the article. Please try again.'
-            ], 500);
+            ], 204);
         }
 
         $sectionsObject = $sectionRepository->findByArticle($article->getId());
