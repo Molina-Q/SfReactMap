@@ -31,8 +31,7 @@ class RegistrationController extends AbstractController
         $this->emailVerifier = $emailVerifier;
     }
 
-
-
+    // register user
     #[Route('/api/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, ValidatorInterface $validator): Response
     {
@@ -47,10 +46,9 @@ class RegistrationController extends AbstractController
                 new Email()
             ],
             'password' => [
-                new Length(['min' => 5]),
                 new Regex([
-                    'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{5,}$/',
-                    'message' => 'Password must be at least 5 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.'
+                    'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/',
+                    'message' => 'Password must be at least 10 characters long, include at least one uppercase letter, one lowercase letter, one number, and one special character.'
                 ]),
             ],
         ]);
@@ -66,7 +64,7 @@ class RegistrationController extends AbstractController
             return new JsonResponse(['message' => $errors], 400);
         }
     
-        // If the data is valid, continue with your registration logic...
+        // If the data is valid, continue with registration
         $user = new User();
         $user->setUsername($data['username']);
         $user->setEmail($data['email']);
