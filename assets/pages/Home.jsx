@@ -9,6 +9,7 @@ export default function Home() {
 		scrollRef.current.scrollIntoView({ behavior: "smooth" });
 	};
 
+
 	return (
 		<main className="wrap-home" id="wrapperMain">
 			<h2 className="primary-title">
@@ -20,11 +21,11 @@ export default function Home() {
 
 				<p>
 					Here you will learn how to use the app and learn more about each
-					country's military gear from the 14th to the 20th century
+					country's <strong>military gear</strong> from the 14th to the 20th century
 				</p>
 
 				<p>
-					You will find Weapons, Armours and different Tools they used back
+					You will find <strong>Weapons</strong>, <strong>Armours</strong> and different <strong>Tools</strong> they used back
 					then!
 				</p>
 
@@ -54,7 +55,7 @@ export default function Home() {
 					deeper!
 				</p>
 				<figure className="home-figure-article">
-					<img src="/img/article_screen.PNG" alt="an article of the map" />
+					<img src="/img/mobile_screen/article_phone.PNG" alt="an article of the map" />
 				</figure>
 			</section>
 
@@ -85,37 +86,34 @@ export default function Home() {
 			</article>
 
 			{/* <div className="home-grid"> */}
-				<section id="home-equip">
-					<h4>The Equipment section</h4>
-					<p>
-						You can check the weapons, armours and tools present in the map !
-					</p>
+			<section id="home-equip">
+				<h4>The Equipment section</h4>
+				<p>You can check the weapons, armours and tools present in the map !</p>
 
-					<figure className="home-figure-section">
-						<img src="/img/equip_screen.PNG" alt="equipment" />
-					</figure>
+				<figure className="home-figure-section">
+					<img src="/img/equip_screen.PNG" alt="equipment" />
+				</figure>
 
-					<Link to="/equipment" className="button-main">
-						<p>Equipment</p>
-						<IoCaretForwardOutline />
-					</Link>
-				</section>
+				<Link to="/equipment" className="button-main">
+					<button>Equipment</button>
+					
+				</Link>
+			</section>
 
-				<section id="home-forum">
-					<h4>The Forum</h4>
-					<p>You can discuss about anything present on the site.</p>
+			<section id="home-forum">
+				<h4>The Forum</h4>
+				<p>You can discuss about anything present on the site.</p>
 
-					<p>Countries, Weapons or History !</p>
+				<p>Countries, Weapons or History !</p>
 
-					<figure className="home-figure-section">
-						<img src="/img/forum_screen.PNG" alt="forum" />
-					</figure>
+				<figure className="home-figure-section">
+					<img src="/img/forum_screen.PNG" alt="forum" />
+				</figure>
 
-					<Link to="/forum" className="button-main">
-						<span>Forum</span>
-					</Link>
-				</section>
-			{/* </div> */}
+				<Link to="/forum" className="button-main">
+					<button>Forum</button>
+				</Link>
+			</section>
 		</main>
 	);
 }
