@@ -41,6 +41,7 @@ class RouterController extends AbstractController
         return $this->render('base.html.twig');
     }
 
+    // unlogged user routes
     #[Route('/login', name: 'public_app_show_login', methods: ['GET'])]
     #[Route('/register', name: 'public_app_show_register', methods: ['GET'])]
     public function indexAuth(): Response
