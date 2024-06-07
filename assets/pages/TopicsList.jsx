@@ -117,7 +117,9 @@ export default function TopicsList() {
 				break;
 
 			default:
-				sortedTopics.reverse();
+				sortedTopics.sort(
+					(a, b) => new Date(b.creationDate) - new Date(a.creationDate)
+				);
 				break;
 		}
 		setTopics(sortedTopics);
