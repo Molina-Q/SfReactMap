@@ -5,6 +5,7 @@ import Loading from "../components/UI/animation/Loading";
 import DetailsItem from "../components/equipment/DetailsItem";
 import { getUrlParam, setUrlParam } from "../utils/UrlParam";
 import { Link, useNavigate } from "react-router-dom";
+import SingleEquipSkeleton from "../components/skeletons/SingleEquipSkeleton";
 
 export default function Equipment() {
 	const navigate = useNavigate();
@@ -36,11 +37,13 @@ export default function Equipment() {
 		},
 	];
 
+	// data of the possible paramters in the url
 	const [urlData, setUrlData] = useState({
 		type: "",
 		item: "",
 	});
 
+	// get the url parameters and set the current category
 	useEffect(() => {
 		const urlParams = new URLSearchParams(location.search);
 		const type = urlParams.get("type");
@@ -67,18 +70,16 @@ export default function Equipment() {
 
 		navigate(`/equipment?${searchParams}`);
 
-
 		setClickedItemId(id);
 
 		setLoadingDetails(true);
-		// setUrlParam();
 
 		setUrlData({ ...urlData, item: id });
-
 	};
 
 	// onClick function for the categories
 	const handleClickCategory = (e) => {
+		// if the category is already active, do nothing
 		if (e.target.getAttribute("data-id") == currentCategory) return;
 
 		if (
@@ -117,7 +118,7 @@ export default function Equipment() {
 		}
 	}
 
-	// call fetchData when page is loading then when category type is updated
+	// call fetchData when the url changes
 	useEffect(() => {
 		// fetchData(`/api/equipment/type/${urlData.type}`, setData, setLoading);
 
@@ -137,6 +138,7 @@ export default function Equipment() {
 		}
 	}, [location.search]); // will re-run only when one of those variables changes (using Object.js comparison)
 
+	// called when data.type from the url is updated then set
 	useEffect(() => {
 		fetchData(`/api/equipments/type/${urlData.type}`, setData, setLoading);
 	}, [urlData.type]);
@@ -202,15 +204,9 @@ export default function Equipment() {
 					</article>
 
 					<aside className="equip-description">
-						{loadingDetails ? (
-							// <Loading />
-							<div className="skeleton">
-								<div className="skeleton-text-sm"></div>
-								<div className="skeleton-text-lg"></div>
-								<div className="skeleton-image"></div>
-								<div className="skeleton-area"></div>
-							</div>
-						) : clickedItemData.equipment ? (
+						{loadingDetails ? ( // if loading is true
+							<SingleEquipSkeleton />
+						) : clickedItemData.equipment ? ( // if loading is not true and clickedData exists 
 							<DetailsItem
 								name={clickedItemData.equipment.name}
 								img={clickedItemData.equipment.img}
@@ -218,7 +214,9 @@ export default function Equipment() {
 								id={clickedItemData.equipment.id}
 								sub_cat={clickedItemData.equipment.sub_cat}
 							/>
-						) : (
+							
+						) : ( // if loading is not true and clickedData does not exist
+							// when details item is not given any props it will show a message
 							<DetailsItem />
 						)}
 					</aside>
