@@ -25,7 +25,9 @@ class EquipmentController extends AbstractController
         EquipmentRepository $equipmentRepository,
         int $id
     ): Response {
-        $equipObject = $equipmentRepository->findOneById($id);
+        $equipId = filter_var($id, FILTER_VALIDATE_INT, FILTER_SANITIZE_NUMBER_INT);
+
+        $equipObject = $equipmentRepository->findOneById($equipId);
 
         $equipment = [
             'id' => $equipObject->getId(),
