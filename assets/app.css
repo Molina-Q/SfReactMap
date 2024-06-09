@@ -1713,17 +1713,22 @@ header nav {
       gap: 15px;
     }
 
-    .home-figure-map,
     .home-figure-article,
     .home-figure-section {
-      width: 90svw;
+      width: 100%;
+      background-color: var(--background-gray-darker);
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+      border: 2px solid var(--background-gray);
+
+      border-top: none;
 
       img {
         width: 100%;
         border-radius: 10px;
-        object-fit: contain;
-        border: 1px solid var(--background-gray-dark);
-        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        background-color: none;
+        box-shadow: none;
+        border: none;
       }
     }
 
