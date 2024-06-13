@@ -48,18 +48,30 @@ class EquipmentRepository extends ServiceEntityRepository
 
     public function findByCategory($id)
     {
-        $em = $this->getEntityManager();
-        $sub = $em->createQueryBuilder();
+        $qb = $this->createQueryBuilder('e');
 
-        $qb = $sub;
-
-        $qb->select('e')
-            ->from('App\Entity\Equipment', 'e')
-            ->leftJoin('e.sub_category', 'sb')
-            ->where('sb.Category = :id')
-            ->setParameter('id', $id);
+        $qb->select('e.id, e.name, e.text, i.path as img')
+        ->leftJoin('e.sub_category', 'sb')
+        ->leftJoin('e.imgObjects', 'ei')
+        ->leftJoin('ei.Img', 'i')
+        ->where('sb.Category = :id')
+        ->setParameter('id', $id);
 
         $query = $qb->getQuery();
         return $query->getResult();
     }
+
+    // public function findByCountryWithArticle($century)
+    // {
+    //     $qb = $this->createQueryBuilder('e');
+
+    //     $qb->select('e.id, e.name, e.text, e.img')
+    //     ->from('App\Entity\Equipment', 'e')
+    //     ->leftJoin('e.sub_category', 'sb')
+    //     ->where('sb.Category = :id')
+    //     ->setParameter('id', $id);
+
+    //     $query = $qb->getQuery()->getResult();
+    //     return $countryCodes;
+    // }
 }
