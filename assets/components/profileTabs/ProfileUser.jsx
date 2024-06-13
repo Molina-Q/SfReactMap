@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
+
 
 export default function ProfileUser() {
 	const { currentUser } = useSelector((state) => state.user);
@@ -109,18 +111,22 @@ export default function ProfileUser() {
 					/>
 				</div>
 
-				<div>
+				<div >
 					<label htmlFor="password">Password</label>
-					<input
-						type={showPassword ? "text" : "password"}
-						name="password"
-						id="password"
-						value={user.password}
-						onChange={handleChange}
-					/>
-					<button type="button" onClick={toggleShowPassword}>
-						{showPassword ? "Hide" : "Show"} password
-					</button>
+
+					<div className="form-password">
+						<input
+							type={showPassword ? "text" : "password"}
+							name="password"
+							id="password"
+							value={user.password}
+							onChange={handleChange}
+						/>
+
+						<button type="button" onClick={toggleShowPassword} className="passwordToggle">
+							{showPassword ? <FaRegEyeSlash size={"15px"} /> : <FaRegEye />}
+						</button>
+					</div>
 				</div>
 
 				<button className="form-btn-submit">Update</button>
