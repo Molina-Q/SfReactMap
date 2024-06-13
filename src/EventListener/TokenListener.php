@@ -19,8 +19,8 @@ class TokenListener
     {
         $request = $event->getRequest();
 
-        // Early return when route name start with public
-        if (strpos($request->get('_route'), 'public') === 0) {
+        // Early return when route name do not start with private
+        if (strpos($request->get('_route'), 'private') !== 0) {
             return;
         }
 
