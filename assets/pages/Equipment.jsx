@@ -140,7 +140,11 @@ export default function Equipment() {
 
 	// called when data.type from the url is updated then set
 	useEffect(() => {
-		fetchData(`/api/equipments/type/${currentCategory}`, setData, setLoading);
+		fetchData(
+			`/api/equipments/type/${currentCategory}`, 
+			setData, 
+			setLoading
+		);
 	}, [currentCategory]);
 
 	if (data) {
