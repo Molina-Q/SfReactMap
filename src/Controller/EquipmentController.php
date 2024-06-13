@@ -50,29 +50,20 @@ class EquipmentController extends AbstractController
         EquipmentRepository $equipmentRepository,
         int $id
     ): Response {
-
+        // filter the the given category id
         $catId = filter_var($id, FILTER_VALIDATE_INT, FILTER_SANITIZE_NUMBER_INT);
         
-        $equipmentsObject = $equipmentRepository->findByCategory($id);
+        // get all the equipments from the given category
+        $equipments = $equipmentRepository->findByCategory($id);
 
+        // if equipments is empty, early return
         if(!isset($equipmentsObject)) {
             return  $this->json([
                 'error' => true, 'message' => 'Something went wrong'
             ], 500);
         }
-
-
-        $equipments = [];
-
-        foreach ($equipmentsObject as $equip) {
-            $equipments[] = [
-                'id' => $equip->getId(),
-                'name' => $equip->getName(),
-                'text' => $equip->getText(),
-                'img' => $equip->getOneImg(),
-            ];
-        }
-        // dd($equipmentsObject);
+ 
+        // return of the equipments data
         return $this->json([
             'error' => false,
             'equipments' => $equipments,
