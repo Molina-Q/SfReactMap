@@ -20,7 +20,7 @@ class EquipmentController extends AbstractController
 {
 
     // get a single equipment item
-    #[Route('/api/equipment/{id}', name: 'public_get_one_equipment', methods: ['GET'])]
+    #[Route('/api/equipment/{id}', name: 'get_one_equipment', methods: ['GET'])]
     public function getSingleEquip(
         EquipmentRepository $equipmentRepository,
         int $id
@@ -38,26 +38,27 @@ class EquipmentController extends AbstractController
             'sub_cat_id' => $equipObject->getSubCatId(),
         ];
 
-        return new JsonResponse([
+        return $this->json([
+            'error' => false,
             'equipment' => $equipment
-        ]);
+        ], 200);
     }
 
     // get every equipment from the specified category
-    #[Route('/api/equipments/type/{id}', name: 'public_get_equipments', methods: ['GET'])]
+    #[Route('/api/equipments/type/{id}', name: 'get_equipments', methods: ['GET'])]
     public function getEquip(
         EquipmentRepository $equipmentRepository,
         int $id
     ): Response {
 
         $catId = filter_var($id, FILTER_VALIDATE_INT, FILTER_SANITIZE_NUMBER_INT);
-
-        $equipmentsObject = $equipmentRepository->findByCategory($catId);
+        
+        $equipmentsObject = $equipmentRepository->findByCategory($id);
 
         if(!isset($equipmentsObject)) {
-            return new JsonResponse([
+            return  $this->json([
                 'error' => true, 'message' => 'Something went wrong'
-            ]);
+            ], 500);
         }
 
 
@@ -72,13 +73,14 @@ class EquipmentController extends AbstractController
             ];
         }
         // dd($equipmentsObject);
-        return new JsonResponse([
+        return $this->json([
+            'error' => false,
             'equipments' => $equipments,
-        ]);
+        ], 200);
     }
 
     // update an equipment item
-    #[Route('/equipment/update/{id}', name: 'update_equipment')]
+    #[Route('/equipment/update/{id}', name: 'private_update_equipment')]
     public function update(
         EquipmentRepository $equipmentRepository,
         ImgRepository $imgRepository,
@@ -132,7 +134,7 @@ class EquipmentController extends AbstractController
     }
 
     // get the name and id only of an equipment item
-    #[Route('/api/equipment/data/{categoryId}', name: 'public_show_light_equipment')]
+    #[Route('/api/equipment/data/{categoryId}', name: 'show_light_equipment')]
     public function getDataEquipment(
         EquipmentRepository $equipmentRepository,
         int $categoryId,
