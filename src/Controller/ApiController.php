@@ -266,7 +266,7 @@ class ApiController extends AbstractController
         if (!$article) {
 
             return $this->json([
-                'error' => true, 'message' => 'There was a problem with the article. Please try again.'
+                'error' => true, 'message' => 'There is no article for this country at this period.'
             ], 204);
         }
 
@@ -291,7 +291,8 @@ class ApiController extends AbstractController
             "sections" => $sections
         ];
 
-        return new JsonResponse([
+        return $this->json([
+            'error' => false,
             'article' => $object
         ]);
     }
