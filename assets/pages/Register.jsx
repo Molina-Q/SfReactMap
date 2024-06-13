@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Alert from "../components/UI/Alert";
 import Loading from "../components/UI/animation/Loading";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 export default function Register() {
 	const [userData, setUserData] = useState({
