@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function SingleImg({ item, className, clickEvent, isLink}) {
+export default function SingleImg({ item, className, clickEvent, isLink }) {
 	// path to the picture of the item
 	const pathImg = `/img/upload/${item.img}`;
 
@@ -14,10 +14,14 @@ function SingleImg({ item, className, clickEvent, isLink}) {
 			<img src={pathImg} alt={item.name} />
 
 			<figcaption>
-				{isLink ? <Link className="figcaption-item" to={`/equipment?item=${item.id}`}>{item.name}</Link> : <p className="figcaption-item">{item.name}</p>}
+				{isLink ? (
+					<Link className="figcaption-item" to={`/equipment?item=${item.id}`}>
+						{item.name}
+					</Link>
+				) : (
+					<p className="figcaption-item">{item.name}</p>
+				)}
 			</figcaption>
 		</figure>
 	);
 }
-
-export default SingleImg;
