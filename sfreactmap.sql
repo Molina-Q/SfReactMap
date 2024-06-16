@@ -36,17 +36,17 @@ CREATE TABLE IF NOT EXISTS `article` (
   CONSTRAINT `FK_23A0E66452289B6` FOREIGN KEY (`century_id`) REFERENCES `century` (`id`),
   CONSTRAINT `FK_23A0E66F675F31B` FOREIGN KEY (`author_id`) REFERENCES `user` (`id`),
   CONSTRAINT `FK_23A0E66F92F3E70` FOREIGN KEY (`country_id`) REFERENCES `country` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table sfreactmap.article : ~7 rows (environ)
 REPLACE INTO `article` (`id`, `century_id`, `country_id`, `author_id`, `title`, `summary`, `border`, `creation_date`) VALUES
 	(1, 1, 1, 1, 'France in the 20\'s', 'Informations about France equipment before the first world war', '[]', '2024-02-12 14:29:42'),
-	(2, 1, 5, 3, 'La BELGIQUE', 'Un petit r&eacute;sum&eacute; de la Belgique', '[]', '2024-05-25 17:41:19'),
+	(2, 1, 5, 3, 'La BELGIQUE', 'Un petit truc r&eacute;sum&amp;eacute0; de la Belgique', '[]', '2024-06-16 15:53:52'),
 	(4, 5, 1, 2, 'LA belle eqpofj', 'fkkdkpofepokfokpfopkfqopkqdspokdsqokdkpo', '[]', '2024-03-08 09:25:54'),
 	(5, 1, 3, 3, 'Truc Italie', 'fsdfdsqfsdqfdsffsfdsqdfdqsfsqfddqsfdsqfdsqf', '[]', '2024-05-25 15:28:53'),
-	(7, 1, 5, 3, 'ggfsgfd', 'gfsdgfsdgfsdg', '[]', '2024-05-29 14:03:51'),
 	(8, 2, 4, 3, 'jgjhfjgfj', 'fgjfgjhfg', '[]', '2024-05-29 14:04:10'),
-	(9, 4, 4, 3, 'gfsdgfd', 'gfsgfdg', '[]', '2024-05-29 14:52:32');
+	(9, 4, 4, 3, 'gfsdgfd', 'gfsgfdg', '[]', '2024-05-29 14:52:32'),
+	(11, 3, 1, 3, 'hdhfghgfd', 'hgfdhgfd', '[]', '2024-06-16 15:54:35');
 
 -- Listage de la structure de table sfreactmap. article_edited
 CREATE TABLE IF NOT EXISTS `article_edited` (
@@ -114,13 +114,13 @@ CREATE TABLE IF NOT EXISTS `comment` (
   `author_id` int DEFAULT NULL,
   `text` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `creation_date` datetime NOT NULL,
-  `is_edited` tinyint(1) NOT NULL,
+  `is_edited` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `IDX_9474526C537A1329` (`message_id`),
   KEY `IDX_9474526CF675F31B` (`author_id`),
   CONSTRAINT `FK_9474526C537A1329` FOREIGN KEY (`message_id`) REFERENCES `message` (`id`),
   CONSTRAINT `FK_9474526CF675F31B` FOREIGN KEY (`author_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table sfreactmap.comment : ~14 rows (environ)
 REPLACE INTO `comment` (`id`, `message_id`, `author_id`, `text`, `creation_date`, `is_edited`) VALUES
@@ -137,7 +137,9 @@ REPLACE INTO `comment` (`id`, `message_id`, `author_id`, `text`, `creation_date`
 	(13, 16, 3, 'horrible', '2024-05-20 19:31:35', 0),
 	(14, 4, 3, 'ok', '2024-05-20 19:33:07', 0),
 	(15, 4, 3, 'okiiii', '2024-05-20 19:33:33', 0),
-	(16, 16, 3, 'border de ùerde', '2024-05-20 19:35:18', 0);
+	(16, 16, 3, 'border de ùerde', '2024-05-20 19:35:18', 0),
+	(17, 15, 3, 'jgh', '2024-06-16 13:08:17', 0),
+	(18, 15, 3, 'ok', '2024-06-16 13:09:31', NULL);
 
 -- Listage de la structure de table sfreactmap. country
 CREATE TABLE IF NOT EXISTS `country` (
@@ -209,9 +211,9 @@ CREATE TABLE IF NOT EXISTS `equipment_section` (
   KEY `IDX_5B08B500517FE9FE` (`equipment_id`),
   CONSTRAINT `FK_5B08B500517FE9FE` FOREIGN KEY (`equipment_id`) REFERENCES `equipment` (`id`),
   CONSTRAINT `FK_5B08B500D823E37A` FOREIGN KEY (`section_id`) REFERENCES `section` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table sfreactmap.equipment_section : ~11 rows (environ)
+-- Listage des données de la table sfreactmap.equipment_section : ~14 rows (environ)
 REPLACE INTO `equipment_section` (`id`, `section_id`, `equipment_id`) VALUES
 	(1, 1, 1),
 	(2, 1, 2),
@@ -223,7 +225,10 @@ REPLACE INTO `equipment_section` (`id`, `section_id`, `equipment_id`) VALUES
 	(8, NULL, 7),
 	(10, NULL, 2),
 	(11, NULL, 3),
-	(12, 5, 2);
+	(12, 5, 2),
+	(16, 9, 18),
+	(17, 10, 13),
+	(18, 10, 7);
 
 -- Listage de la structure de table sfreactmap. img
 CREATE TABLE IF NOT EXISTS `img` (
@@ -283,7 +288,7 @@ CREATE TABLE IF NOT EXISTS `message` (
   `text` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `creation_date` datetime NOT NULL,
   `picture` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `is_edited` tinyint(1) DEFAULT NULL,
+  `is_edited` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `IDX_B6BD307FF675F31B` (`author_id`),
   KEY `IDX_B6BD307F1F55203D` (`topic_id`),
@@ -291,22 +296,22 @@ CREATE TABLE IF NOT EXISTS `message` (
   CONSTRAINT `FK_B6BD307FF675F31B` FOREIGN KEY (`author_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table sfreactmap.message : ~11 rows (environ)
+-- Listage des données de la table sfreactmap.message : ~14 rows (environ)
 REPLACE INTO `message` (`id`, `author_id`, `topic_id`, `text`, `creation_date`, `picture`, `is_edited`) VALUES
-	(1, 1, 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ultricies eros at sapien egestas, a hendrerit erat pretium. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed at nunc nunc. Maecenas sit amet tristique nisi. Nullam eget elementum nisi. Nullam porta, eros a venenatis scelerisque, eros sem luctus mi, dictum vestibulum dui lorem eget sem. Quisque fermentum ligula vel nulla mattis, sit amet mollis nibh hendrerit. Cras ultricies nunc id eros dictum efficitur. Donec id dui vitae nulla aliquam sagittis in vitae mi. Ut a nibh in enim ullamcorper sagittis a nec sem. Donec posuere a enim et viverra. Nulla malesuada a nunc sit amet ullamcorper. Aenean convallis augue quis feugiat eleifend. ', '2024-02-26 10:00:27', 'cccc', NULL),
-	(2, 1, 2, 'Aenean convallis augue quis feugiat eleifend. HFGDHFDGHFGHFDH', '2024-02-26 10:01:09', NULL, NULL),
-	(3, 1, 3, 'mi. Ut a nibh in enim ullamcorper sagittisnd. ', '2024-02-26 10:01:26', NULL, NULL),
-	(4, 1, 4, 'Cata Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ultricies eros at sapien egestas, a hendrerit erat pretium. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed at nunc nunc. Maecenas sit amet tristique nisi. Nullam eget elementum nisi. Nullam porta, eros a venenatis scelerisque, eros sem luctus mi, dictum vestibulum dui lorem eget sem. Quisque fermentum ligula vel nulla mattis, sit amet mollis nibh hendrerit. Cras ultricies nunc id eros dictum efficitur. Donec id dui vitae nulla aliquam sagittis in vitae mi. Ut a nibh in enim ullamcorper sagittis a nec sem. Donec posuere a enim et viverra. Nulla malesuada a nunc sit amet ullamcorper. Aenean convallis augue quis feugiat eleifend.', '2024-02-27 15:43:25', NULL, NULL),
-	(6, 1, 6, 'I took it from a sleeping fat guy with horns.', '2024-02-28 13:02:22', NULL, NULL),
-	(15, 1, 6, 'Show it', '2024-02-28 15:35:18', NULL, NULL),
-	(16, 1, 4, 'C\'est de la m*rde', '2024-02-28 17:27:55', NULL, NULL),
-	(17, 1, 4, 'Horrible', '2024-02-28 17:28:50', NULL, NULL),
-	(19, 3, 1, 'show', '2024-05-20 12:41:32', NULL, NULL),
-	(20, 3, 1, 'is it iron ?', '2024-05-20 12:54:37', NULL, NULL),
-	(21, 3, 1, 'or steel ', '2024-05-20 12:55:09', NULL, NULL),
-	(22, 3, 1, 'or steel ', '2024-05-20 12:56:59', NULL, NULL),
-	(23, 3, 1, 'or wool', '2024-05-20 12:58:07', NULL, NULL),
-	(25, 3, 16, 'Can i make one at home and how dangerous would it be ?', '2024-05-28 14:11:08', NULL, NULL);
+	(1, 1, 1, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ultricies eros at sapien egestas, a hendrerit erat pretium. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed at nunc nunc. Maecenas sit amet tristique nisi. Nullam eget elementum nisi. Nullam porta, eros a venenatis scelerisque, eros sem luctus mi, dictum vestibulum dui lorem eget sem. Quisque fermentum ligula vel nulla mattis, sit amet mollis nibh hendrerit. Cras ultricies nunc id eros dictum efficitur. Donec id dui vitae nulla aliquam sagittis in vitae mi. Ut a nibh in enim ullamcorper sagittis a nec sem. Donec posuere a enim et viverra. Nulla malesuada a nunc sit amet ullamcorper. Aenean convallis augue quis feugiat eleifend. ', '2024-02-26 10:00:27', 'cccc', 0),
+	(2, 1, 2, 'Aenean convallis augue quis feugiat eleifend. HFGDHFDGHFGHFDH', '2024-02-26 10:01:09', NULL, 0),
+	(3, 1, 3, 'mi. Ut a nibh in enim ullamcorper sagittisnd. ', '2024-02-26 10:01:26', NULL, 0),
+	(4, 1, 4, 'Cata Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ultricies eros at sapien egestas, a hendrerit erat pretium. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed at nunc nunc. Maecenas sit amet tristique nisi. Nullam eget elementum nisi. Nullam porta, eros a venenatis scelerisque, eros sem luctus mi, dictum vestibulum dui lorem eget sem. Quisque fermentum ligula vel nulla mattis, sit amet mollis nibh hendrerit. Cras ultricies nunc id eros dictum efficitur. Donec id dui vitae nulla aliquam sagittis in vitae mi. Ut a nibh in enim ullamcorper sagittis a nec sem. Donec posuere a enim et viverra. Nulla malesuada a nunc sit amet ullamcorper. Aenean convallis augue quis feugiat eleifend.', '2024-02-27 15:43:25', NULL, 0),
+	(6, 1, 6, 'I took it from a sleeping fat guy with horns.', '2024-02-28 13:02:22', NULL, 0),
+	(15, 1, 6, 'Show it', '2024-02-28 15:35:18', NULL, 0),
+	(16, 1, 4, 'C\'est de la m*rde', '2024-02-28 17:27:55', NULL, 0),
+	(17, 1, 4, 'Horrible', '2024-02-28 17:28:50', NULL, 0),
+	(19, 3, 1, 'show', '2024-05-20 12:41:32', NULL, 0),
+	(20, 3, 1, 'is it iron ?', '2024-05-20 12:54:37', NULL, 0),
+	(21, 3, 1, 'or steel ', '2024-05-20 12:55:09', NULL, 0),
+	(22, 3, 1, 'or steel ', '2024-05-20 12:56:59', NULL, 0),
+	(23, 3, 1, 'or wool', '2024-05-20 12:58:07', NULL, 0),
+	(25, 3, 16, 'Can i make one at home and how dangerous would it be ?', '2024-05-28 14:11:08', NULL, 0);
 
 -- Listage de la structure de table sfreactmap. refresh_tokens
 CREATE TABLE IF NOT EXISTS `refresh_tokens` (
@@ -316,7 +321,7 @@ CREATE TABLE IF NOT EXISTS `refresh_tokens` (
   `valid` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_9BACE7E1C74F2195` (`refresh_token`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table sfreactmap.refresh_tokens : ~5 rows (environ)
 REPLACE INTO `refresh_tokens` (`id`, `refresh_token`, `username`, `valid`) VALUES
@@ -324,32 +329,35 @@ REPLACE INTO `refresh_tokens` (`id`, `refresh_token`, `username`, `valid`) VALUE
 	(6, '9780b4619f06b43bf973ff3e52781cac53f1f503960ff0c9378699e406793094666b13906599e49b98a06a28f0d8cc0907625f81304650829d02278a8c214451', 'kant1@exemple.com', '2024-06-29 14:18:46'),
 	(7, '549bf7a5d665648afc0a552dc6ac9825db2d8102bf4aab1140ed17e88f3f37b6ddff6f34c9b27335e428360a02b4a6ad246fbe5c098ca86317829d3fdc44183f', 'kant1@exemple.com', '2024-06-29 14:58:26'),
 	(8, 'fbdf13177b7e65b7fc0ff93072bc77f9f471c7a5e17d7072fa8e0a6194c91922ae553d0590c1c15c26fe6a3ebcb72fe1da420c2285b1f39cdb7409ca2410c554', 'kant1@exemple.com', '2024-06-30 12:14:27'),
-	(9, 'caa8ba4e874a585dbff2b3d036b26b0e2fe9444a2e41c25662277eeb4d2cfd9d1a71899004adf1df0f9b8309f3af946c7ffee651a846ce5f7f35d6c6a91f3235', 'kant1@exemple.com', '2024-07-01 14:39:07');
+	(9, 'caa8ba4e874a585dbff2b3d036b26b0e2fe9444a2e41c25662277eeb4d2cfd9d1a71899004adf1df0f9b8309f3af946c7ffee651a846ce5f7f35d6c6a91f3235', 'kant1@exemple.com', '2024-07-01 14:39:07'),
+	(10, 'c70ef7448b224c9058b242deca85fb66824afc297888f9fb7dfce0fe4579ba38cd9e8db7483c825b22beb1ec06a5bb6c1a5c60118de35dcd566fca9694016c1e', 'kant1@exemple.com', '2024-07-16 15:21:24');
 
 -- Listage de la structure de table sfreactmap. section
 CREATE TABLE IF NOT EXISTS `section` (
   `id` int NOT NULL AUTO_INCREMENT,
   `article_id` int DEFAULT NULL,
+  `author_id` int NOT NULL,
   `title` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `text` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `summary` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `user_id` int NOT NULL,
   `creation_date` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_2D737AEF7294869C` (`article_id`),
-  KEY `FK_section_user` (`user_id`),
+  KEY `FK_section_user` (`author_id`) USING BTREE,
   CONSTRAINT `FK_2D737AEF7294869C` FOREIGN KEY (`article_id`) REFERENCES `article` (`id`),
-  CONSTRAINT `FK_section_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  CONSTRAINT `FK_section_user` FOREIGN KEY (`author_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table sfreactmap.section : ~7 rows (environ)
-REPLACE INTO `section` (`id`, `article_id`, `title`, `text`, `summary`, `user_id`, `creation_date`) VALUES
-	(1, 1, 'Section Weapon', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum luctus gravida nulla, et interdum turpis commodo at. Mauris condimentum nulla in aliquet congue. Maecenas ac sodales ligula. Phasellus tincidunt ipsum vel diam semper dignissim. Sed ut cursus nisl. Vestibulum elementum varius lobortis. Nullam finibus purus vel eleifend ullamcorper. Morbi a mattis lacus.', 'Weapons list', 1, '2024-06-02 21:38:34'),
-	(2, 1, 'Section Armour', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum luctus gravida nulla, et interdum turpis commodo at. Mauris condimentum nulla in aliquet congue. Maecenas ac sodales ligula. Phasellus tincidunt ipsum vel diam semper dignissim. Sed ut cursus nisl. Vestibulum elementum varius lobortis. Nullam finibus purus vel eleifend ullamcorper. Morbi a mattis lacus.', 'Armour lists', 3, '2024-06-02 21:38:34'),
-	(3, 2, 'Armour', 'dfsgdsfgsdgdg', 'ptiyt truc belge', 3, '2024-06-02 21:38:35'),
-	(4, 1, 'Tools', 'A complete  list of all of their tools and artillery', 'tools and artillery', 8, '2024-06-02 21:38:35'),
-	(5, 2, 'Weapons', 'fsdqsdq', 'dqsdqdsqd', 2, '2024-06-02 21:38:35'),
-	(7, 5, 'iTALIA KFDSKFKDS', 'ITALKF DSKFDSFQ', 'FDSQFDQSFDQSFDSQFSDFSQFDSQF', 6, '2024-06-02 21:38:36');
+-- Listage des données de la table sfreactmap.section : ~8 rows (environ)
+REPLACE INTO `section` (`id`, `article_id`, `author_id`, `title`, `text`, `summary`, `creation_date`) VALUES
+	(1, 1, 1, 'Section Weapon', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum luctus gravida nulla, et interdum turpis commodo at. Mauris condimentum nulla in aliquet congue. Maecenas ac sodales ligula. Phasellus tincidunt ipsum vel diam semper dignissim. Sed ut cursus nisl. Vestibulum elementum varius lobortis. Nullam finibus purus vel eleifend ullamcorper. Morbi a mattis lacus.', 'Weapons list', '2024-06-02 21:38:34'),
+	(2, 1, 3, 'Section Armour', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum luctus gravida nulla, et interdum turpis commodo at. Mauris condimentum nulla in aliquet congue. Maecenas ac sodales ligula. Phasellus tincidunt ipsum vel diam semper dignissim. Sed ut cursus nisl. Vestibulum elementum varius lobortis. Nullam finibus purus vel eleifend ullamcorper. Morbi a mattis lacus.', 'Armour lists', '2024-06-02 21:38:34'),
+	(3, 2, 3, 'Armour', 'dfsgdsfgsdgdg', 'ptiyt truc belge', '2024-06-02 21:38:35'),
+	(4, 1, 8, 'Tools', 'A complete  list of all of their tools and artillery', 'tools and artillery', '2024-06-02 21:38:35'),
+	(5, 2, 2, 'Weapons', 'fsdqsdq', 'dqsdqdsqd', '2024-06-02 21:38:35'),
+	(7, 5, 6, 'iTALIA KFDSKFKDS', 'ITALKF DSKFDSFQ', 'FDSQFDQSFDQSFDSQFSDFSQFDSQF', '2024-06-02 21:38:36'),
+	(9, 2, 3, 'lklkjh', 'lkjkljklj', 'kljkjkjlkjh', '2024-06-03 11:56:20'),
+	(10, 8, 3, 'truc', 'mldfskmlfdsk', '&ugrave;fd&ugrave;klfdslmfdsq', '2024-06-03 12:00:03');
 
 -- Listage de la structure de table sfreactmap. sub_category
 CREATE TABLE IF NOT EXISTS `sub_category` (
@@ -361,7 +369,7 @@ CREATE TABLE IF NOT EXISTS `sub_category` (
   CONSTRAINT `FK_BCE3F79812469DE2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table sfreactmap.sub_category : ~7 rows (environ)
+-- Listage des données de la table sfreactmap.sub_category : ~8 rows (environ)
 REPLACE INTO `sub_category` (`id`, `category_id`, `label`) VALUES
 	(1, 1, 'Sword'),
 	(2, 1, 'Rapier'),
@@ -413,11 +421,11 @@ CREATE TABLE IF NOT EXISTS `user` (
   UNIQUE KEY `UNIQ_8D93D649E7927C74` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table sfreactmap.user : ~11 rows (environ)
+-- Listage des données de la table sfreactmap.user : ~12 rows (environ)
 REPLACE INTO `user` (`id`, `email`, `roles`, `password`, `username`, `is_verified`, `creation_date`) VALUES
 	(1, 'truc@machin.com', '[]', '123', 'user', 0, '2024-06-02 21:36:54'),
 	(2, 'quentin@exemple.com', '[]', '$2y$13$3wBjhWdxQ61vIZD0VGtiY.ndCRkha27RoUXKfsXLC54kLNpWPc2Pq', 'quanrin', 0, '2024-06-02 21:36:55'),
-	(3, 'kant1@exemple.com', '["ROLE_USER"]', '$2y$13$Af..lRzeMW6djAl.hjzybecJQBZq7cmXSCe22b6Q8.KVmVkEDF8d6', 'kant1', 0, '2024-06-02 21:36:55'),
+	(3, 'kant1@exemple.com', '["ROLE_USER", "ROLE_ADMIN"]', '$2y$13$Af..lRzeMW6djAl.hjzybecJQBZq7cmXSCe22b6Q8.KVmVkEDF8d6', 'kant1', 0, '2024-06-02 21:36:55'),
 	(6, 'quentin@truc.com', '[]', '$2y$13$DuIcGbSpI6Y9KL6Z9QPyMuaXtDS7Xzlxnc/swRfp69984kl4ckXPm', 'qautnin', 0, '2024-06-02 21:36:55'),
 	(7, 'trernte@truc.com', '[]', '$2y$13$GF8c/OXfNbBq95DwJkIosecfH3wzk/Nj4eXp7Xy/QoFnoBrLNdVVu', 'kak3', 0, '2024-06-02 21:36:56'),
 	(8, 'quent@exemple.com', '[]', '$2y$13$SNIBe62KHRJTZX/W8xR5SOF2FiJfB64HwA4UiTxgvMXEb3re88AWe', 'qsfqsfdqsfdq', 0, '2024-06-02 21:36:56'),
