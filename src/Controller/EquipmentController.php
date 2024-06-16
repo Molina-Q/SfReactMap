@@ -54,10 +54,10 @@ class EquipmentController extends AbstractController
         $catId = filter_var($id, FILTER_VALIDATE_INT, FILTER_SANITIZE_NUMBER_INT);
         
         // get all the equipments from the given category
-        $equipments = $equipmentRepository->findByCategory($id);
+        $equipments = $equipmentRepository->findByCategory($catId);
 
         // if equipments is empty, early return
-        if(!isset($equipmentsObject)) {
+        if(!isset($equipments)) {
             return  $this->json([
                 'error' => true, 'message' => 'Something went wrong'
             ], 500);
