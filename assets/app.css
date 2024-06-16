@@ -537,11 +537,10 @@ header nav {
   width: auto;
   min-height: 500px;
   height: fit-content;
-  /* background-color: var(--background-gray); */
   background-color: var(--background-gray-glass);
   backdrop-filter: blur(4px);
   border-radius: 8px;
-  border: 1px solid rgba(33, 102, 143, 0.5);
+  border: 1px solid var(--background-gray-semilight);
 
   display: flex;
   flex-direction: row;
@@ -772,6 +771,10 @@ header nav {
 /********************************************************************************************************/
 .wrap-home:first-child {
   gap: 5em;
+}
+
+.phone-img {
+  display: none;
 }
 
 [id^="home-"] {
@@ -1051,6 +1054,8 @@ header nav {
   border: 0;
   border-radius: 2px;
   font-size: 16px;
+  padding-left: 10px;
+  padding-right: 10px;
 
   align-self: center;
   cursor: pointer;
@@ -1532,8 +1537,9 @@ header nav {
 /*******************************************************************************************************/
 .wrap-profile {
   display: flex;
+  flex-direction: column;
   gap: 25px;
-  padding-top: 25px;
+  padding-top: 0;
 
   h1 {
     text-align: center;
@@ -1548,8 +1554,10 @@ header nav {
 
   .sidebar-items-list {
     display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
+    flex-direction: row;
+    gap: 1rem;
+
+    padding: 5px 10px;
 
     .sidebar-item {
       display: flex;
@@ -1568,6 +1576,28 @@ header nav {
     color: #1f2937;
     /* gray-800 in Tailwind */
   }
+}
+
+.profile-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.profile-grid-section {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+.profile-items-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 15px 8px;
+  margin: 10px 0;
+  border-radius: 6px;
+  border: 1px solid var(--background-gray-darker);
+  background-color: var(--background-gray-darker);
 }
 
 /**************************************************************************************************************************/
@@ -1689,41 +1719,6 @@ header nav {
   .wrap-home:first-child {
     gap: 5em;
   }
-
-  /* [id^="home-"] {
-    min-height: 120%;
-    height: calc(100% + 5em);
-    padding-bottom: 30px;
-    padding-left: 10px;
-    padding-right: 10px;
-    background: var(--background-gray-darker);
-    border-radius: 6px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  [id^="home-"]::before {
-    padding: 1px;
-    content: '';
-
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-
-    border-radius: 6px;
-
-    background: linear-gradient(to bottom, var(--background-gray), rgba(0, 0, 0, 0));
-
-    pointer-events: none;
-
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-  } */
 
   .wrap-home {
     padding: 0 8px;
@@ -2250,7 +2245,17 @@ header nav {
       line-height: 1;
       cursor: pointer;
     }
+
+    .phone-img {
+      display: block;
+    }
+  
+    .desktop-img {
+      display: none;
+    }
   }
+
+
 
   /******************************************************************************************************/
   /*********************************************** Navbar ***********************************************/
