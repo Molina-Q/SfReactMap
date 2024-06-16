@@ -94,13 +94,6 @@ export default function ProfileArticles() {
 			</Helmet>
 
 			<h2>ARTICLE</h2>
-			<Link to="/article/create">
-				<button>Create an Article</button>
-			</Link>
-
-			<Link to="/section/create">
-				<button>Create a Section</button>
-			</Link>
 
 			<section className="profile-grid-section">
 				{fetchedData.map((article) => (
