@@ -62,24 +62,20 @@ class ArticleController extends AbstractController
         ]);
     }
 
-    #[Route('/api/article/create', name: 'create_form_article', methods: ['POST'])]
-    #[Route('/api/article/edit/{articleId}', name: 'edit_form_article', methods: ['POST'])]
+    #[Route('/api/article/create', name: 'private_create_form_article', methods: ['POST'])]
+    #[Route('/api/article/edit/{articleId}', name: 'private_edit_form_article', methods: ['POST'])]
     public function createArticle(
         int $articleId = null,
         Request $request,
-        SerializerInterface $serializer,
-        ValidatorInterface $validator,
         EntityManagerInterface $entityManager,
-        JWSProviderInterface $jwsProvider,
         UserRepository $userRepository,
         CountryRepository $countryRepository,
         CenturyRepository $centuryRepository,
         ArticleRepository $articleRepository,
-        TokenService $tokenService
     ): Response {
 
         $userId = $request->attributes->get('tokenUserId');
-
+        $sanitizeId = filter_var($articleId, FILTER_SANITIZE_NUMBER_INT);
         // $identification = $tokenService->getUserIdFromToken();
 
         // if($identification['error']) {
@@ -90,14 +86,15 @@ class ArticleController extends AbstractController
         // }
 
         $isEdit = false;
-        $article = '';
 
-        if (isset($articleId)) {
+        if ($sanitizeId) {
             $isEdit = true;
         }
 
+        $article = '';
 
-        $user = $userRepository->find($userId);
+
+        $user = $userRepository->findOneById($userId);
 
         if (!$user) {
             return $this->json([
@@ -122,9 +119,12 @@ class ArticleController extends AbstractController
             try {
                 // if isEdit is false the goal is to create a new entity
                 // if true the goal is to edit the entity
-                $isEdit ?
-                    $article = $articleRepository->findOneById($articleId) :
+                if($isEdit) {
+                    $article = $articleRepository->findOneById($sanitizeId);
+    
+                } else {
                     $article = new Article();
+                }
 
                 $article->setTitle($title);
                 $article->setSummary($summary);
