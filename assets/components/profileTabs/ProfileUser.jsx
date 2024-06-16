@@ -91,7 +91,8 @@ export default function ProfileUser() {
 				<title>Profile</title>
 				<meta name="description" content="User profile" />
 			</Helmet>
-			<p>Hello, {currentUser.username} </p>
+
+			<h2>Hello, {currentUser.username} </h2>
 			{error && <p>{error}</p>}
 			<form onSubmit={handleSubmit} className="form-create">
 				<div>
