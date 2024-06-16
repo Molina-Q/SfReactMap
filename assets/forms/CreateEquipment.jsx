@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 
 export default function CreateEquipment() {
 	const [formData, setFormData] = useState({
