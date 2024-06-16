@@ -7,6 +7,7 @@ import ProfileUser from "../components/profileTabs/ProfileUser";
 import ProfileArticles from "../components/profileTabs/ProfileArticles";
 import { useNavigate } from "react-router-dom";
 import ProfileEquipments from "../components/profileTabs/ProfileEquipments";
+import ProfileAdmin from "../components/profileTabs/ProfileAdmin";
 
 export default function Profile() {
 	const { currentUser } = useSelector((state) => state.user);
@@ -18,6 +19,7 @@ export default function Profile() {
 		{ label: "user", element: <ProfileUser /> },
 		{ label: "articles", element: <ProfileArticles /> },
 		{ label: "equipments", element: <ProfileEquipments /> },
+		{ label: "admin", element: <ProfileAdmin /> },
 	];
 
 	useEffect(() => {
@@ -40,9 +42,14 @@ export default function Profile() {
 			<div className="sidebar-container">
 				<Sidebar />
 			</div>
-			{tabsArray.map((singleTab) => 
-				tab === singleTab.label && <div key={singleTab.label}>{singleTab.element}</div> 
-			)}
+			<div className="profile-content">
+				{tabsArray.map(
+					(singleTab) =>
+						tab === singleTab.label && (
+							<div key={singleTab.label}>{singleTab.element}</div>
+						)
+				)}
+			</div>
 		</main>
 	);
 }
