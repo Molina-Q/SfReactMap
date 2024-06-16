@@ -46,8 +46,11 @@ export default function Home() {
 					equipments
 				</h3>
 
-				<figure className="home-figure-map">
+				<figure className="home-figure-map desktop-img">
 					<img src="/img/map_screen.PNG" alt="map" />
+				</figure>
+				<figure className="home-figure-map phone-img">
+					<img src="/img/mobile_screen/map_screen.PNG" alt="map" />
 				</figure>
 
 				<p>
@@ -62,9 +65,15 @@ export default function Home() {
 					<span className="home-highlight">highlighted</span> sub-titles to go
 					deeper!
 				</p>
-				<figure className="home-figure-article">
+				<figure className="home-figure-article desktop-img">
 					<img
-						src="/img/mobile_screen/article_phone.PNG"
+						src="/img/article_screen.PNG"
+						alt="an article of the map"
+					/>
+				</figure>
+				<figure className="home-figure-article phone-img">
+					<img
+						src="/img/mobile_screen/article_screen.PNG"
 						alt="an article of the map"
 					/>
 				</figure>
@@ -75,8 +84,11 @@ export default function Home() {
 					The <b>Section</b> will give you more details about the equipments!
 				</p>
 
-				<figure className="home-figure-section">
+				<figure className="home-figure-section desktop-img">
 					<img src="/img/section_screen.PNG" alt="a section in an article" />
+				</figure>
+				<figure className="home-figure-section phone-img">
+					<img src="/img/mobile_screen/section_screen.PNG" alt="a section in an article" />
 				</figure>
 			</section>
 
@@ -91,8 +103,11 @@ export default function Home() {
 					The content of every Articles will be updated following the same
 					logic.
 				</p>
-				<figure className="home-figure-timeline">
+				<figure className="home-figure-timeline desktop-img">
 					<img src="/img/timeline_screen.webp" alt="timeline" />
+				</figure>
+				<figure className="home-figure-timeline phone-img">
+					<img src="/img/mobile_screen/timeline_screen.PNG" alt="timeline" />
 				</figure>
 			</article>
 
@@ -101,7 +116,7 @@ export default function Home() {
 				<h4>The Equipment section</h4>
 				<p>You can check the weapons, armours and tools present in the map !</p>
 
-				<figure className="home-figure-section">
+				<figure className="home-figure-section desktop-img">
 					<img src="/img/equip_screen.PNG" alt="equipment" />
 				</figure>
 
@@ -116,7 +131,7 @@ export default function Home() {
 
 				<p>Countries, Weapons or History !</p>
 
-				<figure className="home-figure-section">
+				<figure className="home-figure-section desktop-img">
 					<img src="/img/forum_screen.PNG" alt="forum" />
 				</figure>
 
