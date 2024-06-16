@@ -63,9 +63,18 @@ export default function Sidebar() {
 						Equipments
 					</li>
 				</Link>
-				{!currentUser && (
+				{/* check if currentUser.roles contains the ROLE_ADMIN */}
+				{currentUser && currentUser.roles.includes("ROLE_ADMIN") && (
 					<>
-						<Link to="/profile?tab=posts">
+						<Link to="/profile?tab=admin">
+							<li
+								className={`sidebar-item ${tab === "admin" ? "selected" : ""}`}
+							>
+								Admin
+							</li>
+						</Link>
+
+						{/* <Link to="/profile?tab=posts">
 							<li
 								className={`sidebar-item ${tab === "posts" ? "selected" : ""}`}
 							>
@@ -79,7 +88,7 @@ export default function Sidebar() {
 							>
 								Users
 							</li>
-						</Link>
+						</Link> */}
 					</>
 				)}
 
