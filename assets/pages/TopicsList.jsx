@@ -3,6 +3,7 @@ import { BsChatText } from "react-icons/bs";
 import { FcLike } from "react-icons/fc";
 import { Link } from "react-router-dom";
 import TopicsSkeleton from "../components/skeletons/TopicsSkeleton";
+import { Helmet } from "react-helmet-async";
 
 const orderParams = [
 	{
@@ -127,6 +128,10 @@ export default function TopicsList() {
 
 	return (
 		<main id="wrapperMain" className="wrap-forum">
+			<Helmet>
+				<title>Forum - Topics</title>
+				<meta name="description" content="Here you can search for any topics!" />
+			</Helmet>
 			<div className="filter-container">
 				<form className="form-create">
 					<div>

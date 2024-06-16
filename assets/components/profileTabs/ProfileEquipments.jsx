@@ -1,7 +1,16 @@
-import React from 'react'
+import React from "react";
 
 export default function ProfileEquipments() {
-  return (
-    <div>ProfileEquipments</div>
-  )
+	return (
+		<div>
+			<Helmet>
+				<title>ProfileEquipments</title>
+				<meta
+					name="description"
+					content="List of Equipments created by the user"
+				/>
+			</Helmet>
+			ProfileEquipments
+		</div>
+	);
 }

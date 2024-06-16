@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { Link } from "react-router-dom";
 import { SlArrowDown } from "react-icons/sl";
 import { IoCaretForwardOutline } from "react-icons/io5";
+import { Helmet } from "react-helmet-async";
 
 export default function Home() {
 	const scrollRef = useRef(null);
@@ -9,9 +10,15 @@ export default function Home() {
 		scrollRef.current.scrollIntoView({ behavior: "smooth" });
 	};
 
-
 	return (
 		<main className="wrap-home" id="wrapperMain">
+			<Helmet>
+				<title>The Armoury - Home</title>
+				<meta
+					name="description"
+					content="Welcome to The Armoury, a website where you can learn about the military gear of different countries from the 14th to the 20th century."
+				/>
+			</Helmet>
 			<h2 className="primary-title">
 				Welcome to <strong className="primary-span">The Armoury</strong>
 			</h2>
@@ -21,12 +28,13 @@ export default function Home() {
 
 				<p>
 					Here you will learn how to use the app and learn more about each
-					country's <strong>military gear</strong> from the 14th to the 20th century
+					country's <strong>military gear</strong> from the 14th to the 20th
+					century
 				</p>
 
 				<p>
-					You will find <strong>Weapons</strong>, <strong>Armours</strong> and different <strong>Tools</strong> they used back
-					then!
+					You will find <strong>Weapons</strong>, <strong>Armours</strong> and
+					different <strong>Tools</strong> they used back then!
 				</p>
 
 				<SlArrowDown onClick={handleClick} size="4em" className="home-arrow" />
@@ -55,7 +63,10 @@ export default function Home() {
 					deeper!
 				</p>
 				<figure className="home-figure-article">
-					<img src="/img/mobile_screen/article_phone.PNG" alt="an article of the map" />
+					<img
+						src="/img/mobile_screen/article_phone.PNG"
+						alt="an article of the map"
+					/>
 				</figure>
 			</section>
 
@@ -96,7 +107,6 @@ export default function Home() {
 
 				<Link to="/equipment" className="button-main">
 					<button>Equipment</button>
-					
 				</Link>
 			</section>
 

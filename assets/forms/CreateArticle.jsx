@@ -92,6 +92,10 @@ export default function CreateArticle() {
 
 	return (
 		<main className="wrap-login">
+			<Helmet>
+				<title>Create Article</title>
+				<meta name="description" content="Create a new article" />
+			</Helmet>
 			<h1>Write an article</h1>
 			<form onSubmit={handleSubmit} className="form-create">
 				<div>

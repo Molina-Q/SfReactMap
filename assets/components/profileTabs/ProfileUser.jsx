@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
+import { Helmet } from "react-helmet-async";
 
 
 export default function ProfileUser() {
@@ -86,6 +87,10 @@ export default function ProfileUser() {
 
 	return (
 		<div>
+			<Helmet>
+				<title>Profile</title>
+				<meta name="description" content="User profile" />
+			</Helmet>
 			<p>Hello, {currentUser.username} </p>
 			{error && <p>{error}</p>}
 			<form onSubmit={handleSubmit} className="form-create">

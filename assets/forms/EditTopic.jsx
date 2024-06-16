@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function EditTopic() {
@@ -147,6 +148,10 @@ export default function EditTopic() {
 
 	return (
 		<main className="wrapperMain wrap-login">
+			<Helmet>
+				<title>Edit Topic</title>
+				<meta name="description" content="Edit a topic" />
+			</Helmet>
 			<h1>Edit a Topic</h1>
 			<form onSubmit={handleSubmit} className="form-create">
 				<div>

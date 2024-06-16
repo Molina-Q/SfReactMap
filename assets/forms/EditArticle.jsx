@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function EditArticle() {
@@ -116,6 +117,10 @@ export default function EditArticle() {
 
 	return (
 		<main className="wrap-login">
+			<Helmet>
+				<title>Edit Article</title>
+				<meta name="description" content="Edit an article" />
+			</Helmet>
 			<h1>Edit an article</h1>
 			<form onSubmit={handleSubmit} className="form-create">
 				<div>

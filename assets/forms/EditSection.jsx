@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function EditSection() {
-  const navigate = useNavigate();
+	const navigate = useNavigate();
 	const params = useParams();
 	const [formData, setFormData] = useState({
 		id: "",
@@ -13,7 +14,7 @@ export default function EditSection() {
 		equipmentSections: [{ equip: "" }],
 	});
 
-  console.log(formData);
+	console.log(formData);
 
 	const [equipments, setEquipments] = useState([]);
 
@@ -41,10 +42,11 @@ export default function EditSection() {
 				if (response.ok) {
 					console.log(data.section);
 
-					const { id, title, summary, text, category, Article, Equipments } = data.section;
-          console.log(id, title, summary, text, Article, Equipments);
+					const { id, title, summary, text, category, Article, Equipments } =
+						data.section;
+					console.log(id, title, summary, text, Article, Equipments);
 
-          setEquipCat(category);
+					setEquipCat(category);
 
 					setFormData({
 						id,
@@ -52,9 +54,8 @@ export default function EditSection() {
 						text,
 						summary,
 						Article: { id: Article.id, title: Article.title },
-            equipmentSections: Equipments.map((equip) => ({ equip: equip.id })),
+						equipmentSections: Equipments.map((equip) => ({ equip: equip.id })),
 					});
-
 				} else {
 					console.error("Error:", data.message);
 				}
@@ -66,13 +67,13 @@ export default function EditSection() {
 			}
 		};
 
-    fetchSections();
+		fetchSections();
 	}, []);
 
 	// fetch the equipments to show in the equipment selection option
 	// change because i only want to show object from one category
 	useEffect(() => {
-    if (!equipCat) return;
+		if (!equipCat) return;
 
 		setLoadingCategory(true);
 
@@ -150,13 +151,12 @@ export default function EditSection() {
 			const data = await response.json();
 
 			console.log(data);
-      if(response.ok) {
-        console.log(data.message);
-        navigate("/profile?tab=articles")
-      } else {
-        console.error(data.message);
-      }
-	
+			if (response.ok) {
+				console.log(data.message);
+				navigate("/profile?tab=articles");
+			} else {
+				console.error(data.message);
+			}
 		} catch (error) {
 			console.error("Error:", error);
 		}
@@ -164,7 +164,11 @@ export default function EditSection() {
 
 	return (
 		<form onSubmit={handleSubmit} className="form-create">
-      <h2>Edit - {formData.Article.title}</h2>
+			<Helmet>
+				<title>Edit Section</title>
+				<meta name="description" content="Edit a section" />
+			</Helmet>
+			<h2>Edit - {formData.Article.title}</h2>
 			<div className="input-group">
 				<label htmlFor="title">Title:</label>
 				<input
@@ -201,7 +205,7 @@ export default function EditSection() {
 			<div>
 				<label htmlFor="equip-cat">Equipement Category</label>
 				<select
-          value={equipCat}
+					value={equipCat}
 					disabled={loadingCategory || !equipCat}
 					onChange={handleCatChange}
 					name="category"
@@ -213,30 +217,30 @@ export default function EditSection() {
 				</select>
 			</div>
 
-      
-			{!equipCat || formData.equipmentSections.map((item, index) => (
-				<div key={index} className="input-group">
-					<label htmlFor={`equip${index}`}>Equipment {index + 1}:</label>
-					<select
-						id={`equip${index}`}
-						name={`equip${index}`}
-						value={item.equip}
-						onChange={(event) => handleEquipChange(index, event)}
-						placeholder="Equip"
-					>
-						{equipments &&
-							equipments.map((equip) => (
-								<option key={equip.id} value={equip.id}>
-									{equip.name}
-								</option>
-							))}
-					</select>
+			{!equipCat ||
+				formData.equipmentSections.map((item, index) => (
+					<div key={index} className="input-group">
+						<label htmlFor={`equip${index}`}>Equipment {index + 1}:</label>
+						<select
+							id={`equip${index}`}
+							name={`equip${index}`}
+							value={item.equip}
+							onChange={(event) => handleEquipChange(index, event)}
+							placeholder="Equip"
+						>
+							{equipments &&
+								equipments.map((equip) => (
+									<option key={equip.id} value={equip.id}>
+										{equip.name}
+									</option>
+								))}
+						</select>
 
-					<button type="button" onClick={() => handleRemoveEquip(index)}>
-						Remove
-					</button>
-				</div>
-			))}
+						<button type="button" onClick={() => handleRemoveEquip(index)}>
+							Remove
+						</button>
+					</div>
+				))}
 
 			<button type="button" onClick={handleAddEquip}>
 				Add Equipment

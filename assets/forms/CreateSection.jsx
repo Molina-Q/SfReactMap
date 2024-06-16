@@ -148,6 +148,10 @@ export default function CreateSection() {
 
 	return (
 		<form onSubmit={handleSubmit} className="form-create">
+			<Helmet>
+				<title>Create Section</title>
+				<meta name="description" content="Create a section" />
+			</Helmet>
 			<div className="input-group">
 				<label htmlFor="Article">Article:</label>
 				{articles && (

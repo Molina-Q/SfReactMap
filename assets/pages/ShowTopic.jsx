@@ -4,6 +4,7 @@ import { fetchAnything } from "../utils/Fetchs";
 import TopicTag from "../components/forum/TopicTag";
 import { BsThreeDots } from "react-icons/bs";
 import { IoSendSharp } from "react-icons/io5";
+import { Helmet } from "react-helmet-async";
 
 export default function ShowTopic() {
 	const [topic, setTopic] = useState(null);
@@ -112,6 +113,10 @@ export default function ShowTopic() {
 
 	return (
 		<main id="wrapperMain" className="wrap-forum">
+			<Helmet>
+				<title>{topic.title}</title>
+				<meta name="description" content={topic.message} />
+			</Helmet>
 			<article className="wrapper-topic">
 				<article id="details-topic-header">
 					<div className="topic-header-wrapper">

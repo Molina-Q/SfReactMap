@@ -10,6 +10,7 @@ import { fetchAnything } from "../utils/Fetchs";
 import { getUrlParam, setUrlParam } from "../utils/UrlParam";
 import ShowSection from "../components/modal/ShowSection";
 import LinkBtn from "../components/UI/button/LinkBtn";
+import { Helmet } from "react-helmet-async";
 
 const SfReactMap = () => {
 	// ce composant devient le composant principal, qui va se comporter comme un Controller
@@ -166,6 +167,7 @@ const SfReactMap = () => {
 		}
 
 		if (typeof fetchedData.section == "undefined") {
+			setLoading(false);
 			return setContentModal(
 				<ShowArticle
 					article={fetchedData.article}
@@ -173,15 +175,21 @@ const SfReactMap = () => {
 				/>
 			);
 		} else {
+			setLoading(false);
 			return setContentModal(<ShowSection section={fetchedData.section} />);
 		}
+
 	}, [fetchedData]); // re-run everytime data is fetched
 
 	// everytime the content modal state is changed the loading is set to false and the loading component is removed
-	useEffect(() => setLoading(false), [contentModal]);
+	// useEffect(() => setLoading(false), [contentModal]);
 
 	return (
 		<>
+			<Helmet>
+				<title>Map</title>
+				<meta name="description" content="Welcome to the map, here you can discover more the military gear of each country dependending on the period clicked" />
+			</Helmet>
 			<LeafletMap
 				checkedValue={checkedYear}
 				handleClickOnCountry={handleClickOnCountry}

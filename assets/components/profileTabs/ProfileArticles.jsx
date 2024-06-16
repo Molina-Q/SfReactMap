@@ -87,6 +87,10 @@ export default function ProfileArticles() {
 
 	return (
 		<div>
+			<Helmet>
+				<title>Profile Articles</title>
+				<meta name="description" content="User articles" />
+			</Helmet>
 			<h2>ARTICLE</h2>
 			<Link to="/article/create">
 				<button>Create an Article</button>

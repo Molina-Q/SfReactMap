@@ -6,6 +6,7 @@ import DetailsItem from "../components/equipment/DetailsItem";
 import { getUrlParam, setUrlParam } from "../utils/UrlParam";
 import { Link, useNavigate } from "react-router-dom";
 import SingleEquipSkeleton from "../components/skeletons/SingleEquipSkeleton";
+import { Helmet } from "react-helmet-async";
 
 export default function Equipment() {
 	const navigate = useNavigate();
@@ -153,7 +154,12 @@ export default function Equipment() {
 
 	return (
 		<main id="wrapperMain" className="wrap-equip">
-			<Link to="/equipment/create">
+			<Helmet>
+				<title>Equipment</title>
+				<meta name="description" content="Equipment page" />
+			</Helmet>
+			
+			{/* <Link to="/equipment/create">
 				<button>
 					<svg
 						className="icon icon-plus"
@@ -174,7 +180,7 @@ export default function Equipment() {
 						<path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" />
 					</svg>
 				</button>
-			</Link>
+			</Link> */}
 
 			<section id="equip-menu-container">
 				<div className="categories">

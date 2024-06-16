@@ -83,6 +83,10 @@ export default function CreateEquipment() {
 
 	return (
 		<main className="wrap-login">
+			<Helmet>
+				<title>Create Equipment</title>
+				<meta name="description" content="Create a new piece of equipment" />
+			</Helmet>
 			<h1>Create a piece of Equipment</h1>
 
 			<form onSubmit={handleSubmit} className="form-create">
