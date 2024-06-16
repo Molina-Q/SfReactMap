@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import useFetch from "../cutomHooks/UseFetch";
+import { Helmet } from "react-helmet-async";
 
 export default function ProfileArticles() {
 	const { currentUser } = useSelector((state) => state.user);
@@ -91,16 +92,22 @@ export default function ProfileArticles() {
 				<title>Profile Articles</title>
 				<meta name="description" content="User articles" />
 			</Helmet>
+
 			<h2>ARTICLE</h2>
 			<Link to="/article/create">
 				<button>Create an Article</button>
 			</Link>
-			<section>
+
+			<Link to="/section/create">
+				<button>Create a Section</button>
+			</Link>
+
+			<section className="profile-grid-section">
 				{fetchedData.map((article) => (
-					<div key={article.id}>
+					<div key={article.id} className="profile-items-section">
 						<h2>{article.category}</h2>
 						<h3>{article.title}</h3>
-						<p>{article.summary}</p>
+						{/* <p>{article.summary}</p> */}
 						<Link to={`/article/edit/${article.id}`}>
 							<button>Edit</button>
 						</Link>
@@ -113,9 +120,10 @@ export default function ProfileArticles() {
 					</div>
 				))}
 			</section>
+
 			{/* <Link to='#'> */}
 			{/* </Link> */}
-			<h2>SECTION</h2>
+			{/* <h2>SECTION</h2>
 			<Link to="/section/create">
 				<button>Create a Section</button>
 			</Link>
@@ -123,9 +131,9 @@ export default function ProfileArticles() {
 				<button>Edit a Section</button>
 			</Link>
 			{/* <Link to='#'> */}
-			<button name="" className="delete-btn" onClick={() => openDialog(8)}>
+			{/* <button name="" className="delete-btn" onClick={() => openDialog(8)}>
 				Delete a Section
-			</button>
+			</button> */}
 			{/* </Link> */}
 			<dialog ref={dialogRef}>
 				<h2>Confirm Deletion</h2>
