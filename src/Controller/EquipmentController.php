@@ -131,14 +131,14 @@ class EquipmentController extends AbstractController
         int $categoryId,
     ): Response {
 
-        $equipmentsObject = $equipmentRepository->findByCategory($categoryId);
+        $equipments = $equipmentRepository->findByCategory($categoryId);
 
-        foreach ($equipmentsObject as $equipment) {
-            $equipments[] = [
-                'id' => $equipment->getId(),
-                'name' => $equipment->getName(),
-            ];
-        }
+        // foreach ($equipmentsObject as $equipment) {
+        //     $equipments[] = [
+        //         'id' => $equipment->getId(),
+        //         'name' => $equipment->getName(),
+        //     ];
+        // }
 
         if (!isset($equipments)) {
             return $this->json([
