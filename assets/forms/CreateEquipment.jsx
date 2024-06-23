@@ -88,9 +88,13 @@ export default function CreateEquipment() {
 				<title>Create Equipment</title>
 				<meta name="description" content="Create a new piece of equipment" />
 			</Helmet>
+
 			<h1>Create a piece of Equipment</h1>
 
 			<form onSubmit={handleSubmit} className="form-create">
+				{dataMessage && (
+					<div className={`alert ${alertType} `}>{dataMessage}</div>
+				)}
 				<div>
 					<label>Name:</label>
 					<input
@@ -139,9 +143,7 @@ export default function CreateEquipment() {
 					Submit
 				</button>
 			</form>
-			{dataMessage && (
-				<div className={`alert ${alertType} `}>{dataMessage}</div>
-			)}
+
 			{formData.image && (
 				<div className="preview-container">
 					<h2 className="preview-title">Preview of the uploaded image</h2>
