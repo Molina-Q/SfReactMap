@@ -4,7 +4,7 @@ import { FcLike } from "react-icons/fc";
 import { Link } from "react-router-dom";
 import TopicsSkeleton from "../components/skeletons/TopicsSkeleton";
 import { Helmet } from "react-helmet-async";
-
+import { FaPlus } from "react-icons/fa";
 const orderParams = [
 	{
 		label: "Newest",
@@ -126,11 +126,18 @@ export default function TopicsList() {
 		setTopics(sortedTopics);
 	};
 
+	const handleClickLike = (e) => {
+		e.target.classList.toggle("liked");
+	};
+
 	return (
 		<main id="wrapperMain" className="wrap-forum">
 			<Helmet>
 				<title>Forum - Topics</title>
-				<meta name="description" content="Here you can search for any topics!" />
+				<meta
+					name="description"
+					content="Here you can search for any topics!"
+				/>
 			</Helmet>
 			<div className="filter-container">
 				<form className="form-create">
@@ -163,6 +170,7 @@ export default function TopicsList() {
 					</div>
 				</form>
 			</div>
+			<Link to={'/topic/create'} className="create-topic"><FaPlus />Create a new topic</Link>
 
 			<div className="topics-container">
 				<div className="table-row table-header">
@@ -174,6 +182,8 @@ export default function TopicsList() {
 								</option>
 							))}
 						</select>
+
+						
 					</div>
 				</div>
 
@@ -189,27 +199,24 @@ export default function TopicsList() {
 											<p className="table-cat">[ {topic.cat} ]</p>
 											<span>|</span>
 											<p className="table-date">{topic.interval}</p>
-											{/* <span>|</span>
-											<Link to={`/topic/edit/${topic.id}`}>
-												<small>edit</small>
-											</Link>
-											<button>
-												<small onClick={() => handleDelete(topic.id)}>
-													delete
-												</small>
-											</button> */}
 										</div>
 
 										<p className="table-title">{topic.title}</p>
 										<p className="table-message">{topic.message}</p>
 
 										<div className="table-icons">
-											<span className="table-icon-item">
-												<FcLike size={"15px"} /> <span className="topic-icon-label">Like</span>
-											</span>
+											<Link to={`#`} onClick={handleClickLike}>
+												<div className="table-icon-item">
+													<FcLike size={"15px"} className="like-icon" />{" "}
+													<span className="topic-icon-label">Like</span>
+												</div>
+											</Link>
 											<Link to={`/forum/topic/${topic.id}`}>
 												<span className="table-icon-item">
-													<BsChatText />  {topic.countReplies} <span className="topic-icon-label">Comment{topic.countReplies > 1 ? "s" : ""}</span>
+													<BsChatText /> {topic.countReplies}{" "}
+													<span className="topic-icon-label">
+														Comment{topic.countReplies > 1 ? "s" : ""}
+													</span>
 												</span>
 											</Link>
 										</div>
