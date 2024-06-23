@@ -8,6 +8,7 @@ import ProfileArticles from "../components/profileTabs/ProfileArticles";
 import { useNavigate } from "react-router-dom";
 import ProfileEquipments from "../components/profileTabs/ProfileEquipments";
 import ProfileAdmin from "../components/profileTabs/ProfileAdmin";
+import ProfileTopics from "../components/profileTabs/ProfileTopics";
 
 export default function Profile() {
 	const { currentUser } = useSelector((state) => state.user);
@@ -19,6 +20,7 @@ export default function Profile() {
 		{ label: "user", element: <ProfileUser /> },
 		{ label: "articles", element: <ProfileArticles /> },
 		{ label: "equipments", element: <ProfileEquipments /> },
+		{ label: "topics", element: <ProfileTopics /> },
 		{ label: "admin", element: <ProfileAdmin /> },
 	];
 
