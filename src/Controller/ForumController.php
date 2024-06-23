@@ -353,29 +353,5 @@ class ForumController extends AbstractController
             ['error' => false, 'message' => 'Category found', 'object' => $topics],
             Response::HTTP_OK
         );
-
-        // foreach($categories as $category) {
-        //     if($show === $category) {
-        //         $isValid = true;
-        //         if($show === 'weapon' || $show === 'armour' || $show === 'tool') {
-        //             $showCateg = 'equipment';
-        //         } else {
-        //             $showCateg = 'article';
-        //         }
-        //     }
-        // }
-
-        // if($isValid) {
-
-        //     $topics = $topicRepository->findByCategory($showCateg);
-
-        //     return $this->json(
-        //         ['error' => false, 'message' => 'Category found', 'object' => $topics], Response::HTTP_OK
-        //     );
-        // }
-
-        // return $this->json(
-        //     ['error' => true, 'message' => 'There was a mistake'], Response::HTTP_BAD_REQUEST
-        // );
     }
 }
