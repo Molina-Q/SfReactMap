@@ -142,17 +142,17 @@ export default function ShowTopic() {
 					<div>
 						<label htmlFor="message">Want to write a message ?</label>
 						<textarea
-							onFocus={handleFocus}
-							onBlur={handleFocus}
+							// onFocus={handleFocus}
+							// onBlur={handleFocus}
 							onChange={handleChange}
 							id="message"
 							name="text"
 							className="form-input-text"
 						/>
 					</div>
-					{showBtn && (
+					{!showBtn && (
 						<button type="submit" className="form-btn-submit">
-							Send <IoSendSharp />
+							<IoSendSharp />
 						</button>
 					)}
 				</form>
@@ -168,17 +168,17 @@ export default function ShowTopic() {
 										</span>
 									</p>
 									<p>{response.text}</p>
-									<form onSubmit={handleCommentSubmit} data-id={response.id}>
+									<form onSubmit={handleCommentSubmit} data-id={response.id} className="form-message">
 										<input
 											type="text"
-											onFocus={handleFocus}
-											onBlur={handleFocus}
+											// onFocus={handleFocus}
+											// onBlur={handleFocus}
+											onChange={handleChange}
 											id="comment"
 											name="text"
 											className="form-input-text"
-											onChange={handleChange}
 										/>
-										{showBtn && (
+										{!showBtn && (
 											<button type="submit" className="form-btn-submit">
 												Reply
 											</button>
