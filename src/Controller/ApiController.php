@@ -86,8 +86,8 @@ class ApiController extends AbstractController
         ]);
     }
 
-    #[Route('/api/equipment/create', name: 'create_equipment', methods: ['POST'])]
-    #[Route('/api/equipment/edit/{equipmentId}', name: 'edit_equipment', methods: ['POST'])]
+    #[Route('/api/equipment/create', name: 'private_create_equipment', methods: ['POST'])]
+    #[Route('/api/equipment/edit/{equipmentId}', name: 'private_edit_equipment', methods: ['POST'])]
     public function create(
         int $equipmentId = null,
         UserRepository $userRepository,
@@ -101,6 +101,9 @@ class ApiController extends AbstractController
         if (isset($equipmentId)) {
             $isEdit = true;
         }
+        
+        $userId = $request->attributes->get('tokenUserId');
+        $sanitizeId = filter_var($userId, FILTER_SANITIZE_NUMBER_INT);
 
         $equipment = isset($equipmentId) ? $equipmentRepository->findOneById($equipmentId) : new Equipment();
         $imgObject = isset($equipmentId) ? $equipment->getFirstImg() : new ImgObject();
@@ -117,6 +120,10 @@ class ApiController extends AbstractController
             if(!$isEdit) {
                 $subCategory = $subCategoryRepository->findOneById($data['sub_category']);
                 $equipment->setSubCategory($subCategory);
+                $equipment->setCreationDate($dateNow);
+
+                $user = $userRepository->findOneById($sanitizeId);
+                $equipment->setAuthor($user);
             }
    
             $equipment->setName($data['name']);
