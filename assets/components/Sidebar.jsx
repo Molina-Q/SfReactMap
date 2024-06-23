@@ -63,6 +63,16 @@ export default function Sidebar() {
 						Equipments
 					</li>
 				</Link>
+
+				
+				<Link to="/profile?tab=topics">
+					<li
+						className={`sidebar-item ${tab === "topics" ? "selected" : ""}`}
+						// label={currentUser.roles ? "Admin" : "User"}
+					>
+						Topics
+					</li>
+				</Link>
 				{/* check if currentUser.roles contains the ROLE_ADMIN */}
 				{currentUser && currentUser.roles.includes("ROLE_ADMIN") && (
 					<>
@@ -80,7 +90,7 @@ export default function Sidebar() {
 							>
 								Posts
 							</li>
-						</Link>
+						</Link>*/}
 
 						<Link to="/profile?tab=users">
 							<li
@@ -88,7 +98,7 @@ export default function Sidebar() {
 							>
 								Users
 							</li>
-						</Link> */}
+						</Link> 
 					</>
 				)}
 
