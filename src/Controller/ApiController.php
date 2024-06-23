@@ -101,7 +101,7 @@ class ApiController extends AbstractController
         if (isset($equipmentId)) {
             $isEdit = true;
         }
-        
+
         $userId = $request->attributes->get('tokenUserId');
         $sanitizeId = filter_var($userId, FILTER_SANITIZE_NUMBER_INT);
 
@@ -117,7 +117,7 @@ class ApiController extends AbstractController
         if ($data) {
             $dateNow = new \DateTime('now');
 
-            if(!$isEdit) {
+            if (!$isEdit) {
                 $subCategory = $subCategoryRepository->findOneById($data['sub_category']);
                 $equipment->setSubCategory($subCategory);
                 $equipment->setCreationDate($dateNow);
@@ -125,7 +125,7 @@ class ApiController extends AbstractController
                 $user = $userRepository->findOneById($sanitizeId);
                 $equipment->setAuthor($user);
             }
-   
+
             $equipment->setName($data['name']);
             $equipment->setText($data['text']);
 
@@ -136,20 +136,36 @@ class ApiController extends AbstractController
             $uploadedFile = $request->files->get('image');
 
             if ($uploadedFile) {
-                $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $newFilename = $originalFilename . '-' . uniqid() . '.' . $uploadedFile->guessExtension();
+                // Define allowed MIME types
+                $allowedMimeTypes = ['image/jpeg', 'image/webp', 'image/png'];
+                // Get MIME type of the uploaded file
+                $fileMimeType = $uploadedFile->getClientMimeType();
+                // Get size of the uploaded file
+                $fileSize = $uploadedFile->getSize();
+                // Define maximum file size in bytes (e.g., 5MB)
+                $maxFileSize = 5 * 1024 * 1024; // 5MB in bytes
 
-                // Move the file to the directory where brochures are stored
-                try {
-                    $uploadedFile->move(
-                        'img/upload',
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // Handle exception
+                // Check if the file's MIME type is in the list of allowed MIME types and if the file size is within the limit
+                if (in_array($fileMimeType, $allowedMimeTypes) && $fileSize <= $maxFileSize) {
+                    $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+                    $newFilename = uniqid('', true) . '.' . $uploadedFile->guessExtension();
+
+                    // Move the file to the directory where brochures are stored
+                    try {
+                        $uploadedFile->move(
+                            'img/upload',
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                        // Handle exception
+                        return new JsonResponse(['message' => 'Error: File upload failed'], Response::HTTP_BAD_REQUEST);
+                    }
+
+                    $img->setPath($newFilename);
+                } else {
+                    // If the file is not an allowed type or is too large
+                    return new JsonResponse(['message' => 'Error: Invalid file type or size'], Response::HTTP_BAD_REQUEST);
                 }
-
-                $img->setPath($newFilename);
             }
 
             $entityManager->persist($img);
@@ -220,8 +236,8 @@ class ApiController extends AbstractController
         if (!$sectionObject) {
             return $this->json(['message' => 'The section does not exist']);
         }
-    
-        $equipmentsObjects = array_map(function($equipmentSection) {
+
+        $equipmentsObjects = array_map(function ($equipmentSection) {
             $equipment = $equipmentSection->getEquipment();
             return [
                 'id' => $equipment->getId(),
@@ -230,7 +246,7 @@ class ApiController extends AbstractController
                 'img' => $equipment->getOneImg()
             ];
         }, $sectionObject->getEquipmentSections()->toArray());
-    
+
         $object = [
             'id' => $sectionObject->getId(),
             'title' => $sectionObject->getTitle(),
@@ -239,7 +255,7 @@ class ApiController extends AbstractController
             'Article' => $sectionObject->getArticle()->getId(),
             'Equipments' => $equipmentsObjects
         ];
-    
+
         return $this->json(['section' => $object], 201);
     }
 
@@ -258,11 +274,9 @@ class ApiController extends AbstractController
         if (isset($articleId)) {
 
             $article = $articleRepository->findOneById($articleId);
-
         } else if (isset($country) && isset($century)) {
 
             $article = $articleRepository->findOneByCountryAndCentury($country, $century);
-
         } else {
 
             return $this->json([
