@@ -15,7 +15,7 @@ export default function Equipment() {
 	const [loading, setLoading] = useState(true);
 
 	// current active category type
-	const [currentCategory, setCurrentCategory] = useState(1);
+	const [currentCategory, setCurrentCategory] = useState(null);
 
 	// states for the details page data
 	const [clickedItemData, setClickedItemData] = useState({});
@@ -54,7 +54,7 @@ export default function Equipment() {
 
 		setUrlData({
 			type: type ?? 1,
-			item: item ?? 1,
+			item: item,
 		});
 		
 	}, []);
@@ -122,7 +122,6 @@ export default function Equipment() {
 	// call fetchData when the url changes
 	useEffect(() => {
 		// fetchData(`/api/equipment/type/${urlData.type}`, setData, setLoading);
-
 		if (
 			(urlData.item && !clickedItemData.equipment) ||
 			(clickedItemData.equipment &&
@@ -137,7 +136,7 @@ export default function Equipment() {
 				setLoadingDetails
 			);
 		}
-	}, [location.search]); // will re-run only when one of those variables changes (using Object.js comparison)
+	}, [urlData]); // will re-run only when one of those variables changes (using Object.js comparison)
 
 	// called when data.type from the url is updated then set
 	useEffect(() => {
@@ -158,29 +157,6 @@ export default function Equipment() {
 				<title>Equipment</title>
 				<meta name="description" content="Equipment page" />
 			</Helmet>
-			
-			{/* <Link to="/equipment/create">
-				<button>
-					<svg
-						className="icon icon-plus"
-						xmlns="http://www.w3.org/2000/svg"
-						viewBox="0 0 448 512"
-					>
-						<path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" />
-					</svg>
-				</button>
-			</Link>
-			<Link to="/equipment/edit/6">
-				<button>
-					<svg
-						className="icon icon-plus"
-						xmlns="http://www.w3.org/2000/svg"
-						viewBox="0 0 448 512"
-					>
-						<path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" />
-					</svg>
-				</button>
-			</Link> */}
 
 			<section id="equip-menu-container">
 				<div className="categories">
