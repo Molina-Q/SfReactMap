@@ -152,7 +152,7 @@ class EquipmentController extends AbstractController
     }
 
     // delete an equipment item
-    #[Route('/equipment/delete/{id}', name: 'delete_equipment')]
+    #[Route('/equipment/delete/{id}', name: 'delete_equipment', methods: ['DELETE'])]
     public function delete(
         EquipmentRepository $equipmentRepository,
         EntityManagerInterface $entityManager,
