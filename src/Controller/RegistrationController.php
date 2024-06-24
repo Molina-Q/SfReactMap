@@ -50,7 +50,7 @@ class RegistrationController extends AbstractController
                 'password' => [
                     new Regex([
                         'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/',
-                        'message' => 'Password must be at least 10 characters long, include at least one uppercase letter, one lowercase letter, one number, and one special character.'
+                        'message' => 'Password must be at least 12 characters long, include at least one uppercase letter, one lowercase letter, one number, and one special character.'
                     ]),
                 ],
             ]);

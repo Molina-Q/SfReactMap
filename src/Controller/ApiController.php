@@ -142,15 +142,14 @@ class ApiController extends AbstractController
                 $fileMimeType = $uploadedFile->getClientMimeType();
                 // Get size of the uploaded file
                 $fileSize = $uploadedFile->getSize();
-                // Define maximum file size in bytes (e.g., 5MB)
-                $maxFileSize = 5 * 1024 * 1024; // 5MB in bytes
+                // Define maximum file size in bytes (5MB)
+                $maxFileSize = 5 * 1024 * 1024;
 
                 // Check if the file's MIME type is in the list of allowed MIME types and if the file size is within the limit
                 if (in_array($fileMimeType, $allowedMimeTypes) && $fileSize <= $maxFileSize) {
-                    $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
                     $newFilename = uniqid('', true) . '.' . $uploadedFile->guessExtension();
 
-                    // Move the file to the directory where brochures are stored
+                    // Move the file to the upload directory
                     try {
                         $uploadedFile->move(
                             'img/upload',
