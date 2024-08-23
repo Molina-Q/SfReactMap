@@ -1,6 +1,6 @@
 # Symfony & React Map
 
-This is a Symfony-based web application using Symfony UX React to integrate React for front-end
+This is a Symfony-based web application using Symfony alongside React and Vite to integrate React for the front-end
 
 This application allows users to explore the military equipment of various countries through an interactive map interface. Users can change the state of the world by clicking on a timeline spanning from the 15th to the 19th centuries (1400 to 1900). The 
 timeline provides a historical overview, allowing users to observe changes in military equipment and borders over time.
